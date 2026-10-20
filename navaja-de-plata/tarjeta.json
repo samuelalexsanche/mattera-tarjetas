@@ -1,0 +1,16 @@
+{
+  "slug": "navaja-de-plata",
+  "plan": "business",
+  "nombre": "Barbería Navaja de Plata",
+  "nombre_corto": "Navaja",
+  "persona": "Rodrigo Ávalos",
+  "cargo": "Barbero fundador",
+  "giro": "Barbería clásica: corte, navaja y barba",
+  "whatsapp": "523312345678",
+  "telefono": "+52 33 1234 5678",
+  "email": "hola@navajadeplata.mx",
+  "direccion": "Av. Chapultepec 210, Col. Americana, Guadalajara, Jal.",
+  "redes": {"instagram": "https://instagram.com/navajadeplata.gdl", "facebook": "https://facebook.com/navajadeplata.gdl"},
+  "colores": {"fondo": "#1F1B17", "tinta": "#ECE6DA", "acento": "#C29B57", "qr": "#1F1B17"},
+  "url": "https://t.matterasystems.com/navaja-de-plata/"
+}

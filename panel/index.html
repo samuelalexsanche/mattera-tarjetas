@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Panel de tu tarjeta · Mattera</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0C211B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F0F1E7; --card:#FBFBF6; --ink:#0C211B; --ink2:#143229; --sec:#5E6B60; --line:rgba(12,33,27,.12);
+  --accent:#FCA311; --ok:#2F7A55; --bad:#B4462F; --r:14px;
+  --f-d:"Fraunces",Georgia,serif; --f-t:"Inter",system-ui,sans-serif; --f-m:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C211B;--card:#143229;--ink:#F2EFE6;--ink2:#F2EFE6;--sec:#8FA89C;--line:rgba(242,239,230,.14)}}
+:root[data-theme="dark"]{--bg:#0C211B;--card:#143229;--ink:#F2EFE6;--ink2:#F2EFE6;--sec:#8FA89C;--line:rgba(242,239,230,.14)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-t);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-d);font-weight:600;letter-spacing:-.01em;margin:0}
+.mono{font-family:var(--f-m);font-variant-numeric:tabular-nums}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+[hidden]{display:none!important}
+
+/* Login */
+.login{min-height:100svh;display:grid;place-items:center;padding:24px 16px}
+.login form{width:min(400px,100%);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px}
+.login h1{font-size:1.75rem;margin-bottom:6px}
+.login p{color:var(--sec);margin:0 0 20px}
+.brand{font:500 .72rem/1 var(--f-m);letter-spacing:.14em;text-transform:uppercase;color:var(--sec);margin-bottom:18px}
+label{display:block;font-size:.9rem;font-weight:500;margin:0 0 6px}
+.in{width:100%;min-height:48px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:transparent;margin-bottom:14px}
+.in:focus{outline:2px solid var(--ink);outline-offset:1px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:transparent;cursor:pointer;font-weight:600;text-decoration:none;color:inherit;white-space:nowrap}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.btn--ink{background:var(--ink);color:var(--bg);border-color:transparent}
+.btn--cta{background:var(--accent);color:#0C211B;border-color:transparent}
+.btn--sm{min-height:36px;padding:0 12px;font-size:.88rem}
+.btn--full{width:100%}
+.err{color:var(--bad);font-size:.9rem;min-height:1.4em;margin:6px 0 0}
+
+/* App */
+header.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+header.top h1{font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
+header.top .row{flex-wrap:nowrap}
+.plan{font:500 .7rem/1 var(--f-m);letter-spacing:.12em;text-transform:uppercase;color:var(--sec)}
+nav.tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 0;scrollbar-width:none}
+nav.tabs button{flex:none;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;cursor:pointer;font-weight:500}
+nav.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:transparent}
+main{padding-bottom:64px}
+section.view{padding-top:8px}
+.grid{display:grid;gap:12px}
+.kpis{grid-template-columns:repeat(2,1fr)}
+@media (min-width:720px){.kpis{grid-template-columns:repeat(5,1fr)}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.kpi b{display:block;font:500 1.8rem/1.1 var(--f-m);font-variant-numeric:tabular-nums}
+.kpi span{color:var(--sec);font-size:.85rem}
+.box{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-top:12px}
+.box h2{font-size:1.15rem;margin-bottom:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.muted{color:var(--sec)}
+.chart{width:100%;height:160px;display:block}
+.chart rect{fill:var(--ink2);opacity:.85}
+.chart text{fill:var(--sec);font:10px var(--f-m)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:6px 12px;cursor:pointer;font-size:.85rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:500;color:var(--sec);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+
+/* Catálogo */
+.prods{display:grid;gap:10px}
+.prod{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px}
+.prod img,.prod .ph{width:64px;height:64px;border-radius:10px;object-fit:cover;background:var(--line)}
+.prod h3{font:600 1rem/1.25 var(--f-t)}
+.prod .meta{font-size:.85rem;color:var(--sec)}
+.prod.off{opacity:.5}
+.prod .acts{display:flex;gap:4px}
+.ico{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:transparent;cursor:pointer;display:grid;place-items:center}
+.ico svg{width:18px;height:18px}
+dialog{width:min(560px,calc(100vw - 24px));max-height:92vh;overflow:auto;border:1px solid var(--line);border-radius:20px;background:var(--card);color:var(--ink);padding:22px}
+dialog::backdrop{background:rgba(12,33,27,.5)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check{display:flex;align-items:center;gap:10px;min-height:40px;font-weight:500}
+.check input{width:20px;height:20px;accent-color:var(--ink)}
+.imgpick{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.imgpick img{width:88px;height:88px;border-radius:12px;object-fit:cover;background:var(--line)}
+.bar{position:sticky;bottom:0;display:flex;gap:10px;justify-content:flex-end;padding:12px 0;background:var(--bg)}
+.toast{position:fixed;left:50%;bottom:88px;max-width:calc(100vw - 32px);text-align:center;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:999px;z-index:99;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+.empty{padding:28px;text-align:center;color:var(--sec)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="login" id="login">
+  <form id="fLogin" autocomplete="on">
+    <div class="brand">Mattera · Tarjeta digital</div>
+    <h1>Panel de tu tarjeta</h1>
+    <p>Edita tu catálogo, revisa quién te visita y descarga tus contactos.</p>
+    <label for="lSlug">Nombre de tu tarjeta</label>
+    <input class="in mono" id="lSlug" name="slug" placeholder="tu-negocio" autocapitalize="none" autocomplete="username" required>
+    <label for="lPin">PIN</label>
+    <input class="in mono" id="lPin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" required>
+    <button class="btn btn--ink btn--full" type="submit">Entrar</button>
+    <p class="err" id="lErr" role="alert"></p>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <header class="top"><div class="wrap">
+    <div><div class="plan" id="hPlan"></div><h1 id="hNombre"></h1></div>
+    <div class="row" style="gap:8px">
+      <a class="btn btn--sm" id="hVer" target="_blank" rel="noopener">Ver tarjeta</a>
+      <button class="btn btn--sm" id="hSalir" type="button">Salir</button>
+    </div>
+  </div></header>
+  <main class="wrap">
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+
+    <section class="view" id="v-resumen" data-plan="profesional" data-tab="Resumen">
+      <div class="row" style="margin-bottom:12px">
+        <p class="muted" style="margin:0" id="rRango"></p>
+        <div class="seg" id="rSeg"><button type="button" data-d="7">7 días</button><button type="button" data-d="30" aria-pressed="true">30 días</button><button type="button" data-d="90">90 días</button></div>
+      </div>
+      <div class="grid kpis" id="rKpis"></div>
+      <div class="box"><h2>Visitas por día</h2><svg class="chart" id="rChart" role="img" aria-label="Gráfica de visitas por día"></svg></div>
+      <div class="box"><h2>Qué hacen tus visitantes</h2><table><tbody id="rTabla"></tbody></table></div>
+    </section>
+
+    <section class="view" id="v-contactos" data-plan="profesional" data-tab="Contactos" hidden>
+      <div class="row"><p class="muted" style="margin:0">Personas que te dejaron su número desde tu tarjeta.</p><button class="btn btn--sm" id="cCsv" type="button">Descargar Excel (CSV)</button></div>
+      <div class="box" style="padding:6px 12px"><table><thead><tr><th>Nombre</th><th>Teléfono</th><th>Nota</th><th>Fecha</th></tr></thead><tbody id="cTabla"></tbody></table></div>
+    </section>
+
+    <section class="view" id="v-catalogo" data-plan="business" data-tab="Catálogo" hidden>
+      <div class="row" style="margin-bottom:12px">
+        <p class="muted" style="margin:0" id="kCuenta"></p>
+        <button class="btn btn--ink" id="kNuevo" type="button">Agregar producto</button>
+      </div>
+      <div class="prods" id="kLista"></div>
+      <div class="bar"><span class="muted" id="kEstado" style="margin-right:auto;align-self:center"></span><button class="btn btn--cta" id="kGuardar" type="button" disabled>Publicar cambios</button></div>
+    </section>
+
+    <section class="view" id="v-aviso" data-plan="business" data-tab="Aviso" hidden>
+      <div class="box">
+        <h2>Aviso destacado</h2>
+        <p class="muted">Aparece arriba en tu tarjeta. Úsalo para promociones, cambios de horario o novedades.</p>
+        <label for="aTexto">Texto (máximo 160 caracteres)</label>
+        <input class="in" id="aTexto" maxlength="160" placeholder="Esta semana 2×1 en cortes los martes">
+        <label for="aHasta">Visible hasta (opcional)</label>
+        <input class="in mono" id="aHasta" type="date">
+        <div class="row"><button class="btn" id="aQuitar" type="button">Quitar aviso</button><button class="btn btn--cta" id="aGuardar" type="button">Publicar aviso</button></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-ajustes" data-plan="esencial" data-tab="Ajustes" hidden>
+      <div class="box">
+        <h2>Comparte tu tarjeta</h2>
+        <p class="muted" id="sUrl" style="word-break:break-all"></p>
+        <div class="row" style="justify-content:flex-start;gap:8px">
+          <button class="btn btn--sm" id="sCopiar" type="button">Copiar enlace</button>
+          <a class="btn btn--sm" id="sQr" download>Descargar QR</a>
+          <a class="btn btn--sm" id="sKit" target="_blank" rel="noopener">Kit de lanzamiento</a>
+        </div>
+      </div>
+      <div class="box">
+        <h2>Cambiar PIN</h2>
+        <label for="sPin">PIN nuevo (6 dígitos o más)</label>
+        <input class="in mono" id="sPin" type="password" inputmode="numeric" autocomplete="new-password">
+        <button class="btn btn--ink" id="sPinBtn" type="button">Guardar PIN</button>
+      </div>
+      <div class="box">
+        <h2>Soporte</h2>
+        <p class="muted">¿Quieres cambiar el diseño, tus datos o subir de plan? Escríbenos.</p>
+        <a class="btn btn--sm" href="https://wa.me/523327874747?text=Hola%20Mattera%2C%20necesito%20ayuda%20con%20mi%20tarjeta%20digital" target="_blank" rel="noopener">WhatsApp de soporte</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<dialog id="dProd">
+  <form id="fProd" method="dialog">
+    <h2 id="dTitulo" style="margin-bottom:16px">Producto</h2>
+    <div class="imgpick">
+      <img id="pImgPrev" alt="" hidden><div class="ph" id="pImgPh" style="width:88px;height:88px;border-radius:12px;background:var(--line)"></div>
+      <div><label class="btn btn--sm" for="pImg" style="margin:0">Elegir foto</label><input id="pImg" type="file" accept="image/*" hidden>
+      <button class="btn btn--sm" id="pImgQuitar" type="button">Quitar</button><p class="muted" style="font-size:.8rem;margin:6px 0 0">Se optimiza sola para que cargue rápido.</p></div>
+    </div>
+    <label for="pNombre">Nombre</label><input class="in" id="pNombre" maxlength="90" required>
+    <div class="two">
+      <div><label for="pPrecio">Precio (MXN)</label><input class="in mono" id="pPrecio" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Vacío = cotizar"></div>
+      <div><label for="pAntes">Precio anterior</label><input class="in mono" id="pAntes" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Opcional"></div>
+    </div>
+    <label for="pCat">Categoría</label>
+    <input class="in" id="pCat" list="catList" maxlength="40" placeholder="Ej. Cortes, Bebidas, Servicios"><datalist id="catList"></datalist>
+    <label for="pDesc">Descripción</label><textarea class="in" id="pDesc" rows="3" maxlength="400"></textarea>
+    <label for="pBadge">Etiqueta (opcional)</label><input class="in" id="pBadge" maxlength="24" placeholder="Nuevo, Más pedido, -20%">
+    <label class="check"><input type="checkbox" id="pDesde"> Mostrar “Desde” antes del precio</label>
+    <label class="check"><input type="checkbox" id="pDest"> Destacar (aparece primero)</label>
+    <label class="check"><input type="checkbox" id="pActivo" checked> Visible en la tarjeta</label>
+    <div class="row" style="margin-top:12px">
+      <button class="btn" id="pBorrar" type="button" style="color:var(--bad)">Eliminar</button>
+      <div class="row" style="gap:8px"><button class="btn" value="cancel" formnovalidate>Cancelar</button><button class="btn btn--ink" id="pOk" value="ok">Listo</button></div>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+// URL de la API. Se puede sobreescribir con ?api= para pruebas.
+var API = new URLSearchParams(location.search).get('api') || 'https://mattera-tarjetas-api.matterasystems.workers.dev';
+var BASE_TARJETAS = 'https://t.matterasystems.com/';
+var RANK = {esencial:1, profesional:2, business:3};
+var S = {slug:'', pin:'', plan:'esencial', nombre:''};
+var cat = {categorias:[], productos:[]}, aviso = null, sucio = false, editando = null, imgNueva = undefined;
+var $ = function(s){return document.querySelector(s)};
+var ss = {get:function(k){try{return JSON.parse(sessionStorage.getItem(k))}catch(e){return null}}, set:function(k,v){try{sessionStorage.setItem(k,JSON.stringify(v))}catch(e){}}, del:function(k){try{sessionStorage.removeItem(k)}catch(e){}}};
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on')},2400)}
+var dinero=function(n){return new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:n%1?2:0}).format(n)};
+var ERR={pin_incorrecto:'El PIN no coincide.',no_existe:'No encontramos esa tarjeta.',demasiados_intentos:'Demasiados intentos. Espera 15 minutos.',plan_insuficiente:'Tu plan no incluye esta función.',imagen_muy_grande:'La imagen es muy pesada.',sin_acceso:'Tu sesión terminó. Vuelve a entrar.'};
+
+function api(ruta, opt){
+  opt = opt || {};
+  var h = opt.headers || {}; h['X-PIN'] = S.pin;
+  if (opt.json !== undefined){ h['Content-Type']='application/json'; opt.body = JSON.stringify(opt.json); }
+  return fetch(API + ruta, {method:opt.method||'GET', headers:h, body:opt.body}).then(function(r){
+    return r.json().catch(function(){return {}}).then(function(j){ if(!r.ok){ var e=new Error(ERR[j.error]||'Algo falló. Intenta de nuevo.'); e.code=j.error; throw e;} return j; });
+  });
+}
+
+/* Login */
+var qs = new URLSearchParams(location.search); if (qs.get('t')) $('#lSlug').value = qs.get('t');
+$('#fLogin').addEventListener('submit', function(e){
+  e.preventDefault(); $('#lErr').textContent='';
+  var slug=$('#lSlug').value.trim().toLowerCase(), pin=$('#lPin').value.trim();
+  fetch(API+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({slug:slug,pin:pin})})
+    .then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(ERR[j.error]||'No pudimos entrar.');return j})})
+    .then(function(j){ S={slug:slug,pin:pin,plan:j.plan,nombre:j.nombre}; ss.set('mc-panel',S); iniciar(); })
+    .catch(function(err){ $('#lErr').textContent=err.message; });
+});
+$('#hSalir').addEventListener('click', function(){ ss.del('mc-panel'); location.reload(); });
+
+function iniciar(){
+  $('#login').hidden=true; $('#app').hidden=false;
+  $('#hNombre').textContent=S.nombre; $('#hPlan').textContent='Plan '+S.plan;
+  var url = BASE_TARJETAS + S.slug + '/';
+  $('#hVer').href=url; $('#sUrl').textContent=url; $('#sQr').href=url+'qr.png'; $('#sKit').href=url+'kit/';
+  var tabs=$('#tabs'); tabs.textContent='';
+  var vistas=[].slice.call(document.querySelectorAll('section.view')).filter(function(v){return RANK[S.plan]>=RANK[v.dataset.plan]});
+  // si el plan no tiene resumen, la primera pestaña es la que sí tenga
+  [].forEach.call(document.querySelectorAll('section.view'),function(v){v.hidden=true});
+  vistas.forEach(function(v,i){
+    var b=document.createElement('button'); b.type='button'; b.role='tab'; b.textContent=v.dataset.tab; b.setAttribute('aria-selected',i===0?'true':'false');
+    b.addEventListener('click',function(){ [].forEach.call(tabs.children,function(x){x.setAttribute('aria-selected','false')}); b.setAttribute('aria-selected','true'); vistas.forEach(function(x){x.hidden=x!==v}); cargar(v.id); });
+    tabs.appendChild(b);
+  });
+  if (vistas[0]) { vistas[0].hidden=false; cargar(vistas[0].id); }
+}
+
+function cargar(id){
+  if(id==='v-resumen') resumen(30);
+  if(id==='v-contactos') contactos();
+  if(id==='v-catalogo'||id==='v-aviso') catalogo();
+}
+
+/* Resumen */
+var NOMBRE_EVT={view:'Visitas',wa:'Abrieron WhatsApp',call:'Llamadas',save:'Guardaron tu contacto',share:'Compartieron tu tarjeta',map:'Abrieron el mapa',email:'Correos',web:'Visitaron tu sitio',social:'Fueron a tus redes',install:'La instalaron como app',qr:'Mostraron tu QR',order:'Pedidos enviados',lead:'Te dejaron su número',ask:'Preguntas al asistente',review:'Fueron a dejar reseña',cat:'Exploraron el catálogo'};
+document.querySelectorAll('#rSeg button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#rSeg button').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');resumen(+b.dataset.d)})});
+function resumen(d){
+  api('/s/'+S.slug+'?d='+d).then(function(j){
+    var tot={}, porDia={};
+    j.filas.forEach(function(f){ tot[f.tipo]=(tot[f.tipo]||0)+f.n; if(f.tipo==='view') porDia[f.dia]=(porDia[f.dia]||0)+f.n; });
+    $('#rRango').textContent='Del '+j.desde+' al '+j.hasta;
+    var k=[['view','Visitas'],['wa','WhatsApp'],['save','Guardados'],['share','Compartidos'],['order','Pedidos']];
+    if(RANK[S.plan]<3) k[4]=['lead','Contactos'];
+    $('#rKpis').innerHTML='';
+    k.forEach(function(x){var e=document.createElement('div');e.className='kpi';var b=document.createElement('b');b.textContent=(tot[x[0]]||0).toLocaleString('es-MX');var s=document.createElement('span');s.textContent=x[1];e.appendChild(b);e.appendChild(s);$('#rKpis').appendChild(e)});
+    // gráfica
+    var dias=[], f=new Date(j.desde+'T12:00:00'), fin=new Date(j.hasta+'T12:00:00');
+    while(f<=fin){dias.push(f.toISOString().slice(0,10)); f.setDate(f.getDate()+1);}
+    var max=Math.max.apply(null,dias.map(function(x){return porDia[x]||0}).concat([1]));
+    var W=600,H=160,pad=18,bw=(W)/dias.length;
+    var svg='';
+    dias.forEach(function(x,i){var v=porDia[x]||0,h=Math.max(v?3:1,(H-pad-6)*v/max);svg+='<rect x="'+(i*bw+bw*.15).toFixed(1)+'" y="'+(H-pad-h).toFixed(1)+'" width="'+(bw*.7).toFixed(1)+'" height="'+h.toFixed(1)+'" rx="2"><title>'+x+': '+v+'</title></rect>';});
+    svg+='<text x="0" y="'+(H-4)+'">'+dias[0].slice(5)+'</text><text x="'+W+'" y="'+(H-4)+'" text-anchor="end">'+dias[dias.length-1].slice(5)+'</text><text x="0" y="10">máx '+max+'</text>';
+    var c=$('#rChart'); c.setAttribute('viewBox','0 0 '+W+' '+H); c.setAttribute('preserveAspectRatio','none'); c.innerHTML=svg;
+    var tb=$('#rTabla'); tb.innerHTML='';
+    Object.keys(NOMBRE_EVT).filter(function(t){return tot[t]}).sort(function(a,b){return tot[b]-tot[a]}).forEach(function(t){var tr=document.createElement('tr');var a=document.createElement('td');a.textContent=NOMBRE_EVT[t];var b=document.createElement('td');b.className='mono';b.style.textAlign='right';b.textContent=tot[t].toLocaleString('es-MX');tr.appendChild(a);tr.appendChild(b);tb.appendChild(tr)});
+    if(!tb.children.length) tb.innerHTML='<tr><td class="empty">Aún no hay movimiento en este periodo. Comparte tu tarjeta para empezar a medir.</td></tr>';
+  }).catch(function(e){toast(e.message); if(e.code==='sin_acceso'||e.code==='pin_incorrecto'){ss.del('mc-panel');location.reload()}});
+}
+
+/* Contactos */
+var leads=[];
+function contactos(){
+  api('/l/'+S.slug).then(function(j){
+    leads=j.leads; var tb=$('#cTabla'); tb.innerHTML='';
+    if(!leads.length){tb.innerHTML='<tr><td colspan="4" class="empty">Todavía nadie te ha dejado su número.</td></tr>';return}
+    leads.forEach(function(l){
+      var tr=document.createElement('tr');
+      var a=document.createElement('td');a.textContent=l.nombre;
+      var b=document.createElement('td');var w=document.createElement('a');w.href='https://wa.me/'+l.tel.replace(/\D/g,'').replace(/^(\d{10})$/,'52$1');w.target='_blank';w.rel='noopener';w.className='mono';w.textContent=l.tel;b.appendChild(w);
+      var c=document.createElement('td');c.textContent=l.nota||'';
+      var d=document.createElement('td');d.className='mono';d.textContent=new Date(l.ts).toLocaleDateString('es-MX');
+      tr.append(a,b,c,d); tb.appendChild(tr);
+    });
+  }).catch(function(e){toast(e.message)});
+}
+$('#cCsv').addEventListener('click',function(){
+  var esc=function(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'};
+  var csv='﻿Nombre,Teléfono,Nota,Fecha\n'+leads.map(function(l){return [l.nombre,l.tel,l.nota,new Date(l.ts).toLocaleString('es-MX')].map(esc).join(',')}).join('\n');
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='contactos-'+S.slug+'.csv';a.click();
+});
+
+/* Catálogo */
+var cargado=false;
+function catalogo(){
+  if(cargado) return;
+  fetch(API+'/c/'+S.slug).then(function(r){return r.json()}).then(function(j){
+    cat=j.catalogo||cat; aviso=j.aviso; cargado=true; pintarCat();
+    $('#aTexto').value=aviso&&aviso.texto||''; $('#aHasta').value=aviso&&aviso.hasta||'';
+  }).catch(function(){toast('No se pudo cargar el catálogo')});
+}
+var ICO={up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>',edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg>'};
+function img(src){return !src?'':/^(https?:|data:|\/)/.test(src)?src:API+'/i/'+src}
+function pintarCat(){
+  var L=$('#kLista'); L.innerHTML='';
+  cat.productos.sort(function(a,b){return (a.orden||0)-(b.orden||0)});
+  $('#kCuenta').textContent=cat.productos.length+(cat.productos.length===1?' producto':' productos');
+  if(!cat.productos.length) L.innerHTML='<div class="empty box">Tu catálogo está vacío. Agrega tu primer producto.</div>';
+  cat.productos.forEach(function(p,i){
+    var el=document.createElement('div'); el.className='prod'+(p.activo===false?' off':'');
+    var im; if(p.img){im=document.createElement('img');im.src=img(p.img);im.alt='';im.loading='lazy'}else{im=document.createElement('div');im.className='ph'}
+    var tx=document.createElement('div'); var h=document.createElement('h3'); h.textContent=p.nombre; var m=document.createElement('div'); m.className='meta';
+    m.textContent=[p.precio!=null?(p.desde?'Desde ':'')+dinero(p.precio):'Cotizar', p.cat, p.dest?'Destacado':'', p.activo===false?'Oculto':''].filter(Boolean).join(' · ');
+    tx.append(h,m);
+    var ac=document.createElement('div'); ac.className='acts';
+    [['up','Subir',function(){mover(i,-1)}],['down','Bajar',function(){mover(i,1)}],['edit','Editar',function(){abrir(p)}]].forEach(function(x){var b=document.createElement('button');b.type='button';b.className='ico';b.innerHTML=ICO[x[0]];b.setAttribute('aria-label',x[1]+' '+p.nombre);b.onclick=x[2];ac.appendChild(b)});
+    el.append(im,tx,ac); L.appendChild(el);
+  });
+  var dl=$('#catList'); dl.innerHTML=''; cat.categorias.forEach(function(c){var o=document.createElement('option');o.value=c;dl.appendChild(o)});
+  $('#kGuardar').disabled=!sucio; $('#kEstado').textContent=sucio?'Tienes cambios sin publicar':'';
+}
+function marcar(){sucio=true;pintarCat()}
+function mover(i,d){var j=i+d;if(j<0||j>=cat.productos.length)return;var a=cat.productos;var t=a[i];a[i]=a[j];a[j]=t;a.forEach(function(p,k){p.orden=k});marcar()}
+$('#kNuevo').addEventListener('click',function(){abrir(null)});
+function abrir(p){
+  editando=p; imgNueva=undefined;
+  $('#dTitulo').textContent=p?'Editar producto':'Nuevo producto';
+  $('#pNombre').value=p?p.nombre:''; $('#pPrecio').value=p&&p.precio!=null?p.precio:''; $('#pAntes').value=p&&p.antes!=null?p.antes:'';
+  $('#pCat').value=p?p.cat||'':''; $('#pDesc').value=p?p.desc||'':''; $('#pBadge').value=p?p.badge||'':'';
+  $('#pDesde').checked=!!(p&&p.desde); $('#pDest').checked=!!(p&&p.dest); $('#pActivo').checked=!p||p.activo!==false;
+  prevImg(p&&p.img?img(p.img):''); $('#pBorrar').hidden=!p; $('#dProd').showModal();
+}
+function prevImg(src){$('#pImgPrev').hidden=!src;$('#pImgPh').hidden=!!src;if(src)$('#pImgPrev').src=src}
+$('#pImg').addEventListener('change',function(){
+  var f=this.files[0]; if(!f)return;
+  comprimir(f,1000,.8).then(function(blob){ imgNueva=blob; prevImg(URL.createObjectURL(blob)); }).catch(function(){toast('No se pudo leer la imagen')});
+});
+$('#pImgQuitar').addEventListener('click',function(){imgNueva=null;prevImg('')});
+function comprimir(file,max,q){
+  return new Promise(function(ok,ko){
+    var im=new Image(); im.onload=function(){
+      var s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+      var intento=function(calidad){c.toBlob(function(b){if(!b)return ko();if(b.size>420000&&calidad>.45)return intento(calidad-.12);ok(b)},'image/webp',calidad)};
+      intento(q);
+    }; im.onerror=ko; im.src=URL.createObjectURL(file);
+  });
+}
+$('#dProd').addEventListener('close',function(){
+  if($('#dProd').returnValue!=='ok')return;
+  var nombre=$('#pNombre').value.trim(); if(!nombre){toast('Escribe el nombre');return}
+  var p=editando||{id:Math.random().toString(36).slice(2,9),orden:cat.productos.length};
+  var num=function(v){return v===''?null:Number(v)};
+  p.nombre=nombre;p.precio=num($('#pPrecio').value);p.antes=num($('#pAntes').value);p.cat=$('#pCat').value.trim();p.desc=$('#pDesc').value.trim();p.badge=$('#pBadge').value.trim();p.desde=$('#pDesde').checked;p.dest=$('#pDest').checked;p.activo=$('#pActivo').checked;
+  if(p.cat&&cat.categorias.indexOf(p.cat)<0)cat.categorias.push(p.cat);
+  var fin=function(){if(!editando)cat.productos.push(p);limpiarCats();marcar()};
+  if(imgNueva===null){p.img='';fin()}
+  else if(imgNueva){toast('Subiendo foto…');fetch(API+'/i/'+S.slug,{method:'POST',headers:{'X-PIN':S.pin,'Content-Type':imgNueva.type||'image/webp'},body:imgNueva}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(ERR[j.error]||'No se subió la foto');return j})}).then(function(j){p.img=j.id;fin();toast('Foto lista')}).catch(function(e){toast(e.message);fin()})}
+  else fin();
+});
+$('#pBorrar').addEventListener('click',function(){ if(!editando)return; if(!confirm('¿Eliminar “'+editando.nombre+'”?'))return; cat.productos=cat.productos.filter(function(x){return x!==editando}); limpiarCats(); $('#dProd').close(); marcar(); });
+function limpiarCats(){cat.categorias=cat.categorias.filter(function(c){return cat.productos.some(function(p){return p.cat===c})})}
+$('#kGuardar').addEventListener('click',function(){
+  var b=this; b.disabled=true;
+  api('/c/'+S.slug,{method:'PUT',json:{catalogo:cat,aviso:aviso}}).then(function(j){cat=j.catalogo;sucio=false;pintarCat();toast('Publicado. Tu tarjeta ya muestra los cambios.')}).catch(function(e){b.disabled=false;toast(e.message)});
+});
+window.addEventListener('beforeunload',function(e){if(sucio){e.preventDefault();e.returnValue=''}});
+
+/* Aviso */
+$('#aGuardar').addEventListener('click',function(){
+  var t=$('#aTexto').value.trim(); aviso=t?{texto:t,hasta:$('#aHasta').value||null}:null;
+  api('/c/'+S.slug,{method:'PUT',json:{catalogo:cat,aviso:aviso}}).then(function(){toast(aviso?'Aviso publicado':'Aviso quitado')}).catch(function(e){toast(e.message)});
+});
+$('#aQuitar').addEventListener('click',function(){$('#aTexto').value='';$('#aHasta').value='';$('#aGuardar').click()});
+
+/* Ajustes */
+$('#sCopiar').addEventListener('click',function(){navigator.clipboard&&navigator.clipboard.writeText($('#sUrl').textContent).then(function(){toast('Enlace copiado')})});
+$('#sPinBtn').addEventListener('click',function(){
+  var n=$('#sPin').value.trim(); if(!/^\d{6,12}$/.test(n)){toast('El PIN debe tener al menos 6 dígitos');return}
+  api('/pin/'+S.slug,{method:'PUT',json:{nuevo:n}}).then(function(){S.pin=n;ss.set('mc-panel',S);$('#sPin').value='';toast('PIN actualizado')}).catch(function(e){toast(e.message)});
+});
+
+var prev=ss.get('mc-panel'); if(prev&&prev.slug&&prev.pin){S=prev;iniciar()}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Ávalos;Rodrigo;;;
+FN:Rodrigo Ávalos
+ORG:Barbería Navaja de Plata
+TITLE:Barbero fundador
+TEL;TYPE=CELL,VOICE:+523312345678
+EMAIL;TYPE=INTERNET,WORK:hola@navajadeplata.mx
+URL:https://t.matterasystems.com/navaja-de-plata/
+ADR;TYPE=WORK:;;Av. Chapultepec 210\, Col. Americana\, Guadalajara\, Jal.;;
+ ;;
+X-SOCIALPROFILE;TYPE=instagram:https://instagram.com/navajadeplata.gdl
+X-SOCIALPROFILE;TYPE=facebook:https://facebook.com/navajadeplata.gdl
+NOTE:Barbería clásica: corte\, navaja y barba · Tarjeta digital: https:/
+ /t.matterasystems.com/navaja-de-plata/
+END:VCARD

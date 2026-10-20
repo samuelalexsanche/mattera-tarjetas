@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cuestionario de tu tarjeta · Mattera</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0C211B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0C211B;--bg2:#143229;--ink:#F2EFE6;--sec:#8FA89C;--line:rgba(242,239,230,.14);--accent:#FCA311;--paper:#F0F1E7;--f-d:"Fraunces",Georgia,serif;--f-t:"Inter",system-ui,sans-serif;--f-m:"JetBrains Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#F0F1E7;--bg2:#FBFBF6;--ink:#0C211B;--sec:#5E6B60;--line:rgba(12,33,27,.13)}}
+:root[data-theme="light"]{--bg:#F0F1E7;--bg2:#FBFBF6;--ink:#0C211B;--sec:#5E6B60;--line:rgba(12,33,27,.13)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-t);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.wrap{max-width:620px;margin:0 auto;padding:0 16px}
+header{padding:28px 0 8px}
+.brand{font:500 .72rem/1 var(--f-m);letter-spacing:.14em;text-transform:uppercase;color:var(--sec)}
+h1{font:600 clamp(1.8rem,6vw,2.4rem)/1.1 var(--f-d);margin:14px 0 10px;letter-spacing:-.015em}
+h2{font:600 1.45rem/1.2 var(--f-d);margin:0 0 6px}
+.lead{color:var(--sec);margin:0}
+.prog{position:sticky;top:0;z-index:5;background:var(--bg);padding:14px 0 10px}
+.prog .track{height:4px;border-radius:4px;background:var(--line);overflow:hidden}
+.prog .fill{height:100%;width:0;background:var(--ink);transition:width .35s ease}
+.prog .lbl{display:flex;justify-content:space-between;font:500 .75rem/1 var(--f-m);color:var(--sec);margin-top:8px}
+.step{padding:18px 0 120px}
+.step > p.lead{margin-bottom:20px}
+.f{margin-bottom:18px}
+.f label,.f .lbl{display:block;font-weight:500;margin-bottom:6px}
+.f small{display:block;color:var(--sec);font-size:.85rem;margin:-2px 0 8px}
+.req::after{content:" *";color:var(--accent)}
+.in{width:100%;min-height:50px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg2);}
+textarea.in{min-height:96px;resize:vertical}
+.in:focus{outline:2px solid var(--ink);outline-offset:1px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg2);cursor:pointer;font-weight:500}
+.chips input{accent-color:var(--ink)}
+.chips label:has(input:checked){border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.horas{display:grid;grid-template-columns:auto 1fr 1fr auto;gap:8px;align-items:center}
+.horas .in{min-height:44px;padding:8px 10px}
+.horas span{font-weight:500}
+.horas label.check{display:flex;gap:6px;align-items:center;font-size:.85rem;color:var(--sec)}
+.rep{display:grid;gap:8px;margin-bottom:8px}
+.rep .two{display:grid;grid-template-columns:1fr 120px;gap:8px}
+.add{background:none;border:1px dashed var(--line);border-radius:12px;min-height:44px;width:100%;cursor:pointer;color:var(--sec)}
+.files{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.files img{width:72px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.pick{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);cursor:pointer;font-weight:500}
+.colors{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.colors input[type=color]{width:52px;height:44px;border:1px solid var(--line);border-radius:10px;background:none;padding:2px}
+nav.bot{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--bg);border-top:1px solid var(--line);padding:12px 0 calc(12px + env(safe-area-inset-bottom))}
+nav.bot .wrap{display:flex;gap:10px}
+.btn{flex:1;display:inline-flex;align-items:center;justify-content:center;min-height:52px;border-radius:14px;border:1px solid var(--line);background:transparent;font-weight:600;cursor:pointer;text-decoration:none}
+.btn--go{background:var(--ink);color:var(--bg);border-color:transparent}
+.btn--cta{background:var(--accent);color:#0C211B;border-color:transparent}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.err{color:#E07A5F;font-size:.9rem;margin-top:6px}
+.done{text-align:center;padding:40px 0 60px}
+.folio{display:inline-block;font:500 2.2rem/1 var(--f-m);letter-spacing:.12em;border:1px solid var(--line);border-radius:14px;padding:16px 22px;margin:18px 0}
+.pkg{display:inline-block;font:500 .72rem/1 var(--f-m);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:var(--sec)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="brand">Mattera · Tarjeta digital</div>
+  <h1>Cuéntanos de tu negocio</h1>
+  <p class="lead">Con esto diseñamos tu tarjeta. Toma de 6 a 10 minutos. Si no tienes un dato, déjalo en blanco y lo vemos por WhatsApp.</p>
+  <p style="margin:14px 0 0"><span class="pkg" id="pkg"></span></p>
+</header>
+<div class="prog wrap" aria-hidden="true"><div class="track"><div class="fill" id="fill"></div></div><div class="lbl"><span id="pasoN"></span><span id="pasoT"></span></div></div>
+<form id="form" class="wrap" novalidate></form>
+<section class="wrap done" id="done" hidden>
+  <h2>Recibimos tu información</h2>
+  <p class="lead">Este es tu folio. Avísanos por WhatsApp para empezar tu diseño.</p>
+  <div class="folio" id="folio"></div>
+  <p><a class="btn btn--cta" id="avisar" target="_blank" rel="noopener" style="max-width:360px;margin:0 auto">Avisar por WhatsApp</a></p>
+  <p class="lead" style="margin-top:16px">Te enviamos la primera propuesta de diseño en menos de 24 horas hábiles.</p>
+</section>
+<nav class="bot" id="bot"><div class="wrap"><button type="button" class="btn" id="atras">Atrás</button><button type="button" class="btn btn--go" id="sig">Siguiente</button></div></nav>
+
+<script>
+(function(){
+'use strict';
+var Q = new URLSearchParams(location.search);
+var API = Q.get('api') || 'https://mattera-tarjetas-api.matterasystems.workers.dev';
+var WA_MATTERA = '523327874747';
+var PAQ = (Q.get('p') || 'profesional').toLowerCase();
+var RANK = {esencial:1, profesional:2, business:3};
+if (!RANK[PAQ]) PAQ = 'profesional';
+document.getElementById('pkg').textContent = 'Paquete ' + PAQ;
+var BORRADOR = 'mc-brief-' + PAQ;
+
+/* Definición del cuestionario. p = paquete mínimo que lo ve. */
+var PASOS = [
+ {t:'Tu negocio', d:'Lo básico para presentarte bien.', f:[
+  {id:'negocio', l:'Nombre del negocio', req:1, ph:'Barbería El Fino'},
+  {id:'giro', l:'¿A qué te dedicas?', req:1, ph:'Barbería clásica y cuidado de barba', h:'En una línea, como lo dirías a un cliente.'},
+  {id:'descripcion', l:'Descríbelo en 2 o 3 frases', tipo:'area', ph:'Qué haces, para quién y por qué te eligen.'},
+  {id:'confianza', l:'Un dato que dé confianza', ph:'12 años de experiencia · +3,000 clientes · Certificados', h:'Años, clientes atendidos, certificaciones, premios.'},
+  {id:'zona', l:'Ciudad y zona', ph:'Guadalajara, Providencia'}
+ ]},
+ {t:'Quién da la cara', d:'Las personas confían más en una cara que en un logo.', f:[
+  {id:'persona', l:'Nombre de quien aparece en la tarjeta', ph:'Samuel Sánchez'},
+  {id:'cargo', l:'Cargo o especialidad', ph:'Fundador · Barbero master'},
+  {id:'logo', l:'Logo', tipo:'img', max:1, h:'PNG o JPG. Si no tienes, déjalo vacío: diseñamos el nombre con buena tipografía.'},
+  {id:'foto', l:'Tu foto o la de tu local', tipo:'img', max:1, h:'De frente, con buena luz. Vale una foto de celular.'}
+ ]},
+ {t:'Cómo te contactan', d:'Cada dato se vuelve un botón de un toque.', f:[
+  {id:'whatsapp', l:'WhatsApp', req:1, tipo:'tel', ph:'33 1234 5678'},
+  {id:'telefono', l:'Teléfono para llamadas (si es otro)', tipo:'tel'},
+  {id:'email', l:'Correo', tipo:'email'},
+  {id:'web', l:'Sitio web', tipo:'url', ph:'https://'},
+  {id:'direccion', l:'Dirección del local', tipo:'area', ph:'Av. México 1234, Col. Ladrón de Guevara, Guadalajara', h:'Si atiendes a domicilio o en línea, escríbelo.'},
+  {id:'maps', l:'Enlace de Google Maps', tipo:'url', h:'En Google Maps busca tu negocio, toca Compartir y pega aquí el enlace.'},
+  {id:'horarios', l:'Horarios', tipo:'horas'},
+  {id:'redes', l:'Redes sociales', tipo:'area', ph:'Instagram: @barberiaelfino\nFacebook: facebook.com/barberiaelfino\nTikTok: @elfino', h:'Una por línea.'},
+  {id:'resenas', l:'Enlace para dejar reseña en Google', tipo:'url', p:'profesional', h:'En tu perfil de Google Business: "Pedir reseñas" → copiar enlace. Si no lo tienes, lo sacamos nosotros.'}
+ ]},
+ {t:'Lo que ofreces', d:'Tus servicios o productos principales.', f:[
+  {id:'servicios', l:'Servicios o productos principales', tipo:'rep', max:8, h:'Hasta 8. El precio es opcional.'},
+  {id:'galeria', l:'Fotos de tu trabajo o tu local', tipo:'img', max:8, p:'profesional', h:'Hasta 8 fotos. Las mejores que tengas.'},
+  {id:'video', l:'Video (enlace de YouTube, TikTok o Instagram)', tipo:'url', p:'profesional'},
+  {id:'catalogo', l:'Productos para tu catálogo', tipo:'area', p:'business', ph:'Corte clásico | 250 | Cortes\nArreglo de barba | 180 | Barba\nPomada mate 100 g | 290 | Productos', h:'Uno por línea: nombre | precio | categoría. Si son muchos, mándanos tu lista o Excel por WhatsApp. Después tú mismo los editas desde tu panel.'},
+  {id:'fotosCatalogo', l:'Fotos de productos', tipo:'img', max:16, p:'business', h:'Opcional. Nombra la foto como el producto o súbelas en el mismo orden de la lista.'}
+ ]},
+ {t:'Tu estilo', d:'Para que la tarjeta se sienta tuya y no una plantilla.', f:[
+  {id:'colores', l:'Colores de tu marca', tipo:'colores'},
+  {id:'estilo', l:'¿Cómo quieres que se sienta?', tipo:'chips', multi:1, op:['Sobrio y elegante','Moderno y tecnológico','Cálido y cercano','Atrevido y llamativo','Natural y orgánico','Lujoso','Divertido']},
+  {id:'referencias', l:'Marcas o páginas que te gustan', tipo:'area', h:'Enlaces o nombres. Nos ayuda a entender tu gusto.'},
+  {id:'evitar', l:'Lo que NO quieres', tipo:'area', ph:'Nada de rosa, nada muy recargado...'}
+ ]},
+ {t:'Lo que más te preguntan', d:'Tu tarjeta las contesta por ti.', p:'profesional', f:[
+  {id:'faq', l:'Preguntas frecuentes y su respuesta', tipo:'area', ph:'¿Hacen factura? Sí, pídela al pagar.\n¿Necesito cita? Recomendada, también atendemos sin cita.\n¿Formas de pago? Efectivo, tarjeta y transferencia.', h:'Una por línea: pregunta y respuesta.'},
+  {id:'pagos', l:'Formas de pago', tipo:'chips', multi:1, op:['Efectivo','Tarjeta','Transferencia','Mercado Pago','Meses sin intereses','Pago contra entrega']},
+  {id:'politicas', l:'Envíos, zonas, garantías, tiempos de entrega', tipo:'area', p:'business', h:'Lo que el asistente debe saber para responder sin inventar.'},
+  {id:'captura', l:'¿Quieres que la gente te deje su número desde la tarjeta?', tipo:'chips', op:['Sí','No'], p:'profesional'}
+ ]},
+ {t:'Últimos detalles', d:'Y listo.', f:[
+  {id:'slug', l:'Dirección que te gustaría', ph:'barberiaelfino', h:'Tu tarjeta quedará en t.matterasystems.com/barberiaelfino. Sin espacios ni acentos.'},
+  {id:'nfc', l:'¿Quieres tarjeta física NFC? (se toca con el celular y abre tu tarjeta)', tipo:'chips', op:['Sí, tarjeta','Sí, llavero','No por ahora']},
+  {id:'quien', l:'Tu nombre (quien llena el cuestionario)', req:1},
+  {id:'acepto', l:'Autorizo a Mattera Systems a usar esta información y fotos para crear y publicar mi tarjeta digital.', tipo:'chips', op:['Acepto'], req:1}
+ ]}
+].map(function(s){ s.f = s.f.filter(function(f){ return RANK[PAQ] >= RANK[f.p || 'esencial']; }); return s; })
+ .filter(function(s){ return RANK[PAQ] >= RANK[s.p || 'esencial'] && s.f.length; });
+
+var datos = leer() || {}; var imgs = {}; var paso = 0;
+function leer(){ try { return JSON.parse(localStorage.getItem(BORRADOR)); } catch(e){ return null; } }
+function guardar(){ try { localStorage.setItem(BORRADOR, JSON.stringify(datos)); } catch(e){} }
+var form = document.getElementById('form');
+var DIAS = [['lun','Lunes'],['mar','Martes'],['mie','Miércoles'],['jue','Jueves'],['vie','Viernes'],['sab','Sábado'],['dom','Domingo']];
+
+function el(tag, attrs, kids){ var e=document.createElement(tag); for (var k in (attrs||{})) { if (k==='text') e.textContent=attrs[k]; else e.setAttribute(k, attrs[k]); } (kids||[]).forEach(function(c){ if(c) e.appendChild(c); }); return e; }
+
+function campo(f){
+  var w = el('div', {class:'f'}); var id='f-'+f.id;
+  var lab = el(f.tipo==='chips'||f.tipo==='horas'||f.tipo==='rep'||f.tipo==='colores'||f.tipo==='img'?'div':'label', {class:'lbl'+(f.req?' req':''), text:f.l}); if(lab.tagName==='LABEL') lab.setAttribute('for', id);
+  w.appendChild(lab); if (f.h) w.appendChild(el('small',{text:f.h}));
+  var v = datos[f.id];
+  if (!f.tipo || f.tipo==='tel' || f.tipo==='email' || f.tipo==='url') {
+    var i = el('input',{class:'in',id:id,type:f.tipo||'text',placeholder:f.ph||''}); if(f.tipo==='tel') i.inputMode='tel'; i.value = v||'';
+    i.addEventListener('input',function(){ datos[f.id]=i.value; guardar(); }); w.appendChild(i);
+  } else if (f.tipo==='area') {
+    var t = el('textarea',{class:'in',id:id,placeholder:f.ph||''}); t.value=v||''; t.addEventListener('input',function(){ datos[f.id]=t.value; guardar(); }); w.appendChild(t);
+  } else if (f.tipo==='chips') {
+    var c = el('div',{class:'chips',role:'group','aria-label':f.l}); var sel = Array.isArray(v)?v:(v?[v]:[]);
+    f.op.forEach(function(o){ var inp=el('input',{type:f.multi?'checkbox':'radio',name:id,value:o}); if(sel.indexOf(o)>=0) inp.checked=true;
+      inp.addEventListener('change',function(){ var marcados=[].slice.call(c.querySelectorAll('input:checked')).map(function(x){return x.value}); datos[f.id]=f.multi?marcados:(marcados[0]||''); guardar(); });
+      c.appendChild(el('label',{},[inp, document.createTextNode(o)])); });
+    w.appendChild(c);
+  } else if (f.tipo==='horas') {
+    var H = v || {}; var g = el('div',{class:'horas'});
+    DIAS.forEach(function(d){
+      var h = H[d[0]] || (d[0]==='dom'?{cerrado:true}:{a:'09:00',c:d[0]==='sab'?'14:00':'19:00'});
+      var a=el('input',{class:'in',type:'time','aria-label':d[1]+' abre'}); a.value=h.a||'';
+      var c2=el('input',{class:'in',type:'time','aria-label':d[1]+' cierra'}); c2.value=h.c||'';
+      var x=el('input',{type:'checkbox'}); x.checked=!!h.cerrado;
+      var upd=function(){ H[d[0]]={a:a.value,c:c2.value,cerrado:x.checked}; a.disabled=c2.disabled=x.checked; datos[f.id]=H; guardar(); };
+      [a,c2,x].forEach(function(n){n.addEventListener('change',upd)}); upd();
+      g.append(el('span',{text:d[1]}),a,c2,el('label',{class:'check'},[x,document.createTextNode('Cerrado')]));
+    });
+    w.appendChild(g);
+    w.appendChild(el('small',{text:'Si tienes horario partido o especial, escríbelo en la siguiente pregunta o por WhatsApp.',style:'margin-top:8px'}));
+  } else if (f.tipo==='rep') {
+    var lista = Array.isArray(v)&&v.length? v : [{n:'',p:''},{n:'',p:''},{n:'',p:''}];
+    var box = el('div');
+    var pintar = function(){ box.textContent=''; lista.forEach(function(it,ix){
+      var n=el('input',{class:'in',placeholder:'Servicio '+(ix+1),'aria-label':'Servicio '+(ix+1)}); n.value=it.n;
+      var p=el('input',{class:'in',placeholder:'$ precio',inputmode:'decimal','aria-label':'Precio del servicio '+(ix+1)}); p.value=it.p;
+      n.addEventListener('input',function(){it.n=n.value;datos[f.id]=lista;guardar()}); p.addEventListener('input',function(){it.p=p.value;datos[f.id]=lista;guardar()});
+      box.appendChild(el('div',{class:'rep'},[el('div',{class:'two'},[n,p])])); });
+      if (lista.length < f.max) { var b=el('button',{type:'button',class:'add',text:'Agregar otro'}); b.onclick=function(){lista.push({n:'',p:''});pintar()}; box.appendChild(b); } };
+    pintar(); w.appendChild(box);
+  } else if (f.tipo==='colores') {
+    var cs = v || {primario:'#0C211B',secundario:'#FCA311',usarLogo:false};
+    var c1=el('input',{type:'color','aria-label':'Color principal'}); c1.value=cs.primario;
+    var c3=el('input',{type:'color','aria-label':'Color secundario'}); c3.value=cs.secundario;
+    var lg=el('input',{type:'checkbox'}); lg.checked=!!cs.usarLogo;
+    var up=function(){ datos[f.id]={primario:c1.value,secundario:c3.value,usarLogo:lg.checked}; guardar(); };
+    [c1,c3,lg].forEach(function(n){n.addEventListener('input',up)}); up();
+    w.appendChild(el('div',{class:'colors'},[c1,el('span',{text:'Principal'}),c3,el('span',{text:'Secundario'})]));
+    w.appendChild(el('div',{class:'chips',style:'margin-top:10px'},[el('label',{},[lg,document.createTextNode('No sé, usen los de mi logo')])]));
+  } else if (f.tipo==='img') {
+    var inp2=el('input',{type:'file',accept:'image/*',id:id,hidden:''}); if(f.max>1) inp2.multiple=true;
+    var prev=el('div',{class:'files'});
+    var pint=function(){ prev.textContent=''; (imgs[f.id]||[]).forEach(function(x){ prev.appendChild(el('img',{src:URL.createObjectURL(x.blob),alt:''})); }); };
+    inp2.addEventListener('change',function(){
+      var fs=[].slice.call(inp2.files).slice(0,f.max); imgs[f.id]=imgs[f.id]||[];
+      Promise.all(fs.map(function(fl){ return comprimir(fl, f.id==='logo'?1200:1600).then(function(b){ return {blob:b,nombre:fl.name}; }); }))
+        .then(function(r){ imgs[f.id]=imgs[f.id].concat(r).slice(-f.max); pint(); }).catch(function(){ alert('No pudimos leer una imagen. Intenta con otra.'); });
+    });
+    w.appendChild(el('label',{class:'pick',for:id,text:f.max>1?'Elegir fotos':'Elegir imagen'})); w.appendChild(inp2); w.appendChild(prev); pint();
+  }
+  w.appendChild(el('div',{class:'err',id:'e-'+f.id,role:'alert'}));
+  return w;
+}
+
+function comprimir(file, max){
+  return new Promise(function(ok,ko){
+    var im=new Image(); im.onload=function(){
+      var s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+      var tipo=file.type==='image/png'&&/logo/i.test(file.name+max)?'image/png':'image/webp';
+      var go=function(q){c.toBlob(function(b){ if(!b) return ko(); if(b.size>850000&&q>.4) return go(q-.12); ok(b); }, tipo, q)}; go(.82);
+    }; im.onerror=ko; im.src=URL.createObjectURL(file);
+  });
+}
+
+function render(){
+  form.textContent='';
+  var s=PASOS[paso]; var sec=el('div',{class:'step'});
+  sec.appendChild(el('h2',{text:s.t})); sec.appendChild(el('p',{class:'lead',text:s.d}));
+  s.f.forEach(function(f){ sec.appendChild(campo(f)); });
+  form.appendChild(sec);
+  document.getElementById('fill').style.width=((paso+1)/PASOS.length*100)+'%';
+  document.getElementById('pasoN').textContent='Paso '+(paso+1)+' de '+PASOS.length;
+  document.getElementById('pasoT').textContent=s.t;
+  document.getElementById('atras').style.visibility=paso?'visible':'hidden';
+  var sig=document.getElementById('sig'); sig.textContent=paso===PASOS.length-1?'Enviar':'Siguiente'; sig.className='btn '+(paso===PASOS.length-1?'btn--cta':'btn--go');
+  window.scrollTo({top:0});
+  var first=form.querySelector('input,textarea'); if(first&&paso) first.focus({preventScroll:true});
+}
+
+function valida(){
+  var ok=true;
+  PASOS[paso].f.forEach(function(f){
+    var e=document.getElementById('e-'+f.id); e.textContent='';
+    var v=datos[f.id]; var vacio = v==null || v==='' || (Array.isArray(v)&&!v.length);
+    if (f.req && vacio){ e.textContent='Este dato es necesario.'; ok=false; }
+    if (f.id==='whatsapp' && v && String(v).replace(/\D/g,'').length<10){ e.textContent='Escribe los 10 dígitos.'; ok=false; }
+    if (f.id==='email' && v && !/^\S+@\S+\.\S+$/.test(v)){ e.textContent='Revisa el correo.'; ok=false; }
+  });
+  if(!ok){ var x=form.querySelector('.err:not(:empty)'); if(x) x.scrollIntoView({block:'center',behavior:'smooth'}); }
+  return ok;
+}
+
+document.getElementById('atras').addEventListener('click',function(){ if(paso){paso--;render();} });
+document.getElementById('sig').addEventListener('click',function(){ if(!valida()) return; if(paso<PASOS.length-1){paso++;render();} else enviar(); });
+
+function b64(blob){ return new Promise(function(ok){ var r=new FileReader(); r.onload=function(){ ok(String(r.result).split(',')[1]); }; r.readAsDataURL(blob); }); }
+
+function textoPlano(){
+  var out=['Cuestionario de tarjeta digital · Paquete '+PAQ];
+  PASOS.forEach(function(s){ s.f.forEach(function(f){ var v=datos[f.id]; if(v==null||v===''||f.tipo==='img') return;
+    if(f.tipo==='rep') v=v.filter(function(x){return x.n}).map(function(x){return x.n+(x.p?' ($'+x.p+')':'')}).join('; ');
+    else if(f.tipo==='horas') v=DIAS.map(function(d){var h=v[d[0]];return d[1]+': '+(!h||h.cerrado?'cerrado':h.a+'-'+h.c)}).join(', ');
+    else if(f.tipo==='colores') v=v.usarLogo?'usar los del logo':v.primario+' y '+v.secundario;
+    else if(Array.isArray(v)) v=v.join(', ');
+    if(v) out.push(f.l+': '+v); }); });
+  return out.join('\n');
+}
+
+function enviar(){
+  var sig=document.getElementById('sig'); sig.disabled=true; sig.textContent='Enviando…';
+  var lista=[]; Object.keys(imgs).forEach(function(k){ imgs[k].forEach(function(x){ lista.push({campo:k,blob:x.blob,nombre:x.nombre}); }); });
+  Promise.all(lista.map(function(x){ return b64(x.blob).then(function(d){ return {campo:x.campo,mime:x.blob.type||'image/webp',b64:d,nombre:x.nombre}; }); }))
+  .then(function(im){ return fetch(API+'/brief',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({paquete:PAQ,datos:datos,imagenes:im})}); })
+  .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+  .then(function(j){ listo(j.id, false); })
+  .catch(function(){ listo(null, true); });
+}
+function listo(id, respaldo){
+  form.hidden=true; document.getElementById('bot').hidden=true; document.querySelector('.prog').hidden=true;
+  var d=document.getElementById('done'); d.hidden=false;
+  var msg;
+  if(respaldo){
+    document.getElementById('folio').textContent='Por WhatsApp';
+    d.querySelector('.lead').textContent='No pudimos subir tus respuestas. Envíalas por WhatsApp con el botón y luego manda tus fotos en el mismo chat.';
+    msg=textoPlano();
+  } else {
+    document.getElementById('folio').textContent=id;
+    msg='Hola Mattera, ya llené el cuestionario de mi tarjeta digital. Folio: '+id+' · Negocio: '+(datos.negocio||'')+' · Paquete '+PAQ;
+    try{ localStorage.removeItem(BORRADOR); }catch(e){}
+  }
+  document.getElementById('avisar').href='https://wa.me/'+WA_MATTERA+'?text='+encodeURIComponent(msg);
+  window.scrollTo({top:0});
+}
+render();
+})();
+</script>
+</body>
+</html>
