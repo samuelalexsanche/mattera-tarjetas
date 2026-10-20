@@ -218,7 +218,7 @@ dialog::backdrop{background:rgba(12,33,27,.5)}
 (function(){
 'use strict';
 // URL de la API. Se puede sobreescribir con ?api= para pruebas.
-var API = new URLSearchParams(location.search).get('api') || 'https://mattera-tarjetas-api.matterasystems.workers.dev';
+var API = new URLSearchParams(location.search).get('api') || 'https://mattera-tarjetas-api.mattera.workers.dev';
 var BASE_TARJETAS = 'https://t.matterasystems.com/';
 var RANK = {esencial:1, profesional:2, business:3};
 var S = {slug:'', pin:'', plan:'esencial', nombre:''};
