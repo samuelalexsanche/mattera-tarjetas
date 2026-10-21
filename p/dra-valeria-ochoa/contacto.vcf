@@ -1,0 +1,16 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Ochoa;Valeria;;;
+FN:Valeria Ochoa
+ORG:Dra. Valeria Ochoa · Odontología
+TITLE:Cirujana dentista\, especialista en ortodoncia
+TEL;TYPE=CELL,VOICE:+523311223344
+EMAIL;TYPE=INTERNET,WORK:consultorio@draochoa.mx
+URL:https://t.matterasystems.com/dra-valeria-ochoa/
+ADR;TYPE=WORK:;;Av. Patria 1150\, local 8\, Zapopan. Estacionamiento propio
+ .;;;;
+X-SOCIALPROFILE;TYPE=instagram:https://instagram.com/draochoa.dental
+X-SOCIALPROFILE;TYPE=facebook:https://facebook.com/draochoa.dental
+NOTE:Ortodoncia\, limpieza y estética dental en Zapopan · Tarjeta digital
+ : https://t.matterasystems.com/dra-valeria-ochoa/
+END:VCARD

@@ -1,0 +1,18 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Andrea Ibarra;Lic.;;;
+FN:Lic. Andrea Ibarra
+ORG:Ibarra & Castañeda Abogados
+TITLE:Socia fundadora · Derecho corporativo y familiar
+TEL;TYPE=CELL,VOICE:+523366778899
+EMAIL;TYPE=INTERNET,WORK:contacto@ibarracastaneda.mx
+URL:https://t.matterasystems.com/ibarra-castaneda/
+URL;TYPE=WORK:https://ibarracastaneda.mx
+ADR;TYPE=WORK:;;Av. Américas 1500\, piso 9\, Col. Country Club\, Guadalaja
+ ra.;;;;
+X-SOCIALPROFILE;TYPE=linkedin:https://linkedin.com/company/ibarra-castaneda
+X-SOCIALPROFILE;TYPE=facebook:https://facebook.com/ibarracastaneda
+NOTE:Despacho de abogados en Guadalajara: corporativo\, familiar\, laboral 
+ e inmobiliario · Tarjeta digital: https://t.matterasystems.com/ibarra-cas
+ taneda/
+END:VCARD
