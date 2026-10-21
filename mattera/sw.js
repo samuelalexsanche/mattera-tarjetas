@@ -1,5 +1,5 @@
 /* Mattera Card · service worker. La tarjeta abre aunque no haya internet. */
-const CACHE = 'mc-mattera-1792596530';
+const CACHE = 'mc-mattera-1792598476';
 const BASE = ['./', './index.html', './manifest.webmanifest', './contacto.vcf', './qr.svg', './icon-192.png'];
 
 self.addEventListener('install', e => {
