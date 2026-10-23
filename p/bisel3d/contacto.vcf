@@ -1,0 +1,14 @@
+BEGIN:VCARD
+VERSION:3.0
+N:;Samuel;;;
+FN:Samuel
+ORG:Bisel
+TITLE:Fundador
+TEL;TYPE=CELL,VOICE:+523327874747
+EMAIL;TYPE=INTERNET,WORK:hola@bisel3d.com
+URL:https://t.matterasystems.com/p/bisel3d/
+URL;TYPE=WORK:https://bisel3d.com
+ADR;TYPE=WORK:;;Taller en Guadalajara\, Jalisco.;;;;
+NOTE:Taller de impresión 3D en Guadalajara · Tarjeta digital: https://t.m
+ atterasystems.com/p/bisel3d/
+END:VCARD
