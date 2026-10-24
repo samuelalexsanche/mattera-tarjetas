@@ -102,7 +102,10 @@ var PASOS = [
   {id:'giro', l:'¿A qué te dedicas?', req:1, ph:'Barbería clásica y cuidado de barba', h:'En una línea, como lo dirías a un cliente.'},
   {id:'descripcion', l:'Descríbelo en 2 o 3 frases', tipo:'area', ph:'Qué haces, para quién y por qué te eligen.'},
   {id:'confianza', l:'Un dato que dé confianza', ph:'12 años de experiencia · +3,000 clientes · Certificados', h:'Años, clientes atendidos, certificaciones, premios.'},
-  {id:'zona', l:'Ciudad y zona', ph:'Guadalajara, Providencia'}
+  {id:'zona', l:'Ciudad y zona', ph:'Guadalajara, Providencia'},
+  {id:'lema', l:'Tu frase principal (opcional)', ph:'Tu bienestar es mi prioridad', h:'La frase grande de tu tarjeta. Si no tienes, la escribimos con lo que nos cuentes.'},
+  {id:'diferencia', l:'¿Por qué te eligen a ti y no a otro?', tipo:'area', ph:'Atención personalizada, voy a domicilio, 15 años de experiencia...'},
+  {id:'actual', l:'¿Ya tienes tarjeta digital, página web o link en bio? Pega el enlace', tipo:'url', ph:'https://', h:'Tu nueva tarjeta incluye todo lo que tenga la actual, y más.'}
  ]},
  {t:'Quién da la cara', d:'Las personas confían más en una cara que en un logo.', f:[
   {id:'persona', l:'Nombre de quien aparece en la tarjeta', ph:'Samuel Sánchez'},
@@ -118,15 +121,23 @@ var PASOS = [
   {id:'direccion', l:'Dirección del local', tipo:'area', ph:'Av. México 1234, Col. Ladrón de Guevara, Guadalajara', h:'Si atiendes a domicilio o en línea, escríbelo.'},
   {id:'maps', l:'Enlace de Google Maps', tipo:'url', h:'En Google Maps busca tu negocio, toca Compartir y pega aquí el enlace.'},
   {id:'horarios', l:'Horarios', tipo:'horas'},
+  {id:'ciudades', l:'¿Atiendes en otras ciudades o a domicilio?', tipo:'area', ph:'Tepatitlán, Jalisco · cada 15 días\nMorelia, Michoacán · por agenda\nA domicilio en Guadalajara', h:'Una por línea, con cuándo vas si aplica. Si solo atiendes en tu local, déjalo vacío.'},
+  {id:'accion', l:'¿Qué quieres que haga primero quien abra tu tarjeta?', tipo:'chips', op:['Escribirme por WhatsApp','Agendar una cita','Llamarme','Ver mis productos y pedir','Visitarme en mi local']},
   {id:'redes', l:'Redes sociales', tipo:'area', ph:'Instagram: @barberiaelfino\nFacebook: facebook.com/barberiaelfino\nTikTok: @elfino', h:'Una por línea.'},
   {id:'resenas', l:'Enlace para dejar reseña en Google', tipo:'url', p:'profesional', h:'En tu perfil de Google Business: "Pedir reseñas" → copiar enlace. Si no lo tienes, lo sacamos nosotros.'}
  ]},
  {t:'Lo que ofreces', d:'Tus servicios o productos principales.', f:[
-  {id:'servicios', l:'Servicios o productos principales', tipo:'rep', max:8, h:'Hasta 8. El precio es opcional.'},
+  {id:'servicios', l:'Servicios o productos principales', tipo:'rep', max:8, h:'Hasta 8. Precio, duración y lo que incluye son opcionales, pero con ellos tu tarjeta responde sola lo que más te preguntan.'},
   {id:'galeria', l:'Fotos de tu trabajo o tu local', tipo:'img', max:8, p:'profesional', h:'Hasta 8 fotos. Las mejores que tengas.'},
-  {id:'video', l:'Video (enlace de YouTube, TikTok o Instagram)', tipo:'url', p:'profesional'},
+  {id:'video', l:'Un video (enlace a un reel, TikTok o YouTube)', tipo:'url', p:'profesional', h:'El enlace de UN video, no de tu perfil.'},
   {id:'catalogo', l:'Productos para tu catálogo', tipo:'area', p:'business', ph:'Corte clásico | 250 | Cortes\nArreglo de barba | 180 | Barba\nPomada mate 100 g | 290 | Productos', h:'Uno por línea: nombre | precio | categoría. Si son muchos, mándanos tu lista o Excel por WhatsApp. Después tú mismo los editas desde tu panel.'},
   {id:'fotosCatalogo', l:'Fotos de productos', tipo:'img', max:16, p:'business', h:'Opcional. Nombra la foto como el producto o súbelas en el mismo orden de la lista.'}
+ ]},
+ {t:'Tus citas', d:'Si trabajas con citas, tu tarjeta deja que tus clientes elijan día y hora. Si no, salta este paso.', p:'profesional', f:[
+  {id:'citas', l:'¿Trabajas con citas?', tipo:'chips', op:['Sí','No']},
+  {id:'citas_horas', l:'¿A qué horas das citas cada día?', tipo:'area', ph:'Lunes a viernes: 10:00, 11:00, 12:00 y 21:15\nSábado: de 8:00 a 20:00, cada hora\nDomingo: de 8:00 a 17:00, cada hora', h:'Las horas en que alguien puede apartar. Tu tarjeta solo enseña las que siguen libres.'},
+  {id:'citas_duracion', l:'¿Cuánto dura cada cita?', ph:'50 minutos (la completa, 1 h 20 min)'},
+  {id:'citas_anticipo', l:'¿Pides anticipo o tienes política de cancelación?', tipo:'area', ph:'Anticipo del 50%. Cambios con 24 h de aviso.'}
  ]},
  {t:'Tu estilo', d:'Para que la tarjeta se sienta tuya y no una plantilla.', f:[
   {id:'colores', l:'Colores de tu marca', tipo:'colores'},
@@ -137,7 +148,10 @@ var PASOS = [
  {t:'Lo que más te preguntan', d:'Tu tarjeta las contesta por ti.', p:'profesional', f:[
   {id:'faq', l:'Preguntas frecuentes y su respuesta', tipo:'area', ph:'¿Hacen factura? Sí, pídela al pagar.\n¿Necesito cita? Recomendada, también atendemos sin cita.\n¿Formas de pago? Efectivo, tarjeta y transferencia.', h:'Una por línea: pregunta y respuesta.'},
   {id:'pagos', l:'Formas de pago', tipo:'chips', multi:1, op:['Efectivo','Tarjeta','Transferencia','Mercado Pago','Meses sin intereses','Pago contra entrega']},
-  {id:'politicas', l:'Envíos, zonas, garantías, tiempos de entrega', tipo:'area', p:'business', h:'Lo que el asistente debe saber para responder sin inventar.'},
+  {id:'politicas', l:'Políticas: anticipos, cancelaciones, envíos, zonas, garantías, tiempos de entrega', tipo:'area', p:'profesional', h:'Lo que tu tarjeta y su asistente deben saber para responder sin inventar.'},
+  {id:'calificacion', l:'Tu calificación en Google (si tienes)', ph:'4.9 estrellas · 87 reseñas', p:'profesional', h:'Solo si es la que aparece hoy en tu perfil.'},
+  {id:'resenas_texto', l:'Reseñas reales que quieras mostrar', tipo:'area', p:'profesional', ph:'"Excelente atención, se me quitó el dolor de espalda" — Laura M.', h:'Cópialas tal cual, con el nombre. Solo reseñas que te hayan dejado.'},
+  {id:'promocion', l:'¿Tienes una promoción ahora?', p:'business', ph:'10% en tu primera cita hasta el 30 de noviembre'},
   {id:'captura', l:'¿Quieres que la gente te deje su número desde la tarjeta?', tipo:'chips', op:['Sí','No'], p:'profesional'}
  ]},
  {t:'Últimos detalles', d:'Y listo.', f:[
@@ -187,24 +201,30 @@ function campo(f){
     w.appendChild(g);
     w.appendChild(el('small',{text:'Si tienes horario partido o especial, escríbelo en la siguiente pregunta o por WhatsApp.',style:'margin-top:8px'}));
   } else if (f.tipo==='rep') {
-    var lista = Array.isArray(v)&&v.length? v : [{n:'',p:''},{n:'',p:''},{n:'',p:''}];
+    var lista = Array.isArray(v)&&v.length? v : [{n:'',p:'',d:'',i:''},{n:'',p:'',d:'',i:''},{n:'',p:'',d:'',i:''}];
     var box = el('div');
     var pintar = function(){ box.textContent=''; lista.forEach(function(it,ix){
       var n=el('input',{class:'in',placeholder:'Servicio '+(ix+1),'aria-label':'Servicio '+(ix+1)}); n.value=it.n;
       var p=el('input',{class:'in',placeholder:'$ precio',inputmode:'decimal','aria-label':'Precio del servicio '+(ix+1)}); p.value=it.p;
+      var du=el('input',{class:'in',placeholder:'Duración (ej. 50 min)','aria-label':'Duración del servicio '+(ix+1)}); du.value=it.d||'';
+      var inc=el('textarea',{class:'in',placeholder:'Qué incluye o en qué consiste (una cosa por línea)','aria-label':'Qué incluye el servicio '+(ix+1),rows:'3'}); inc.value=it.i||'';
       n.addEventListener('input',function(){it.n=n.value;datos[f.id]=lista;guardar()}); p.addEventListener('input',function(){it.p=p.value;datos[f.id]=lista;guardar()});
-      box.appendChild(el('div',{class:'rep'},[el('div',{class:'two'},[n,p])])); });
-      if (lista.length < f.max) { var b=el('button',{type:'button',class:'add',text:'Agregar otro'}); b.onclick=function(){lista.push({n:'',p:''});pintar()}; box.appendChild(b); } };
+      du.addEventListener('input',function(){it.d=du.value;datos[f.id]=lista;guardar()}); inc.addEventListener('input',function(){it.i=inc.value;datos[f.id]=lista;guardar()});
+      box.appendChild(el('div',{class:'rep'},[el('div',{class:'two'},[n,p]),du,inc])); });
+      if (lista.length < f.max) { var b=el('button',{type:'button',class:'add',text:'Agregar otro'}); b.onclick=function(){lista.push({n:'',p:'',d:'',i:''});pintar()}; box.appendChild(b); } };
     pintar(); w.appendChild(box);
   } else if (f.tipo==='colores') {
-    var cs = v || {primario:'#0C211B',secundario:'#FCA311',usarLogo:false};
-    var c1=el('input',{type:'color','aria-label':'Color principal'}); c1.value=cs.primario;
-    var c3=el('input',{type:'color','aria-label':'Color secundario'}); c3.value=cs.secundario;
+    // Sin colores puestos de antemano: un color que el cliente no tocó no es su color.
+    var cs = v || {usarLogo:false, elegidos:false};
+    var c1=el('input',{type:'color','aria-label':'Color principal'}); c1.value=cs.primario||'#1E2A22';
+    var c3=el('input',{type:'color','aria-label':'Color secundario'}); c3.value=cs.secundario||'#C9B79C';
     var lg=el('input',{type:'checkbox'}); lg.checked=!!cs.usarLogo;
-    var up=function(){ datos[f.id]={primario:c1.value,secundario:c3.value,usarLogo:lg.checked}; guardar(); };
-    [c1,c3,lg].forEach(function(n){n.addEventListener('input',up)}); up();
+    var tocado=!!cs.elegidos;
+    var up=function(){ datos[f.id]=tocado?{primario:c1.value,secundario:c3.value,usarLogo:lg.checked,elegidos:true}:{usarLogo:lg.checked,elegidos:false}; guardar(); };
+    [c1,c3].forEach(function(n){n.addEventListener('input',function(){ tocado=true; up(); })}); lg.addEventListener('input',up); up();
     w.appendChild(el('div',{class:'colors'},[c1,el('span',{text:'Principal'}),c3,el('span',{text:'Secundario'})]));
     w.appendChild(el('div',{class:'chips',style:'margin-top:10px'},[el('label',{},[lg,document.createTextNode('No sé, usen los de mi logo')])]));
+    w.appendChild(el('small',{text:'Si no eliges colores, los escogemos con tu logo y el estilo que marques abajo.',style:'margin-top:8px'}));
   } else if (f.tipo==='img') {
     var inp2=el('input',{type:'file',accept:'image/*',id:id,hidden:''}); if(f.max>1) inp2.multiple=true;
     var prev=el('div',{class:'files'});
@@ -267,9 +287,9 @@ function b64(blob){ return new Promise(function(ok){ var r=new FileReader(); r.o
 function textoPlano(){
   var out=['Cuestionario de tarjeta digital · Paquete '+PAQ];
   PASOS.forEach(function(s){ s.f.forEach(function(f){ var v=datos[f.id]; if(v==null||v===''||f.tipo==='img') return;
-    if(f.tipo==='rep') v=v.filter(function(x){return x.n}).map(function(x){return x.n+(x.p?' ($'+x.p+')':'')}).join('; ');
+    if(f.tipo==='rep') v=v.filter(function(x){return x.n}).map(function(x){return x.n+(x.p?' ($'+x.p+')':'')+(x.d?' · '+x.d:'')+(x.i?' · incluye: '+x.i.replace(/\n+/g,', '):'')}).join('; ');
     else if(f.tipo==='horas') v=DIAS.map(function(d){var h=v[d[0]];return d[1]+': '+(!h||h.cerrado?'cerrado':h.a+'-'+h.c)}).join(', ');
-    else if(f.tipo==='colores') v=v.usarLogo?'usar los del logo':v.primario+' y '+v.secundario;
+    else if(f.tipo==='colores') v=v.usarLogo?'usar los del logo':(v.elegidos?v.primario+' y '+v.secundario:'que los elijan ustedes');
     else if(Array.isArray(v)) v=v.join(', ');
     if(v) out.push(f.l+': '+v); }); });
   return out.join('\n');

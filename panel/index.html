@@ -139,6 +139,11 @@ dialog::backdrop{background:rgba(12,33,27,.5)}
       <div class="box" style="padding:6px 12px"><table><thead><tr><th>Nombre</th><th>Teléfono</th><th>Nota</th><th>Fecha</th></tr></thead><tbody id="cTabla"></tbody></table></div>
     </section>
 
+    <section class="view" id="v-citas" data-plan="profesional" data-tab="Citas" hidden>
+      <div class="row"><p class="muted" style="margin:0">Citas que apartaron desde tu tarjeta. Si cancelas una, esa hora vuelve a quedar libre.</p></div>
+      <div class="box" style="padding:6px 12px"><table><thead><tr><th>Cuándo</th><th>Servicio</th><th>Quién</th><th></th></tr></thead><tbody id="aTabla"></tbody></table></div>
+    </section>
+
     <section class="view" id="v-catalogo" data-plan="business" data-tab="Catálogo" hidden>
       <div class="row" style="margin-bottom:12px">
         <p class="muted" style="margin:0" id="kCuenta"></p>
@@ -270,11 +275,12 @@ function iniciar(){
 function cargar(id){
   if(id==='v-resumen') resumen(30);
   if(id==='v-contactos') contactos();
+  if(id==='v-citas') citas();
   if(id==='v-catalogo'||id==='v-aviso') catalogo();
 }
 
 /* Resumen */
-var NOMBRE_EVT={view:'Visitas',wa:'Abrieron WhatsApp',call:'Llamadas',save:'Guardaron tu contacto',share:'Compartieron tu tarjeta',map:'Abrieron el mapa',email:'Correos',web:'Visitaron tu sitio',social:'Fueron a tus redes',install:'La instalaron como app',qr:'Mostraron tu QR',order:'Pedidos enviados',lead:'Te dejaron su número',ask:'Preguntas al asistente',review:'Fueron a dejar reseña',cat:'Exploraron el catálogo'};
+var NOMBRE_EVT={view:'Visitas',wa:'Abrieron WhatsApp',call:'Llamadas',save:'Guardaron tu contacto',share:'Compartieron tu tarjeta',map:'Abrieron el mapa',email:'Correos',web:'Visitaron tu sitio',social:'Fueron a tus redes',install:'La instalaron como app',qr:'Mostraron tu QR',order:'Pedidos enviados',lead:'Te dejaron su número',ask:'Preguntas al asistente',review:'Fueron a dejar reseña',cat:'Exploraron el catálogo',cita:'Apartaron una cita'};
 document.querySelectorAll('#rSeg button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#rSeg button').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');resumen(+b.dataset.d)})});
 function resumen(d){
   api('/s/'+S.slug+'?d='+d).then(function(j){
@@ -321,6 +327,29 @@ $('#cCsv').addEventListener('click',function(){
   var csv='﻿Nombre,Teléfono,Nota,Fecha\n'+leads.map(function(l){return [l.nombre,l.tel,l.nota,new Date(l.ts).toLocaleString('es-MX')].map(esc).join(',')}).join('\n');
   var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='contactos-'+S.slug+'.csv';a.click();
 });
+
+/* Citas */
+function citas(){
+  api('/ag/'+S.slug+'/citas').then(function(j){
+    var tb=$('#aTabla'); tb.innerHTML='';
+    var lista=(j.citas||[]).filter(function(c){return c.estado!=='cancelada'});
+    if(!lista.length){tb.innerHTML='<tr><td colspan="4" class="empty">Todavía no hay citas apartadas.</td></tr>';return}
+    lista.forEach(function(c){
+      var tr=document.createElement('tr');
+      var f=new Date(c.fecha+'T12:00:00');
+      var a=document.createElement('td');a.className='mono';a.textContent=f.toLocaleDateString('es-MX',{weekday:'short',day:'numeric',month:'short'})+' · '+c.hora;
+      var b=document.createElement('td');b.textContent=c.servicio||'';
+      var q=document.createElement('td');var w=document.createElement('a');w.href='https://wa.me/'+String(c.tel).replace(/\D/g,'').replace(/^(\d{10})$/,'52$1');w.target='_blank';w.rel='noopener';w.textContent=c.nombre+' · '+c.tel;q.appendChild(w);
+      var d=document.createElement('td');d.style.whiteSpace='nowrap';
+      if(c.estado==='atendida'){d.textContent='Atendida';d.className='muted'}
+      else [['atendida','Atendida'],['cancelada','Cancelar']].forEach(function(x){var btn=document.createElement('button');btn.type='button';btn.className='btn btn--sm';btn.style.marginLeft='6px';btn.textContent=x[1];
+        btn.addEventListener('click',function(){ if(x[0]==='cancelada'&&!confirm('¿Cancelar esta cita? La hora vuelve a quedar libre.')) return;
+          api('/ag/'+S.slug+'/cita/'+c.id,{method:'PATCH',json:{estado:x[0]}}).then(function(){toast(x[0]==='cancelada'?'Cita cancelada':'Marcada como atendida');citas()}).catch(function(e){toast(e.message)}); });
+        d.appendChild(btn)});
+      tr.append(a,b,q,d); tb.appendChild(tr);
+    });
+  }).catch(function(e){toast(e.message)});
+}
 
 /* Catálogo */
 var cargado=false;
