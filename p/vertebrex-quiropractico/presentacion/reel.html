@@ -2,390 +2,352 @@
 <html lang="es-MX">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=540, initial-scale=1">
-<title>Vertebrex · presentación</title>
-<link rel="icon" href="data:,">
 <!--
-  CONCEPTO · "Todo llega torcido y se alinea"
-  El oficio de Alex es dejar derecha una espalda. El momento firma de la tarjeta
-  es una columna de nueve vértebras que llega en S y se acomoda vértebra por
-  vértebra, con el leve rebote de un ajuste, hasta que se traza su eje turquesa.
-  El video entero habla ese idioma:
-  · Cada texto y cada pieza entra un poco desplazado y girado y se "acomoda" en
-    su sitio con la misma curva de ajuste (sobrepaso leve, como un clic).
-  · Las transiciones entre escenas son el eje turquesa: una franja que se traza
-    de arriba abajo y descubre la escena siguiente.
-  · Abre con la columna torcida que se alinea y cierra con la misma columna ya
-    derecha sobre la acción principal: el video termina "ajustado".
-  Paleta, letras, logo, fotos y textos salen tal cual de index.html.
+  CONCEPTO · "El ajuste"
+  El video es una sesión de Vertebrex de principio a fin. Abre con la columna de nueve
+  vértebras de la tarjeta llegando torcida y acomodándose una por una, con el leve rebote
+  de un ajuste, hasta que se traza su eje punteado turquesa. Ese eje es el hilo del video:
+  todo baja de arriba abajo como la alineación, cada terapia enciende en la columna la zona
+  que trabaja (Superior: de cadera a espalda; Inferior: de cadera a piernas; Completa: todo),
+  y las transiciones grandes son el eje turquesa que se abre como cortina. Cierra con la
+  columna derecha y la acción: Agendar mi cita.
 -->
+<link rel="icon" href="data:,">
+<title>Vertebrex Quiropráctico · presentación</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F3F6F6;
-  --surface:#FFFFFF;
-  --ink:#17262A;
-  --ink-2:#24393E;
-  --petrol:#667B80;
-  --muted:#4E6267;
-  --turq:#0DA7D8;
-  --turq-ink:#08708F;
-  --line:rgba(23,38,42,.12);
-  --f-head:"Sora", "Avenir Next", system-ui, sans-serif;
-  --f-text:"Figtree", system-ui, sans-serif;
+  --bg:#263236; --bg-2:#3A4A4F; --bg-3:#4F6267; --petrol:#667B80;
+  --fg:#FFFFFF; --fg-2:#E3EAEC; --muted:#C2CFD2;
+  --turq:#0DA7D8; --turq-fg:#0F1F23; --plate:#F3F6F6;
+  --line:rgba(255,255,255,.13);
+  --f-head:"Sora","Avenir Next",system-ui,sans-serif;
+  --f-text:"Figtree",system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:540px;height:960px;overflow:hidden;background:var(--paper)}
-body{color:var(--ink);font:24px/1.4 var(--f-text);-webkit-font-smoothing:antialiased}
-img{display:block}
+html,body{width:540px;height:960px;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--f-text);-webkit-font-smoothing:antialiased}
 .escena{position:absolute;inset:0;overflow:hidden}
+.plate{background:var(--plate);border-radius:14px}
+.eje{position:absolute;width:3px;background:repeating-linear-gradient(to bottom,var(--turq) 0 5px,transparent 5px 12px)}
+.v rect{fill:var(--bg-3);stroke:#B5C5C9;stroke-width:1.6}
+.v path{fill:none;stroke:#B5C5C9;stroke-width:3.4;stroke-linecap:round}
+.v.on rect{fill:#163B47;stroke:var(--turq)}
+.v.on path{stroke:var(--turq)}
+svg{overflow:visible}
 
-/* Columna (mismo dibujo que la tarjeta) */
-.v{transform-box:fill-box;transform-origin:50% 50%}
-.v rect{fill:#EEF3F4;stroke:var(--petrol);stroke-width:1.6}
-.v path{fill:none;stroke:var(--petrol);stroke-width:3.4;stroke-linecap:round}
-.col{position:absolute}
-.col svg{display:block;width:100%;height:100%;overflow:visible}
-.col .eje{position:absolute;left:calc(50% - 1px);top:-3%;bottom:-3%;width:2px;background:repeating-linear-gradient(to bottom,var(--turq) 0 3px,transparent 3px 8px)}
-.col--g .eje{width:3px;left:calc(50% - 1.5px);background:repeating-linear-gradient(to bottom,var(--turq) 0 6px,transparent 6px 15px)}
+/* 1 · Apertura */
+#s1 .logo{position:absolute;left:40px;top:120px;padding:10px 18px}
+#s1 .logo img{display:block;width:250px;height:auto}
+#s1 .col{position:absolute;left:40px;top:310px;width:94px;height:427px}
+#s1 .col svg{width:94px;height:427px}
+#s1 .col .eje{left:46px;top:-12px;bottom:-12px}
+#s1 .nombre{position:absolute;left:162px;top:322px;right:40px}
+#s1 h1{font:700 64px/1 var(--f-head);letter-spacing:-.03em}
+#s1 .lugar{margin-top:14px;font:400 26px/1.25 var(--f-head);color:var(--muted)}
+#s1 .cita{position:absolute;left:162px;right:40px;top:580px;font:600 22px/1.3 var(--f-text);color:var(--fg-2)}
+#s1 .cita span{display:inline-block;padding:9px 16px;border-radius:999px;background:var(--bg-2)}
 
-/* 1 · apertura */
-#s1{background:var(--surface)}
-#s1 .logo{position:absolute;left:50%;top:56px;width:210px;margin-left:-105px}
-#s1 .col{left:50%;top:170px;width:104px;height:472px;margin-left:-52px}
-#s1 h1{position:absolute;left:40px;right:40px;top:680px;text-align:center;font:700 80px/1 var(--f-head);letter-spacing:-.03em}
-#s1 .lugar{position:absolute;left:40px;right:40px;top:778px;text-align:center;font:400 28px/1.3 var(--f-head);color:var(--petrol)}
+/* 2 · La frase */
+#s2{background:var(--bg-2)}
+#s2 .eje{left:40px;top:236px;height:500px}
+#s2 .txt{position:absolute;left:76px;right:40px;top:262px}
+#s2 .lema{font:600 52px/1.12 var(--f-head);letter-spacing:-.02em;color:var(--turq)}
+#s2 .desc{margin-top:34px;font:400 28px/1.42 var(--f-text);color:var(--fg-2)}
+#s2 .quien{margin-top:34px;font:400 22px/1.4 var(--f-text);color:var(--muted)}
+#s2 .quien b{display:block;font:600 28px/1.2 var(--f-head);color:#fff;margin-bottom:4px}
 
-/* 2 · la frase */
-#s2{background:var(--surface)}
-#s2 .col{left:40px;top:200px;width:52px;height:236px}
-#s2 .txt{position:absolute;left:116px;right:40px;top:190px}
-#s2 .lema{font:600 50px/1.12 var(--f-head);letter-spacing:-.02em;color:var(--turq-ink)}
-#s2 .desc{margin-top:28px;font-size:26px;line-height:1.45;color:var(--muted)}
-#s2 .quien{position:absolute;left:40px;right:40px;bottom:120px;padding-top:24px;border-top:1px solid var(--line);font-size:24px;line-height:1.4;color:var(--muted)}
-#s2 .quien b{display:block;font:600 30px/1.2 var(--f-head);color:var(--ink);margin-bottom:6px}
-
-/* 3 · terapias */
-#s3{background:var(--paper)}
-#s3 .cab{position:absolute;left:40px;right:40px;top:64px}
-#s3 h2{font:700 46px/1.05 var(--f-head);letter-spacing:-.025em}
-#s3 .sub{margin-top:10px;font-size:22px;line-height:1.35;color:var(--muted)}
-.ter{position:absolute;left:40px;right:40px;top:232px;background:var(--surface);border:1px solid var(--line);border-radius:26px;overflow:hidden}
-.ter .foto{height:300px;overflow:hidden}
+/* 3 · Terapias */
+#s3 .tit{position:absolute;left:40px;top:56px;font:700 34px/1 var(--f-head);letter-spacing:-.025em}
+#s3 .tit small{display:block;margin-top:12px;font:400 22px/1.3 var(--f-text);color:var(--muted);letter-spacing:0}
+.ter{position:absolute;left:40px;right:40px;top:178px;height:736px;border-radius:26px;background:var(--bg-2);border:1px solid var(--line);overflow:hidden}
+.ter .foto{position:absolute;left:0;right:0;top:0;height:390px;overflow:hidden}
 .ter .foto img{width:100%;height:100%;object-fit:cover;filter:saturate(.72)}
-.ter .info{padding:24px 24px 26px}
-.ter h3{font:700 38px/1 var(--f-head);letter-spacing:-.025em}
-.ter .fila1{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}
-.ter .fila1 .dura{margin-top:0}
-.ter .precio{font:700 40px/1 var(--f-head);letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
-.ter .precio small{font:500 20px/1 var(--f-text);color:var(--muted);margin-left:4px;letter-spacing:.04em}
-.ter .zona{margin-top:12px;font-size:24px;color:var(--muted);line-height:1.3}
-.ter .dura{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:9px 16px;border-radius:999px;background:var(--paper);font-weight:600;font-size:24px;font-variant-numeric:tabular-nums}
-.ter .dura svg{width:22px;height:22px;color:var(--turq-ink)}
-.ter .casa{display:flex;gap:12px;align-items:center;margin-top:16px;font-size:22px;color:var(--ink-2)}
-.ter .casa::before{content:"";flex:none;width:14px;height:14px;border-radius:4px;background:var(--turq)}
+.ter .mini{position:absolute;left:26px;top:424px;width:62px;height:282px}
+.ter .mini svg{width:62px;height:282px}
+.ter .info{position:absolute;left:118px;right:24px;top:420px}
+.ter h3{font:700 38px/1.05 var(--f-head);letter-spacing:-.025em}
+.ter .zona{margin-top:12px;font:400 22px/1.35 var(--f-text);color:var(--muted)}
+.ter .dura{display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:8px 15px;border-radius:999px;background:var(--bg);font:600 22px/1.2 var(--f-text)}
+.ter .dura svg{width:22px;height:22px;color:var(--turq)}
+.ter .precio{margin-top:22px;font:700 60px/1 var(--f-head);letter-spacing:-.02em;color:var(--turq)}
+.ter .precio small{font:500 22px/1 var(--f-text);color:var(--muted);margin-left:6px;letter-spacing:.04em}
 
-/* 4 · la tarjeta en el celular */
-#s4{background:var(--paper)}
-.cel{position:absolute;left:135px;top:84px;width:270px;height:561px;padding:10px;border-radius:44px;background:var(--ink);box-shadow:0 40px 70px -30px rgba(23,38,42,.55),0 0 0 1px rgba(255,255,255,.06) inset}
-.pant{position:relative;width:250px;height:541px;border-radius:34px;overflow:hidden;background:var(--paper)}
-.pant img{width:250px;height:auto}
-.anillo{position:absolute;border:3px solid var(--turq);border-radius:14px;box-shadow:0 0 0 6px rgba(13,167,216,.22)}
-.notas{position:absolute;left:40px;right:40px;top:690px;height:200px}
-.nota{position:absolute;left:0;right:0;top:0;text-align:center}
-.nota b{display:block;font:600 34px/1.15 var(--f-head);letter-spacing:-.015em}
-.nota span{display:block;margin-top:10px;font-size:24px;line-height:1.35;color:var(--muted)}
-.nota svg{display:block;margin:0 auto 12px;width:36px;height:36px;color:var(--turq-ink)}
+/* 4 · La tarjeta en el celular */
+#s4 .tit{position:absolute;left:40px;right:40px;top:50px;text-align:center;font:700 34px/1.1 var(--f-head);letter-spacing:-.025em}
+#s4 .tit small{display:block;margin-top:10px;font:400 22px/1.3 var(--f-text);color:var(--muted);letter-spacing:0}
+.cel{position:absolute;left:122px;top:158px;width:296px;height:622px;border-radius:44px;background:#0E1517;padding:8px;box-shadow:0 40px 80px -30px rgba(0,0,0,.75),0 0 0 1.5px rgba(255,255,255,.14)}
+.pant{position:relative;width:280px;height:606px;border-radius:36px;overflow:hidden;background:var(--bg)}
+.pant img{position:absolute;left:0;top:0;width:280px;height:auto;display:block}
+.isla{position:absolute;left:50%;top:10px;width:84px;height:22px;margin-left:-42px;border-radius:12px;background:#0E1517;z-index:3}
+.aro{position:absolute;border:3px solid #fff;border-radius:12px;box-shadow:0 0 0 5px rgba(13,167,216,.55);z-index:2}
+.chips{position:absolute;left:40px;right:40px;top:806px;height:96px}
+.chip{position:absolute;inset:0;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:16px;padding:0 22px;border-radius:20px;background:#1B2629;color:#fff}
+.chip.cta{background:var(--turq);color:var(--turq-fg)}
+.chip svg{width:30px;height:30px;color:var(--turq)}
+.chip.cta svg{color:var(--turq-fg)}
+.chip b{display:block;font:600 28px/1.15 var(--f-head);letter-spacing:-.01em}
+.chip small{display:block;margin-top:4px;font:500 20px/1.2 var(--f-text);color:var(--muted)}
+.chip.cta small{font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:20px;color:#0F2A31}
 
-/* 5 · cierre */
-#s5{background:var(--surface)}
-#s5 .logo{position:absolute;left:50%;top:70px;width:230px;margin-left:-115px}
-#s5 .col{left:50%;top:210px;width:52px;height:236px;margin-left:-26px}
-.cta{position:absolute;left:40px;right:40px;top:500px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;min-height:112px;padding:18px 26px;border-radius:26px;background:var(--turq);color:#0F1F23;box-shadow:0 24px 40px -22px rgba(8,112,143,.75)}
-.cta svg{width:34px;height:34px}
-.cta b{display:block;font:600 34px/1.15 var(--f-head);letter-spacing:-.01em}
-.cta small{display:block;margin-top:6px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:20px;color:#0F2A31}
-.dir{position:absolute;left:40px;right:40px;top:680px;text-align:center}
-.dir span{display:block;font-size:26px;color:var(--muted)}
-.dir b{display:block;margin-top:4px;font:700 34px/1.2 var(--f-head);letter-spacing:-.02em;color:var(--ink)}
-.dir i{display:block;margin-top:22px;font-style:normal;font-size:22px;color:var(--muted)}
+/* 5 · Cierre */
+#s5 .logo{position:absolute;left:50%;top:92px;width:300px;margin-left:-150px;padding:12px 20px}
+#s5 .logo img{display:block;width:100%;height:auto}
+#s5 .col{position:absolute;left:50%;top:262px;width:52px;height:236px;margin-left:-26px}
+#s5 .col svg{width:52px;height:236px}
+#s5 .col .eje{left:24.5px;top:-8px;bottom:-8px}
+#s5 .lema{position:absolute;left:40px;right:40px;top:532px;text-align:center;font:600 30px/1.2 var(--f-head);color:var(--turq)}
+#s5 .boton{position:absolute;left:40px;right:40px;top:604px;height:108px;border-radius:22px;background:var(--turq);color:var(--turq-fg);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;padding:0 26px;box-shadow:0 20px 40px -18px rgba(13,167,216,.75)}
+#s5 .boton svg{width:34px;height:34px}
+#s5 .boton b{display:block;font:600 34px/1.1 var(--f-head);letter-spacing:-.01em}
+#s5 .boton small{display:block;margin-top:6px;font:600 20px/1 var(--f-text);letter-spacing:.06em;text-transform:uppercase;color:#0F2A31}
+#s5 .url{position:absolute;left:40px;right:40px;top:752px;text-align:center;font:600 28px/1.3 var(--f-head);letter-spacing:-.01em;color:#fff}
+#s5 .url span{display:block;color:var(--muted);font-weight:400}
 
-/* Transición: el eje turquesa */
-#barrido{position:absolute;inset:0;background:var(--turq);z-index:20;clip-path:inset(0 0 100% 0)}
-#barrido::after{content:"";position:absolute;left:calc(50% - 1.5px);top:0;bottom:0;width:3px;background:repeating-linear-gradient(to bottom,#fff 0 6px,transparent 6px 15px);opacity:.7}
+/* Cortina: el eje turquesa que se abre */
+#cortina{position:absolute;inset:0;background:var(--turq);z-index:20;clip-path:inset(0 50% 0 50%);visibility:hidden}
 </style>
 </head>
 <body>
 
-<!-- 1 · Apertura: la columna llega torcida y se alinea -->
+<!-- 1 · Apertura -->
 <section class="escena" id="s1">
-  <img class="logo" src="../assets/logo.webp" alt="Vertebrex Quiropráctico">
-  <div class="col col--g" id="col1">
-    <svg viewBox="0 0 52 236">
-      <g class="v"><path d="M5 13h10M37 13h10"/><rect x="14" y="4" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 39h10M37 39h10"/><rect x="14" y="30" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 65h10M37 65h10"/><rect x="14" y="56" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 91h10M37 91h10"/><rect x="14" y="82" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 117h10M37 117h10"/><rect x="14" y="108" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 143h10M37 143h10"/><rect x="14" y="134" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 169h10M37 169h10"/><rect x="14" y="160" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 195h10M37 195h10"/><rect x="14" y="186" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 221h10M37 221h10"/><rect x="14" y="212" width="24" height="18" rx="7"/></g>
-    </svg>
+  <div class="logo plate"><img src="../assets/logo.webp" width="560" height="220" alt="Vertebrex Quiropráctico"></div>
+  <div class="col">
+    <svg viewBox="0 0 52 236" id="col1"></svg>
     <span class="eje"></span>
   </div>
-  <h1>Vertebrex</h1>
-  <p class="lugar">Quiropráctico · Zapotlanejo, Jalisco</p>
+  <div class="nombre">
+    <h1>Vertebrex</h1>
+    <p class="lugar">Quiropráctico · Zapotlanejo, Jalisco</p>
+  </div>
+  <p class="cita"><span>Solo con cita previa</span></p>
 </section>
 
-<!-- 2 · Lo que hace, en su frase -->
+<!-- 2 · La frase -->
 <section class="escena" id="s2">
-  <div class="col" id="col2">
-    <svg viewBox="0 0 52 236">
-      <g class="v"><path d="M5 13h10M37 13h10"/><rect x="14" y="4" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 39h10M37 39h10"/><rect x="14" y="30" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 65h10M37 65h10"/><rect x="14" y="56" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 91h10M37 91h10"/><rect x="14" y="82" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 117h10M37 117h10"/><rect x="14" y="108" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 143h10M37 143h10"/><rect x="14" y="134" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 169h10M37 169h10"/><rect x="14" y="160" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 195h10M37 195h10"/><rect x="14" y="186" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 221h10M37 221h10"/><rect x="14" y="212" width="24" height="18" rx="7"/></g>
-    </svg>
-    <span class="eje"></span>
-  </div>
+  <span class="eje"></span>
   <div class="txt">
-    <p class="lema">Tu bienestar es mi prioridad.</p>
+    <p class="lema"><span class="l">Tu bienestar</span> <span class="l">es mi prioridad.</span></p>
     <p class="desc">Descarga muscular, liberación articular, estiramientos y alfabiotismo.</p>
+    <p class="quien"><b>Alex MarLop</b>Fundador y terapeuta manual</p>
   </div>
-  <p class="quien"><b>Alex MarLop</b>Fundador y terapeuta manual especializado en bienestar musculoesquelético</p>
 </section>
 
-<!-- 3 · Mis terapias -->
+<!-- 3 · Terapias -->
 <section class="escena" id="s3">
-  <div class="cab">
-    <h2>Mis terapias</h2>
-    <p class="sub">Cada sesión termina con ejercicios para que sigas avanzando en casa.</p>
-  </div>
+  <h2 class="tit">Mis terapias<small>Cada sesión termina con ejercicios para casa.</small></h2>
   <article class="ter" id="t1">
     <div class="foto"><img src="../assets/terapia-superior.webp" alt=""></div>
+    <div class="mini"><svg viewBox="0 0 52 236" data-on="0,1,2,3,4"></svg></div>
     <div class="info">
       <h3>Terapia Superior</h3>
-      <p class="zona">De cadera a espalda: cuello, hombros, espalda, brazos y manos</p>
-      <div class="fila1"><span class="precio">$800<small>MXN</small></span><span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50 min</span></div>
+      <p class="zona">De cadera a espalda</p>
+      <span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50 min</span>
+      <p class="precio">$800<small>MXN</small></p>
     </div>
   </article>
   <article class="ter" id="t2">
     <div class="foto"><img src="../assets/terapia-inferior.webp" alt=""></div>
+    <div class="mini"><svg viewBox="0 0 52 236" data-on="4,5,6,7,8"></svg></div>
     <div class="info">
       <h3>Terapia Inferior</h3>
       <p class="zona">De cadera a piernas</p>
-      <div class="fila1"><span class="precio">$800<small>MXN</small></span><span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50 min</span></div>
-      <p class="casa">Ejercicios de rehabilitación para casa</p>
+      <span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50 min</span>
+      <p class="precio">$800<small>MXN</small></p>
     </div>
   </article>
   <article class="ter" id="t3">
     <div class="foto"><img src="../assets/terapia-completa.webp" alt=""></div>
+    <div class="mini"><svg viewBox="0 0 52 236" data-on="0,1,2,3,4,5,6,7,8"></svg></div>
     <div class="info">
       <h3>Terapia Completa</h3>
       <p class="zona">Cuerpo completo</p>
-      <div class="fila1"><span class="precio">$1,500<small>MXN</small></span><span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>1 h 20 min</span></div>
-      <p class="casa">Valoración general de movilidad y postura</p>
+      <span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>1 h 20 min</span>
+      <p class="precio">$1,500<small>MXN</small></p>
     </div>
   </article>
 </section>
 
-<!-- 4 · La tarjeta real en el celular -->
+<!-- 4 · La tarjeta en el celular -->
 <section class="escena" id="s4">
-  <div class="cel" id="cel">
-    <div class="pant">
-      <img id="captura" src="completa.jpg" alt="">
-      <div class="anillo" id="anillo"></div>
-    </div>
-  </div>
-  <div class="notas">
-    <div class="nota" id="n1">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17M8.5 14.5l2 2 4-4"/></svg>
-      <b>Agendar mi cita</b><span>Elige tu día y tu hora</span>
-    </div>
-    <div class="nota" id="n2">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-1.7-.1a15 15 0 0 1-1.5-.6 12 12 0 0 1-4.6-4.1c-.6-.8-1-1.8-1-2.7 0-1 .5-1.6.9-1.9.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.1.1.6-.1 1.1Z"/></svg>
-      <b>Escríbeme por WhatsApp</b><span>Dudas, pagos y a qué pueblo voy</span>
-    </div>
-    <div class="nota" id="n3">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="8" r="4"/><path d="M3 20a7 7 0 0 1 12-4.9M19 14v6M16 17h6"/></svg>
-      <b>Guardar contacto</b><span>Compartir · Mi QR · Instalar</span>
-    </div>
-    <div class="nota" id="n4">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>
-      <b>Agenda tu cita</b><span>Elige tu terapia, el día y una hora libre.</span>
-    </div>
+  <h2 class="tit">Agenda tu cita<small>Elige tu terapia, el día y una hora libre.</small></h2>
+  <div class="cel"><div class="pant">
+    <span class="isla"></span>
+    <img id="larga" src="completa.jpg" alt="">
+    <img id="primera" src="pantalla.png" alt="">
+    <span class="aro" id="aro"></span>
+  </div></div>
+  <div class="chips">
+    <div class="chip cta" id="c1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17M8.5 14.5l2 2 4-4"/></svg><span><b>Agendar mi cita</b><small>Elige tu día y tu hora</small></span></div>
+    <div class="chip" id="c2"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-1.7-.1a15 15 0 0 1-1.5-.6 12 12 0 0 1-4.6-4.1c-.6-.8-1-1.8-1-2.7 0-1 .5-1.6.9-1.9.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.1.1.6-.1 1.1Z"/></svg><span><b>Escríbeme por WhatsApp</b><small>Dudas, pagos y a qué pueblo voy</small></span></div>
+    <div class="chip" id="c3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="8" r="4"/><path d="M3 20a7 7 0 0 1 12-4.9M19 14v6M16 17h6"/></svg><span><b>Guardar contacto</b></span></div>
   </div>
 </section>
 
-<!-- 5 · Cierre: la acción y la dirección -->
+<!-- 5 · Cierre -->
 <section class="escena" id="s5">
-  <img class="logo" src="../assets/logo.webp" alt="Vertebrex Quiropráctico">
-  <div class="col" id="col5">
-    <svg viewBox="0 0 52 236">
-      <g class="v"><path d="M5 13h10M37 13h10"/><rect x="14" y="4" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 39h10M37 39h10"/><rect x="14" y="30" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 65h10M37 65h10"/><rect x="14" y="56" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 91h10M37 91h10"/><rect x="14" y="82" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 117h10M37 117h10"/><rect x="14" y="108" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 143h10M37 143h10"/><rect x="14" y="134" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 169h10M37 169h10"/><rect x="14" y="160" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 195h10M37 195h10"/><rect x="14" y="186" width="24" height="18" rx="7"/></g>
-      <g class="v"><path d="M5 221h10M37 221h10"/><rect x="14" y="212" width="24" height="18" rx="7"/></g>
-    </svg>
+  <div class="logo plate"><img src="../assets/logo.webp" width="560" height="220" alt="Vertebrex Quiropráctico"></div>
+  <div class="col">
+    <svg viewBox="0 0 52 236" id="col5"></svg>
     <span class="eje"></span>
   </div>
-  <div class="cta" id="cta">
+  <p class="lema">Tu bienestar es mi prioridad.</p>
+  <div class="boton">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17M8.5 14.5l2 2 4-4"/></svg>
     <span><b>Agendar mi cita</b><small>Elige tu día y tu hora</small></span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="opacity:.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
   </div>
-  <div class="dir" id="dir">
-    <span>t.matterasystems.com/</span>
-    <b>vertebrex-quiropractico</b>
-    <i>Citas por WhatsApp al 332 781 9139</i>
-  </div>
+  <p class="url">t.matterasystems.com/<span>vertebrex-quiropractico</span></p>
 </section>
 
-<div id="barrido"></div>
+<div id="cortina"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
-(function () {
-  // La S torcida de la tarjeta: desplazamiento (px del dibujo) y giro de cada vértebra.
-  var S = [[7, 6], [14, 9], [18, 8], [15, 3], [5, -4], [-5, -8], [-11, -9], [-13, -6], [-8, -3]];
-  // Curvas: el "clic" del ajuste (sobrepaso leve), salida fuerte y movimiento en pantalla.
-  var AJUSTE = 'back.out(1.6)', SALE = 'expo.out', MUEVE = 'power3.inOut';
-  var $ = function (s) { return document.querySelector(s); };
-  var ESCENAS = ['#s1', '#s2', '#s3', '#s4', '#s5'];
-
-  var linea = gsap.timeline({ paused: true, defaults: { ease: SALE } });
-
-  // Solo una escena visible a la vez: autoAlpha en cortes exactos de la línea.
-  gsap.set(ESCENAS.slice(1), { autoAlpha: 0 });
-  function mostrar(sel, t) {
-    ESCENAS.forEach(function (e) { linea.set(e, { autoAlpha: e === sel ? 1 : 0 }, t); });
+/* Las nueve vértebras de la tarjeta, con su torcedura en S (x en px del viewBox, giro en grados) */
+var TORCIDA = [[7,6],[14,9],[18,8],[15,3],[5,-4],[-5,-8],[-11,-9],[-13,-6],[-8,-3]];
+function columna(svg){
+  var ns = 'http://www.w3.org/2000/svg', on = (svg.getAttribute('data-on') || '').split(',');
+  for (var i = 0; i < 9; i++){
+    var y = 4 + i * 26, g = document.createElementNS(ns, 'g');
+    g.setAttribute('class', 'v');
+    g.innerHTML = '<path d="M5 ' + (y + 9) + 'h10M37 ' + (y + 9) + 'h10"/><rect x="14" y="' + y + '" width="24" height="18" rx="7"/>';
+    g.dataset.i = i; g.dataset.on = on.indexOf(String(i)) > -1 ? '1' : '';
+    svg.appendChild(g);
   }
-  // Alinea una columna: cada vértebra de su S a su lugar, de arriba abajo; luego el eje se traza.
-  function alinear(col, t, desfase, dur, escala) {
-    var vs = document.querySelectorAll(col + ' .v');
-    vs.forEach(function (v, i) {
-      linea.fromTo(v, { x: S[i][0] * escala, rotation: S[i][1] * 1.4 },
-        { x: 0, rotation: 0, duration: dur, ease: AJUSTE }, t + i * desfase);
+  return [].slice.call(svg.querySelectorAll('.v'));
+}
+var v1 = columna(document.getElementById('col1'));
+var v5 = columna(document.getElementById('col5'));
+var minis = [].map.call(document.querySelectorAll('.ter .mini svg'), columna);
+
+/* El "clic" del ajuste: la curva de la firma, cubic-bezier(.34,1.32,.64,1) */
+function bezier(x1, y1, x2, y2){
+  return function(t){
+    var lo = 0, hi = 1, s;
+    for (var k = 0; k < 30; k++){ s = (lo + hi) / 2; var x = 3*(1-s)*(1-s)*s*x1 + 3*(1-s)*s*s*x2 + s*s*s; if (x < t) lo = s; else hi = s; }
+    s = (lo + hi) / 2; return 3*(1-s)*(1-s)*s*y1 + 3*(1-s)*s*s*y2 + s*s*s;
+  };
+}
+var AJUSTE = bezier(.34, 1.32, .64, 1);
+var SALE = bezier(.23, 1, .32, 1);          /* --out de la tarjeta */
+var CRUZA = bezier(.77, 0, .175, 1);        /* movimiento en pantalla */
+
+function construir(){
+  var tl = gsap.timeline({ paused: true, defaults: { ease: SALE } });
+  var $ = function(s){ return document.querySelector(s); };
+  gsap.set('.escena', { autoAlpha: 0 });
+  gsap.set('.v', { transformOrigin: '50% 50%' });
+
+  /* ---------- 1 · Apertura (0 – 3.4) ---------- */
+  gsap.set('#s1', { autoAlpha: 1 });   /* visible desde el cuadro 0: la columna llega torcida */
+  v1.forEach(function(g, i){ gsap.set(g, { x: TORCIDA[i][0] * 1.3, rotation: TORCIDA[i][1] * 1.3 }); });
+  tl.to(v1, { x: 0, rotation: 0, duration: .56, stagger: .065, ease: AJUSTE }, .25);
+  tl.fromTo('#s1 .eje', { clipPath: 'inset(0 0 100% 0)', opacity: .4 }, { clipPath: 'inset(0 0 0% 0)', opacity: 1, duration: .5 }, 1.25);
+  tl.from('#s1 h1', { y: 22, opacity: 0, duration: .6 }, .55);
+  tl.from('#s1 .lugar', { y: 18, opacity: 0, duration: .6 }, .7);
+  tl.from('#s1 .logo', { y: -18, opacity: 0, duration: .6 }, .85);
+  tl.from('#s1 .cita span', { y: 16, opacity: 0, duration: .5 }, 1.4);
+  /* salida: la escena sube, como bajar por la espalda */
+  tl.to('#s1 .logo, #s1 .nombre, #s1 .cita', { y: -60, opacity: 0, duration: .5, stagger: .05, ease: CRUZA }, 3.0);
+  tl.to('#s1 .col', { x: -2, y: -70, opacity: 0, duration: .5, ease: CRUZA }, 3.05);
+
+  /* ---------- 2 · La frase (3.35 – 6.6) ---------- */
+  tl.set('#s2', { autoAlpha: 1 }, 3.3);
+  tl.fromTo('#s2', { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: .6, ease: CRUZA }, 3.3);
+  tl.fromTo('#s2 .eje', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: .7 }, 3.55);
+  tl.from('#s2 .lema .l', { y: 30, opacity: 0, duration: .6, stagger: .1 }, 3.6);
+  tl.from('#s2 .desc', { y: 24, opacity: 0, duration: .6 }, 3.85);
+  tl.from('#s2 .quien', { y: 20, opacity: 0, duration: .6 }, 4.0);
+  /* cortina turquesa: el eje se abre */
+  tl.set('#cortina', { visibility: 'visible' }, 6.1);
+  tl.fromTo('#cortina', { clipPath: 'inset(0 50% 0 50%)' }, { clipPath: 'inset(0 0% 0 0%)', duration: .4, ease: CRUZA }, 6.1);
+  tl.set('#s2', { autoAlpha: 0 }, 6.5);
+
+  /* ---------- 3 · Terapias (6.5 – 13.7) ---------- */
+  tl.set('#s3', { autoAlpha: 1 }, 6.5);
+  tl.set(['#t2', '#t3'], { autoAlpha: 0 }, 0);
+  tl.to('#cortina', { clipPath: 'inset(0 0% 0 100%)', duration: .5, ease: SALE }, 6.5);
+  tl.set('#cortina', { visibility: 'hidden' }, 7.1);
+  tl.from('#s3 .tit', { y: 20, opacity: 0, duration: .6 }, 6.8);
+
+  var T0 = [6.8, 9.1, 11.4];
+  ['#t1', '#t2', '#t3'].forEach(function(id, k){
+    var t = T0[k], card = $(id), vs = minis[k];
+    tl.set(card, { autoAlpha: 1 }, t);
+    if (k === 0) tl.fromTo(card, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .7 }, t);
+    else tl.fromTo(card, { xPercent: 108 }, { xPercent: 0, duration: .65, ease: CRUZA }, t);
+    tl.fromTo(card.querySelector('.foto img'), { scale: 1.12 }, { scale: 1, duration: 2.4, ease: 'power1.out' }, t);
+    tl.from(card.querySelectorAll('.info > *'), { y: 18, opacity: 0, duration: .45, stagger: .06 }, t + .15);
+    /* la zona que trabaja se enciende de arriba abajo, con el clic del ajuste */
+    var encender = vs.filter(function(g){ return g.dataset.on; });
+    encender.forEach(function(g, j){
+      tl.fromTo(g, { x: TORCIDA[+g.dataset.i][0] * .6, rotation: TORCIDA[+g.dataset.i][1] * .6 }, { x: 0, rotation: 0, duration: .45, ease: AJUSTE }, t + .35 + j * .06);
+      tl.set(g, { attr: { class: 'v on' } }, t + .4 + j * .06);
     });
-    var fin = t + (vs.length - 1) * desfase + dur * 0.75;
-    linea.fromTo(col + ' .eje', { clipPath: 'inset(0% 0% 100% 0%)', opacity: 0.4 },
-      { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, duration: 0.5, ease: SALE }, fin);
-    return fin + 0.5;
-  }
-  // Entrada "torcida que se acomoda": sube, con un leve giro, y asienta con la curva de ajuste.
-  function acomoda(sel, t, extra) {
-    linea.fromTo(sel, Object.assign({ autoAlpha: 0, y: 34, rotation: -2.5, transformOrigin: '0% 100%' }, extra || {}),
-      { autoAlpha: 1, y: 0, x: 0, rotation: 0, duration: 0.7, ease: AJUSTE }, t);
-  }
-  // El eje turquesa barre la pantalla de arriba abajo y descubre la escena siguiente.
-  function barrido(t, de, a) {
-    linea.fromTo('#barrido', { clipPath: 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.42, ease: MUEVE, immediateRender: false }, t);
-    mostrar(a, t + 0.42);
-    linea.fromTo('#barrido', { clipPath: 'inset(0% 0% 0% 0%)' }, { clipPath: 'inset(100% 0% 0% 0%)', duration: 0.5, ease: MUEVE, immediateRender: false }, t + 0.46);
-    return t + 0.46;
-  }
-
-  /* 1 · APERTURA (0 – 3.4 s) */
-  mostrar('#s1', 0);
-  linea.fromTo('#s1 .logo', { autoAlpha: 0, y: -16 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.1);
-  var finCol = alinear('#col1', 0.25, 0.09, 0.62, 2);
-  acomoda('#s1 h1', 0.85, { y: 40 });
-  acomoda('#s1 .lugar', 1.0);
-  // la columna ya derecha "respira" hacia arriba para dejar el aire al nombre
-  linea.to('#col1', { scale: 0.96, duration: 1.2, ease: MUEVE }, finCol);
-
-  /* 2 · LA FRASE (3.4 – 6.6 s) */
-  var t2 = barrido(3.2, '#s1', '#s2');
-  alinear('#col2', t2 + 0.05, 0.05, 0.5, 1);
-  acomoda('#s2 .lema', t2 + 0.15);
-  acomoda('#s2 .desc', t2 + 0.32);
-  linea.fromTo('#s2 .quien', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6 }, t2 + 0.5);
-  // salida: todo sube un poco y se va
-  var s2fuera = 6.3;
-  linea.to(['#s2 .txt', '#col2', '#s2 .quien'], { y: -40, autoAlpha: 0, duration: 0.4, ease: 'power2.in', stagger: 0.04 }, s2fuera);
-
-  /* 3 · TERAPIAS (6.8 – 13.2 s): una tras otra, como la galería que se desliza */
-  var t3 = 6.75;
-  mostrar('#s3', t3);
-  linea.fromTo('#s3 h2', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.6 }, t3);
-  linea.fromTo('#s3 .sub', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.6 }, t3 + 0.08);
-  var ters = ['#t1', '#t2', '#t3'];
-  gsap.set(ters, { autoAlpha: 0 });
-  var paso = 2.3;
-  ters.forEach(function (id, i) {
-    var ti = t3 + 0.15 + i * paso;
-    // entra desde la derecha, ligeramente girada, y asienta
-    linea.fromTo(id, { autoAlpha: 0, x: 120, rotation: 3, transformOrigin: '50% 100%' },
-      { autoAlpha: 1, x: 0, rotation: 0, duration: 0.7, ease: AJUSTE }, ti);
-    linea.fromTo(id + ' .foto img', { scale: 1.12 }, { scale: 1, duration: 1.2, ease: SALE }, ti);
-    linea.fromTo(id + ' .info > *', { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.04 }, ti + 0.1);
-    if (i < ters.length - 1) {
-      linea.to(id, { x: -90, autoAlpha: 0, rotation: -2, duration: 0.42, ease: MUEVE }, ti + paso - 0.1);
-    }
+    if (k < 2) tl.to(card, { xPercent: -108, duration: .65, ease: CRUZA }, T0[k + 1]);
   });
-  var s3fin = t3 + 0.15 + 2 * paso + 1.8; // 13.3
+  /* salida de las terapias: todo sube */
+  tl.to('#s3 .tit, #t3', { y: -80, opacity: 0, duration: .5, stagger: .05, ease: CRUZA }, 13.65);
 
-  /* 4 · LA TARJETA EN EL CELULAR (13.2 – 20.6 s) */
-  linea.to(['#s3 .cab', '#t3'], { scale: 0.9, autoAlpha: 0, y: -30, duration: 0.45, ease: MUEVE, stagger: 0.03 }, s3fin - 0.2);
-  var t4 = s3fin + 0.2;
-  mostrar('#s4', t4);
-  linea.fromTo('#cel', { y: 520, rotation: 4, transformOrigin: '50% 100%' }, { y: 0, rotation: 0, duration: 0.9, ease: AJUSTE }, t4);
-  // anillo de foco sobre la captura (coordenadas de la pantalla de 250 px)
-  var A = [
-    { x: 11, y: 266, w: 228, h: 45 },   // Agendar mi cita (se ve en la pantalla; su nota es el cierre)
-    { x: 11, y: 313, w: 228, h: 46 },   // WhatsApp
-    { x: 11, y: 411, w: 56, h: 53 }     // Guardar contacto
-  ];
-  gsap.set('#anillo', { left: A[1].x, top: A[1].y, width: A[1].w, height: A[1].h, autoAlpha: 0 });
-  gsap.set(['#n1', '#n2', '#n3', '#n4'], { autoAlpha: 0 });
-  function nota(id, t, fuera) {
-    linea.fromTo(id, { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.5, immediateRender: false }, t);
-    if (fuera) linea.to(id, { autoAlpha: 0, y: -18, duration: 0.25, ease: 'power2.in' }, fuera);
+  /* ---------- 4 · La tarjeta en el celular (13.9 – 20.1) ---------- */
+  var S = 280 / 780;                          /* escala de las capturas en la pantalla */
+  var largo = $('#larga').naturalHeight * S;
+  var fin = Math.min(8600 * S, largo - 606);  /* recorre hasta "Dónde me encuentras" */
+  tl.set('#s4', { autoAlpha: 1 }, 13.9);
+  tl.set(['#c2', '#c3', '#aro'], { autoAlpha: 0 }, 0);
+  tl.from('#s4 .tit', { y: 20, opacity: 0, duration: .6 }, 13.95);
+  tl.fromTo('.cel', { y: 140, scale: .92, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .8 }, 13.95);
+  tl.from('#c1', { y: 24, opacity: 0, duration: .5 }, 14.45);
+
+  function aro(t, x, y, w, h){
+    tl.set('#aro', { autoAlpha: 1 }, t);
+    tl.fromTo('#aro', { left: x * S - 8, top: y * S - 8, width: w * S + 16, height: h * S + 16, scale: 1.12, opacity: 0 },
+                      { scale: 1, opacity: 1, duration: .4, immediateRender: false }, t);
   }
-  // WhatsApp
-  var tw = t4 + 0.7;
-  linea.fromTo('#anillo', { autoAlpha: 0, scale: 1.15 }, { autoAlpha: 1, scale: 1, duration: 0.5, ease: AJUSTE, immediateRender: false }, tw);
-  linea.to('#anillo', { scale: 0.97, duration: 0.14, yoyo: true, repeat: 1, ease: 'power2.out' }, tw + 0.8);
-  nota('#n2', tw, tw + 2.0);
-  // Guardar contacto
-  var tg = tw + 2.2;
-  linea.to('#anillo', { left: A[2].x, top: A[2].y, width: A[2].w, height: A[2].h, duration: 0.45, ease: MUEVE }, tg - 0.2);
-  linea.to('#anillo', { scale: 0.97, duration: 0.14, yoyo: true, repeat: 1, ease: 'power2.out' }, tg + 0.6);
-  nota('#n3', tg, tg + 2.0);
-  // recorrido: baja por la tarjeta hasta la agenda
-  var ts = tg + 2.05;
-  linea.to('#anillo', { autoAlpha: 0, duration: 0.25, ease: 'power2.out' }, ts);
-  linea.fromTo('#captura', { y: 0 }, { y: -2620, duration: 1.6, ease: 'power2.inOut', immediateRender: false }, ts);
-  nota('#n4', ts + 0.15);
-  var s4fin = ts + 2.25; // ~20.5
+  function chip(de, a, t){
+    tl.to(de, { y: -18, opacity: 0, duration: .3, ease: CRUZA }, t);
+    tl.set(a, { autoAlpha: 1 }, t);
+    tl.fromTo(a, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .45, immediateRender: false }, t + .12);
+  }
+  aro(14.5, 40, 860, 700, 128);                       /* Agendar mi cita */
+  tl.to('#primera', { scale: .985, transformOrigin: '50% 51%', duration: .14, yoyo: true, repeat: 1, ease: 'power2.out' }, 15.2);
+  chip('#c1', '#c2', 16.0);
+  aro(16.05, 40, 1008, 700, 130);                     /* WhatsApp */
+  chip('#c2', '#c3', 17.6);
+  aro(17.65, 40, 1312, 163, 156);                     /* Guardar contacto */
+  tl.to('#aro', { opacity: 0, duration: .25 }, 18.85);
+  tl.set('#primera', { autoAlpha: 0 }, 18.9);
+  tl.fromTo('#larga', { y: 0 }, { y: -fin, duration: 2.5, ease: 'sine.inOut' }, 18.9);
 
-  /* 5 · CIERRE (20.6 – 23.5 s) */
-  var t5 = barrido(s4fin, '#s4', '#s5');
-  linea.fromTo('#s5 .logo', { autoAlpha: 0, y: -14 }, { autoAlpha: 1, y: 0, duration: 0.55 }, t5 + 0.05);
-  alinear('#col5', t5 + 0.05, 0.04, 0.45, 1);
-  acomoda('#cta', t5 + 0.25, { y: 40, rotation: -1.5, transformOrigin: '50% 100%' });
-  linea.fromTo('#dir > *', { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.55, stagger: 0.08 }, t5 + 0.45);
-  linea.to('#cta', { scale: 0.97, duration: 0.14, yoyo: true, repeat: 1, ease: 'power2.out' }, t5 + 1.6);
+  /* ---------- 5 · Cierre (21.4 – 24) ---------- */
+  tl.set('#cortina', { visibility: 'visible' }, 21.3);
+  tl.fromTo('#cortina', { clipPath: 'inset(0 50% 0 50%)' }, { clipPath: 'inset(0 0% 0 0%)', duration: .4, ease: CRUZA, immediateRender: false }, 21.3);
+  tl.set('#s4', { autoAlpha: 0 }, 21.7);
+  tl.set('#s5', { autoAlpha: 1 }, 21.7);
+  tl.to('#cortina', { clipPath: 'inset(0 50% 0 50%)', duration: .5, ease: SALE }, 21.7);
+  tl.set('#cortina', { visibility: 'hidden' }, 22.2);
+  v5.forEach(function(g, i){ gsap.set(g, { x: TORCIDA[i][0], rotation: TORCIDA[i][1] }); });
+  tl.from('#s5 .logo', { y: -18, opacity: 0, duration: .5 }, 21.8);
+  tl.to(v5, { x: 0, rotation: 0, duration: .5, stagger: .045, ease: AJUSTE }, 21.8);
+  tl.fromTo('#s5 .col .eje', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: .4 }, 22.3);
+  tl.from('#s5 .lema', { y: 18, opacity: 0, duration: .5 }, 21.95);
+  tl.from('#s5 .boton', { y: 30, scale: .96, opacity: 0, duration: .55 }, 22.05);
+  tl.from('#s5 .url', { y: 20, opacity: 0, duration: .5 }, 22.15);
+  tl.to('#s5 .boton', { scale: .97, duration: .14, yoyo: true, repeat: 1, ease: 'power2.out' }, 23.2);
+  tl.to({}, { duration: .01 }, 23.99);
 
-  var duracion = +(t5 + 2.75).toFixed(2);
-  linea.set({}, {}, duracion);
-  linea.seek(0, false);
+  tl.seek(0, false);
+  window.reel = { duracion: 24, ir: function(t){ tl.seek(t, false); } };
+}
 
-  window.reel = { duracion: duracion, ir: function (t) { linea.seek(t, false); } };
-})();
+/* Se arma cuando cargaron las letras y las imágenes (hace falta la altura real de completa.jpg) */
+Promise.all([
+  document.fonts.ready,
+  new Promise(function(r){ if (document.readyState === 'complete') r(); else window.addEventListener('load', r); })
+]).then(construir);
 </script>
 </body>
 </html>

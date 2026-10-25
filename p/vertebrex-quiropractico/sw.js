@@ -1,5 +1,5 @@
 /* Mattera Card · service worker. La tarjeta abre aunque no haya internet. */
-const CACHE = 'mc-vertebrex-quiropractico-1792881413';
+const CACHE = 'mc-vertebrex-quiropractico-1792902889';
 const BASE = ['./', './index.html', './manifest.webmanifest', './contacto.vcf', './qr.svg', './icon-192.png'];
 
 self.addEventListener('install', e => {
