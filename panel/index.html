@@ -130,6 +130,7 @@ dialog::backdrop{background:rgba(12,33,27,.5)}
         <div class="seg" id="rSeg"><button type="button" data-d="7">7 días</button><button type="button" data-d="30" aria-pressed="true">30 días</button><button type="button" data-d="90">90 días</button></div>
       </div>
       <div class="grid kpis" id="rKpis"></div>
+      <p class="muted" id="rEmbudo" style="margin:-4px 0 16px" hidden></p>
       <div class="box"><h2>Visitas por día</h2><svg class="chart" id="rChart" role="img" aria-label="Gráfica de visitas por día"></svg></div>
       <div class="box"><h2>Qué hacen tus visitantes</h2><table><tbody id="rTabla"></tbody></table></div>
     </section>
@@ -280,7 +281,7 @@ function cargar(id){
 }
 
 /* Resumen */
-var NOMBRE_EVT={view:'Visitas',wa:'Abrieron WhatsApp',call:'Llamadas',save:'Guardaron tu contacto',share:'Compartieron tu tarjeta',map:'Abrieron el mapa',email:'Correos',web:'Visitaron tu sitio',social:'Fueron a tus redes',install:'La instalaron como app',qr:'Mostraron tu QR',order:'Pedidos enviados',lead:'Te dejaron su número',ask:'Preguntas al asistente',review:'Fueron a dejar reseña',cat:'Exploraron el catálogo',cita:'Apartaron una cita'};
+var NOMBRE_EVT={view:'Visitas',wa:'Abrieron WhatsApp',call:'Llamadas',save:'Guardaron tu contacto',share:'Compartieron tu tarjeta',map:'Abrieron el mapa',email:'Correos',web:'Visitaron tu sitio',social:'Fueron a tus redes',install:'La instalaron como app',qr:'Mostraron tu QR',order:'Pedidos enviados',lead:'Te dejaron su número',ask:'Preguntas al asistente',review:'Fueron a dejar reseña',cat:'Exploraron el catálogo',cita:'Apartaron una cita',agenda:'Vieron horarios para su cita'};
 document.querySelectorAll('#rSeg button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#rSeg button').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');resumen(+b.dataset.d)})});
 function resumen(d){
   api('/s/'+S.slug+'?d='+d).then(function(j){
@@ -289,8 +290,23 @@ function resumen(d){
     $('#rRango').textContent='Del '+j.desde+' al '+j.hasta;
     var k=[['view','Visitas'],['wa','WhatsApp'],['save','Guardados'],['share','Compartidos'],['order','Pedidos']];
     if(RANK[S.plan]<3) k[4]=['lead','Contactos'];
-    $('#rKpis').innerHTML='';
-    k.forEach(function(x){var e=document.createElement('div');e.className='kpi';var b=document.createElement('b');b.textContent=(tot[x[0]]||0).toLocaleString('es-MX');var s=document.createElement('span');s.textContent=x[1];e.appendChild(b);e.appendChild(s);$('#rKpis').appendChild(e)});
+    var pintaKpis=function(){
+      $('#rKpis').innerHTML='';
+      k.forEach(function(x){var e=document.createElement('div');e.className='kpi';var b=document.createElement('b');b.textContent=(tot[x[0]]||0).toLocaleString('es-MX');var s=document.createElement('span');s.textContent=x[1];e.appendChild(b);e.appendChild(s);$('#rKpis').appendChild(e)});
+    };
+    pintaKpis(); $('#rEmbudo').hidden=true;
+    // Si trabaja con citas, lo que importa es el camino a la cita: visitas, preguntas, horarios, citas y quién llegó.
+    if(tot.agenda||tot.cita){
+      k=[['view','Visitas'],['ask','Preguntas al asistente'],['agenda','Vieron horarios'],['cita','Citas apartadas'],['atendida','Llegaron a su cita']];
+      api('/ag/'+S.slug+'/citas').then(function(c){
+        tot.atendida=(c.citas||[]).filter(function(x){return x.estado==='atendida'&&x.fecha>=j.desde&&x.fecha<=j.hasta}).length;
+      }).catch(function(){}).then(function(){
+        pintaKpis();
+        var v=tot.view||0, pct=function(n){return v?Math.round(100*(n||0)/v)+'%':'0%'};
+        $('#rEmbudo').textContent='De cada 100 visitas: '+pct(tot.ask).replace('%','')+' le preguntaron al asistente, '+pct(tot.agenda).replace('%','')+' vieron horarios y '+pct(tot.cita).replace('%','')+' apartaron cita. Marca en Citas quién llegó para medir lo que de verdad cuenta.';
+        $('#rEmbudo').hidden=false;
+      });
+    }
     // gráfica
     var dias=[], f=new Date(j.desde+'T12:00:00'), fin=new Date(j.hasta+'T12:00:00');
     while(f<=fin){dias.push(f.toISOString().slice(0,10)); f.setDate(f.getDate()+1);}

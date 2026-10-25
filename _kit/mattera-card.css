@@ -129,6 +129,9 @@ html.mc-has-cart body { padding-bottom: 88px; }
 .mc-ag__form { display: grid; }
 .mc-ag__resumen { margin: 0 0 12px; font-weight: 600; }
 .mc-ag__ok { width: 100%; }
+.mc-ag__compromiso { display: flex; gap: 10px; align-items: flex-start; margin: 2px 0 14px; font-size: .875rem; line-height: 1.45; color: var(--mc-muted); cursor: pointer; }
+.mc-ag__compromiso input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--mc-accent); }
+.mc-ag__listo .mc-btn { width: 100%; }
 .mc-ag__listo { display: grid; gap: 10px; }
 .mc-ag__listo p { margin: 0; }
 .mc-ag__nota, .mc-ag__vacio { margin: 0; font-size: .875rem; color: var(--mc-muted); }

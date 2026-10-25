@@ -36,7 +36,10 @@
   var waURL = function (msg) { return 'https://wa.me/' + String(C.wa || '').replace(/\D/g, '') + (msg ? '?text=' + encodeURIComponent(msg) : ''); };
 
   /* ---------- 1. Estadísticas ---------- */
-  var TIPOS = ['view', 'wa', 'call', 'save', 'share', 'map', 'email', 'web', 'social', 'install', 'qr', 'order', 'lead', 'ask', 'review', 'cat', 'cita'];
+  var TIPOS = ['view', 'wa', 'call', 'save', 'share', 'map', 'email', 'web', 'social', 'install', 'qr', 'order', 'lead', 'ask', 'review', 'cat', 'cita', 'agenda'];
+  // El embudo de citas: el asistente resuelve dudas y lleva a la agenda con el servicio y la ciudad ya elegidos.
+  var agendarEn = null, preguntarAsistente = null;
+  var norm = function (s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim(); };
   function track(t) {
     if (!API || !SLUG || PREVIEW || LOCAL || TIPOS.indexOf(t) < 0) return;
     var body = JSON.stringify({ t: t });
@@ -394,11 +397,15 @@
     function burbuja(quien, texto, wa, agenda) {
       var b = document.createElement('div'); b.className = 'mc-msg mc-msg--' + quien;
       var p = document.createElement('p'); p.textContent = texto; b.appendChild(p);
-      // Si la tarjeta tiene agenda, la respuesta lleva directo a elegir día y hora.
+      // Si la tarjeta tiene agenda, la respuesta lleva directo a elegir día y hora,
+      // con el servicio y la ciudad que salieron en la plática.
       var cajaAgenda = agenda && $('[data-mc="agenda"]');
       if (cajaAgenda) {
-        var ag = document.createElement('button'); ag.type = 'button'; ag.className = 'mc-btn mc-btn--solid'; ag.textContent = 'Elegir día y hora';
-        ag.addEventListener('click', function () { cajaAgenda.scrollIntoView({ block: 'start', behavior: 'smooth' }); });
+        var o = typeof agenda === 'object' ? agenda : {};
+        var ciudad = o.lugar ? String(o.lugar).split(',')[0] : '';
+        var ag = document.createElement('button'); ag.type = 'button'; ag.className = 'mc-btn mc-btn--solid';
+        ag.textContent = o.servicio || ciudad ? 'Agendar' + (o.servicio ? ' ' + o.servicio : '') + (ciudad ? ' en ' + ciudad : '') : 'Elegir día y hora';
+        ag.addEventListener('click', function () { if (agendarEn) agendarEn(o); else cajaAgenda.scrollIntoView({ block: 'start', behavior: 'smooth' }); });
         b.appendChild(ag);
       }
       if (wa) {
@@ -426,12 +433,20 @@
       if (API && SLUG && tiene('business') && !LOCAL) {
         fetch(API + '/a/' + SLUG, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ q: q, h: hist }) })
           .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-          .then(function (j) { resolver({ a: j.a, wa: !!j.wa, agenda: !!j.agenda }); })
+          .then(function (j) { resolver({ a: j.a, wa: !!j.wa, agenda: j.agenda ? { servicio: j.servicio || '', lugar: j.lugar || '' } : false }); })
           .catch(function () { resolver(local(q)); });
       } else setTimeout(function () { resolver(local(q)); }, 450);
     }
     form.addEventListener('submit', function (e) { e.preventDefault(); preguntar(input.value); });
     $$('[data-q]', box).forEach(function (b) { b.addEventListener('click', function () { preguntar(b.getAttribute('data-q') || b.textContent); }); });
+    if (!preguntarAsistente) preguntarAsistente = function (q) {
+      box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      if (q) preguntar(q); else setTimeout(function () { try { input.focus({ preventScroll: true }); } catch (e) { input.focus(); } }, 350);
+    };
+  });
+  // Botones en cualquier parte que invitan a preguntarle al asistente: data-mc-preguntar (vacío o con una pregunta).
+  $$('[data-mc-preguntar]').forEach(function (b) {
+    b.addEventListener('click', function (e) { if (!preguntarAsistente) return; e.preventDefault(); preguntarAsistente(b.getAttribute('data-mc-preguntar')); });
   });
 
   /* ---------- 12b. Agenda de citas (Profesional y Business) ----------
@@ -551,7 +566,14 @@
       var inTel = nodo('input', 'mc-input'); inTel.placeholder = 'Tu WhatsApp (10 dígitos)'; inTel.type = 'tel'; inTel.inputMode = 'tel'; inTel.autocomplete = 'tel'; inTel.required = true; inTel.setAttribute('aria-label', 'Tu WhatsApp');
       var trampa = nodo('input'); trampa.name = 'web'; trampa.tabIndex = -1; trampa.autocomplete = 'off'; trampa.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0';
       var enviar = nodo('button', 'mc-btn mc-btn--wa mc-ag__ok', 'Apartar y confirmar por WhatsApp'); enviar.type = 'submit';
-      form.append(resumen, inNom, inTel, trampa, enviar);
+      form.append(resumen, inNom, inTel, trampa);
+      // Lo que pide el negocio para confirmar (anticipo, cambios): se acepta antes de apartar.
+      var chk = null;
+      if (A.compromiso) {
+        var comp = nodo('label', 'mc-ag__compromiso'); chk = nodo('input'); chk.type = 'checkbox'; chk.required = true;
+        comp.append(chk, nodo('span', null, A.compromiso)); form.appendChild(comp);
+      }
+      form.appendChild(enviar);
       var listo = nodo('div', 'mc-ag__listo'); listo.hidden = true;
       raiz.append(pLug, pSv, pDia, pHora, form, listo);
       if (A.nota) raiz.appendChild(nodo('p', 'mc-ag__nota', A.nota));
@@ -561,6 +583,55 @@
         var fs = fechasDe(lugar);
         if (lugar === LUGAR && Object.keys(A.horas).length) return 'Entre semana' + (fs.length ? ', y ' + fs.length + (fs.length === 1 ? ' día' : ' días') + ' de fin de semana' : '');
         return fs.slice(0, 3).map(function (f) { var p = f.split('-'); return NOMBRES[DIAS[dow(+p[0], +p[1], +p[2])]].slice(0, 3) + ' ' + (+p[2]) + ' ' + MESES[+p[1] - 1].slice(0, 3); }).join(' · ') + (fs.length > 3 ? '…' : '');
+      }
+      // Una vez por visita: alguien empezó a elegir su cita.
+      var vista = false; function abierta() { if (!vista) { vista = true; track('agenda'); } }
+      raiz.addEventListener('click', abierta, true);
+      // Abrir la agenda con un servicio y una ciudad ya elegidos (botones de la tarjeta y del asistente).
+      function aplicar(o) {
+        o = o || {};
+        if (o.servicio) {
+          var n = norm(o.servicio);
+          var sv = servicios.filter(function (x) { return norm(x.nombre) === n; })[0]
+            || servicios.filter(function (x) { var m = norm(x.nombre); return m.indexOf(n) >= 0 || n.indexOf(m) >= 0; })[0];
+          if (sv) { st.sv = sv; st.hora = null; }
+        }
+        if (o.lugar && lugares.length > 1) {
+          var c = norm(o.lugar).split(',')[0];
+          var l = lugares.filter(function (x) { var y = norm(x).split(',')[0]; return y === c || y.indexOf(c) === 0 || c.indexOf(y) === 0; })[0];
+          if (l && l !== st.lugar) {
+            st.lugar = l; st.fecha = null; st.hora = null;
+            var f = cargado && primerDiaCon(l); if (f) { var p = f.split('-'); st.y = +p[0]; st.m = +p[1]; }
+          }
+        }
+        pintarLugares(); pintarServicios(); pintarCal(); pintarHoras(); abierta();
+        caja.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+      if (!agendarEn) agendarEn = aplicar;
+      // Agregar la cita a su calendario, con aviso un día antes y dos horas antes.
+      function enCalendario(sv, fecha, hora, lugar) {
+        var ini = fecha.replace(/-/g, '') + 'T' + hora.replace(':', '') + '00';
+        var finMin = aMin(hora) + (sv.dur || 60);
+        var fin = fecha.replace(/-/g, '') + 'T' + pad(Math.floor(finMin / 60) % 24) + pad(finMin % 60) + '00';
+        var titulo = sv.nombre + ' · ' + (C.nombre || document.title.split('·')[0].trim());
+        var donde = lugar && lugar === LUGAR && A.direccion ? A.direccion : (lugar || A.direccion || '');
+        var detalle = [A.recordatorio || '', urlTarjeta].filter(Boolean).join('\n\n');
+        var b = nodo('a', 'mc-btn', 'Agregar a mi calendario');
+        if (/iPhone|iPad|Macintosh/.test(navigator.userAgent)) {
+          var esc = function (t) { return String(t).replace(/\\/g, '\\\\').replace(/([,;])/g, '\\$1').replace(/\n/g, '\\n'); };
+          var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Mattera//Tarjeta//ES', 'BEGIN:VEVENT',
+            'UID:' + Date.now() + '@matterasystems.com', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z',
+            'DTSTART:' + ini, 'DTEND:' + fin, 'SUMMARY:' + esc(titulo), 'LOCATION:' + esc(donde), 'DESCRIPTION:' + esc(detalle),
+            'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:' + esc('Mañana: ' + titulo), 'END:VALARM',
+            'BEGIN:VALARM', 'TRIGGER:-PT2H', 'ACTION:DISPLAY', 'DESCRIPTION:' + esc('En 2 horas: ' + titulo), 'END:VALARM',
+            'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+          b.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); b.download = 'mi-cita.ics';
+        } else {
+          b.href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(titulo) + '&dates=' + ini + '/' + fin
+            + '&ctz=' + encodeURIComponent(tz) + '&location=' + encodeURIComponent(donde) + '&details=' + encodeURIComponent(detalle);
+          b.target = '_blank'; b.rel = 'noopener';
+        }
+        return b;
       }
       function primerDiaCon(lugar) {
         var d = new Date(Date.UTC(hoy.y, hoy.m - 1, hoy.d));
@@ -634,17 +705,21 @@
         e.preventDefault();
         var nombre = inNom.value.trim(), tel = inTel.value.replace(/\D/g, '');
         if (!nombre || tel.length < 10) { toast('Escribe tu nombre y tu WhatsApp a 10 dígitos'); return; }
+        if (chk && !chk.checked) { toast('Marca la casilla para apartar'); return; }
         var planCita = planDelDia(st.fecha); var lugarCita = planCita && planCita.lugar ? planCita.lugar : '';
         var msg = 'Hola, soy ' + nombre + '. Quiero apartar ' + st.sv.nombre + ' el ' + largo(st.fecha) + ' a las ' + fmtHora(st.hora) + (lugarCita ? ' en ' + lugarCita : '') + '. Mi WhatsApp es ' + tel + '.';
         var cita = { fecha: st.fecha, hora: st.hora, dur: st.sv.dur || 60, servicio: st.sv.nombre, lugar: lugarCita, nombre: nombre, tel: tel, web: trampa.value };
         enviar.disabled = true;
         var terminar = function () {
           track('cita');
-          form.hidden = true; pHora.hidden = true; pDia.hidden = true; pSv.hidden = true; listo.hidden = false; listo.textContent = '';
+          form.hidden = true; pHora.hidden = true; pDia.hidden = true; pSv.hidden = true; pLug.hidden = true; listo.hidden = false; listo.textContent = '';
           listo.appendChild(nodo('p', 'mc-ag__t', 'Listo, apartaste ' + largo(st.fecha) + ' a las ' + fmtHora(st.hora) + (lugarCita ? ' en ' + lugarCita : '')));
           listo.appendChild(nodo('p', null, 'Mándanos el mensaje por WhatsApp para confirmarla.'));
           var a = nodo('a', 'mc-btn mc-btn--wa', 'Confirmar por WhatsApp'); a.href = waURL(msg); a.target = '_blank'; a.rel = 'noopener'; a.setAttribute('data-mc-t', 'wa');
-          listo.appendChild(a); try { window.open(waURL(msg), '_blank', 'noopener'); } catch (e2) {}
+          listo.appendChild(a);
+          listo.appendChild(enCalendario(st.sv, st.fecha, st.hora, lugarCita));
+          if (A.recordatorio) listo.appendChild(nodo('p', 'mc-ag__nota', A.recordatorio));
+          try { window.open(waURL(msg), '_blank', 'noopener'); } catch (e2) {}
         };
         // En la vista previa no se aparta de verdad: se enseña el camino completo.
         if (!API || !SLUG || PREVIEW || LOCAL) { terminar(); return; }
@@ -666,10 +741,8 @@
       // Botones de "Agendar" en otras partes de la tarjeta: abren la agenda con ese servicio.
       $$('[data-mc-agendar]').forEach(function (b) {
         b.addEventListener('click', function (e) {
-          var nombre = b.getAttribute('data-mc-agendar'); var sv = servicios.filter(function (x) { return x.nombre === nombre; })[0];
-          if (!sv && nombre) return; e.preventDefault();
-          if (sv) { st.sv = sv; st.hora = null; pintarServicios(); pintarCal(); if (st.fecha) pintarHoras(); }
-          caja.scrollIntoView({ block: 'start', behavior: 'smooth' });
+          e.preventDefault();
+          aplicar({ servicio: b.getAttribute('data-mc-agendar'), lugar: b.getAttribute('data-mc-lugar') });
         });
       });
     });
