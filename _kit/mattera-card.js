@@ -368,9 +368,16 @@
     var log = $('[data-mc-log]', box); var form = $('form', box); var input = form && $('input,textarea', form);
     if (!log || !form || !input) return;
     var hist = [];
-    function burbuja(quien, texto, wa) {
+    function burbuja(quien, texto, wa, agenda) {
       var b = document.createElement('div'); b.className = 'mc-msg mc-msg--' + quien;
       var p = document.createElement('p'); p.textContent = texto; b.appendChild(p);
+      // Si la tarjeta tiene agenda, la respuesta lleva directo a elegir día y hora.
+      var cajaAgenda = agenda && $('[data-mc="agenda"]');
+      if (cajaAgenda) {
+        var ag = document.createElement('button'); ag.type = 'button'; ag.className = 'mc-btn mc-btn--solid'; ag.textContent = 'Elegir día y hora';
+        ag.addEventListener('click', function () { cajaAgenda.scrollIntoView({ block: 'start', behavior: 'smooth' }); });
+        b.appendChild(ag);
+      }
       if (wa) {
         var a = document.createElement('a'); a.className = 'mc-btn mc-btn--wa'; a.href = waURL(C.textoWaAsistente || 'Hola, vengo de tu tarjeta digital. Tengo una pregunta.'); a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'Seguir por WhatsApp'; a.setAttribute('data-mc-t', 'wa');
         b.appendChild(a);
@@ -392,11 +399,11 @@
       if (!q.trim()) return;
       burbuja('yo', q); input.value = ''; track('ask');
       var esc = burbuja('bot', '…'); esc.classList.add('is-typing');
-      var resolver = function (r) { esc.remove(); burbuja('bot', r.a, r.wa); hist.push({ r: 'user', c: q }, { r: 'assistant', c: r.a }); hist = hist.slice(-8); };
+      var resolver = function (r) { esc.remove(); burbuja('bot', r.a, r.wa, r.agenda); hist.push({ r: 'user', c: q }, { r: 'assistant', c: r.a }); hist = hist.slice(-8); };
       if (API && SLUG && tiene('business') && !LOCAL) {
         fetch(API + '/a/' + SLUG, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ q: q, h: hist }) })
           .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-          .then(function (j) { resolver({ a: j.a, wa: !!j.wa }); })
+          .then(function (j) { resolver({ a: j.a, wa: !!j.wa, agenda: !!j.agenda }); })
           .catch(function () { resolver(local(q)); });
       } else setTimeout(function () { resolver(local(q)); }, 450);
     }
