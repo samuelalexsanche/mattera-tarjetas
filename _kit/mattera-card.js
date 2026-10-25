@@ -156,30 +156,53 @@
     var ap = h >= 12 ? 'p. m.' : 'a. m.'; var h12 = h % 12 || 12;
     return h12 + (mm ? ':' + String(mm).padStart(2, '0') : '') + ' ' + ap;
   };
+  function isoEnZona(k) {
+    var d;
+    try {
+      var o = {}; new Intl.DateTimeFormat('en-US', { timeZone: C.tz || 'America/Mexico_City', year: 'numeric', month: '2-digit', day: '2-digit' })
+        .formatToParts(new Date()).forEach(function (p) { o[p.type] = p.value; });
+      d = new Date(Date.UTC(+o.year, +o.month - 1, +o.day + k));
+    } catch (e) { var n = new Date(); d = new Date(Date.UTC(n.getFullYear(), n.getMonth(), n.getDate() + k)); }
+    return d.toISOString().slice(0, 10);
+  }
+  var aHora = function (m) { return String(Math.floor(m / 60) % 24).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); };
+  // Quien atiende en varias ciudades (agenda.fechas): ese día manda la fecha, y un día
+  // sin fecha que no está en su semana normal de citas (agenda.horas) está cerrado.
+  function tramosDelDia(k, dia) {
+    var base = C.horarios[DIAS[dia]] || [], ag = C.agenda;
+    if (!ag || !ag.fechas) return { t: base, lugar: '' };
+    var f = ag.fechas[isoEnZona(k)];
+    if (f) {
+      if (f.cerrado) return { t: [], lugar: '' };
+      var t = f.tramos || (f.horas || []).map(function (h) { return [h, aHora(aMin(h) + (f.cada || ag.cada || 60))]; });
+      return { t: t, lugar: f.lugar && f.lugar !== ag.lugar ? String(f.lugar).split(',')[0] : '' };
+    }
+    return { t: ag.horas && ag.horas[DIAS[dia]] && ag.horas[DIAS[dia]].length ? base : [], lugar: '' };
+  }
   function estadoHorario() {
     var H = C.horarios; if (!H) return null;
     if (H === '24/7') return { abierto: true, texto: 'Abierto las 24 horas' };
     var now = ahoraEnZona();
-    var hoy = H[DIAS[now.d]] || [];
+    var td = tramosDelDia(0, now.d), hoy = td.t, en = td.lugar ? ' en ' + td.lugar : '';
     for (var i = 0; i < hoy.length; i++) {
       var a = aMin(hoy[i][0]), c = aMin(hoy[i][1]); if (c <= a) c += 1440;
       if (now.m >= a && now.m < c) {
         var faltan = c - now.m;
-        return { abierto: true, pronto: faltan <= 45, texto: faltan <= 45 ? 'Cierra pronto · ' + fmtHora(hoy[i][1]) : 'Abierto ahora · cierra ' + fmtHora(hoy[i][1]) };
+        return { abierto: true, pronto: faltan <= 45, texto: faltan <= 45 ? 'Cierra pronto' + en + ' · ' + fmtHora(hoy[i][1]) : 'Abierto ahora' + en + ' · cierra ' + fmtHora(hoy[i][1]) };
       }
     }
     // horario que viene del día anterior y cruza la medianoche
-    var ayer = H[DIAS[(now.d + 6) % 7]] || [];
+    var ayer = tramosDelDia(-1, (now.d + 6) % 7).t;
     for (var j = 0; j < ayer.length; j++) {
       var a2 = aMin(ayer[j][0]), c2 = aMin(ayer[j][1]);
       if (c2 <= a2 && now.m < c2) return { abierto: true, texto: 'Abierto ahora · cierra ' + fmtHora(ayer[j][1]) };
     }
     for (var k = 0; k < 7; k++) {
-      var di = (now.d + k) % 7, tramos = H[DIAS[di]] || [];
+      var di = (now.d + k) % 7, dd = tramosDelDia(k, di), tramos = dd.t;
       for (var t = 0; t < tramos.length; t++) {
         if (k === 0 && aMin(tramos[t][0]) <= now.m) continue;
         var cuando = k === 0 ? 'hoy' : k === 1 ? 'mañana' : 'el ' + NOMBRES[DIAS[di]];
-        return { abierto: false, texto: 'Cerrado · abre ' + cuando + ' a las ' + fmtHora(tramos[t][0]) };
+        return { abierto: false, texto: 'Cerrado · abre ' + cuando + ' a las ' + fmtHora(tramos[t][0]) + (dd.lugar ? ' en ' + dd.lugar : '') };
       }
     }
     return { abierto: false, texto: 'Cerrado' };
