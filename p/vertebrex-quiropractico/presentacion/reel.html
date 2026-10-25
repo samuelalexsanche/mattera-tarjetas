@@ -2,352 +2,364 @@
 <html lang="es-MX">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=540, initial-scale=1">
+<title>Vertebrex Quiropráctico · video de presentación</title>
 <!--
-  CONCEPTO · "El ajuste"
-  El video es una sesión de Vertebrex de principio a fin. Abre con la columna de nueve
-  vértebras de la tarjeta llegando torcida y acomodándose una por una, con el leve rebote
-  de un ajuste, hasta que se traza su eje punteado turquesa. Ese eje es el hilo del video:
-  todo baja de arriba abajo como la alineación, cada terapia enciende en la columna la zona
-  que trabaja (Superior: de cadera a espalda; Inferior: de cadera a piernas; Completa: todo),
-  y las transiciones grandes son el eje turquesa que se abre como cortina. Cierra con la
-  columna derecha y la acción: Agendar mi cita.
+  CONCEPTO: «El ajuste».
+  Lo que hace Alex es tomar una espalda desalineada y dejarla derecha, y la tarjeta abre con
+  esa misma firma: nueve vértebras torcidas que se acomodan una por una, con el leve rebote
+  del «clic» de un ajuste, hasta que se traza el eje punteado turquesa.
+  El video entero habla así:
+  · Todo lo que entra llega ligeramente torcido (desplazado y girado) y se acomoda en su lugar
+    con el mismo rebote corto (back.out, equivalente a la cubic-bezier(.34,1.32,.64,1) de la tarjeta).
+  · El eje turquesa es el hilo: se traza al abrir, se abre en una cortina turquesa para pasar a
+    la frase, y vuelve como una línea que recorre la pantalla de arriba abajo para llegar al cierre.
+  · El cierre repite la firma: la columna vuelve a alinearse junto al botón «Agendar mi cita».
+  Paleta, letras (Sora y Figtree), logo, fotos y textos salen tal cual de index.html.
 -->
-<link rel="icon" href="data:,">
-<title>Vertebrex Quiropráctico · presentación</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#263236; --bg-2:#3A4A4F; --bg-3:#4F6267; --petrol:#667B80;
-  --fg:#FFFFFF; --fg-2:#E3EAEC; --muted:#C2CFD2;
-  --turq:#0DA7D8; --turq-fg:#0F1F23; --plate:#F3F6F6;
+  --bg:#263236;
+  --bg-2:#3A4A4F;
+  --bg-3:#4F6267;
+  --petrol:#667B80;
+  --fg:#FFFFFF;
+  --fg-2:#E3EAEC;
+  --muted:#C2CFD2;
+  --turq:#0DA7D8;
+  --turq-fg:#0F1F23;
+  --plate:#F3F6F6;
   --line:rgba(255,255,255,.13);
-  --f-head:"Sora","Avenir Next",system-ui,sans-serif;
-  --f-text:"Figtree",system-ui,sans-serif;
+  --f-head:"Sora", "Avenir Next", system-ui, sans-serif;
+  --f-text:"Figtree", system-ui, sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:540px;height:960px;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--f-text);-webkit-font-smoothing:antialiased}
+html,body{width:540px;height:960px;overflow:hidden;background:var(--bg);color:var(--fg);font:16px/1.4 var(--f-text);-webkit-font-smoothing:antialiased}
+img{display:block}
 .escena{position:absolute;inset:0;overflow:hidden}
-.plate{background:var(--plate);border-radius:14px}
-.eje{position:absolute;width:3px;background:repeating-linear-gradient(to bottom,var(--turq) 0 5px,transparent 5px 12px)}
+.m{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+.m > span{display:block}
+
+/* Columna (mismo dibujo que la tarjeta) */
+.col{position:absolute}
+.col svg{display:block;width:100%;height:100%;overflow:visible}
 .v rect{fill:var(--bg-3);stroke:#B5C5C9;stroke-width:1.6}
 .v path{fill:none;stroke:#B5C5C9;stroke-width:3.4;stroke-linecap:round}
-.v.on rect{fill:#163B47;stroke:var(--turq)}
-.v.on path{stroke:var(--turq)}
-svg{overflow:visible}
+.eje{position:absolute;top:-3%;bottom:-3%;background:repeating-linear-gradient(to bottom,var(--turq) 0 6px,transparent 6px 16px)}
+
+/* Banda superior del encabezado, como la tarjeta */
+.banda{position:absolute;left:0;top:0;width:540px;height:150px;background:var(--petrol);display:flex;align-items:center;justify-content:space-between;padding:0 40px}
+.plate{background:var(--plate);border-radius:16px;padding:8px 16px}
+.plate img{height:56px;width:auto}
+.estado{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:999px;background:var(--bg);font:500 20px/1.1 var(--f-text);color:#fff}
+.estado::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--muted)}
 
 /* 1 · Apertura */
-#s1 .logo{position:absolute;left:40px;top:120px;padding:10px 18px}
-#s1 .logo img{display:block;width:250px;height:auto}
-#s1 .col{position:absolute;left:40px;top:310px;width:94px;height:427px}
-#s1 .col svg{width:94px;height:427px}
-#s1 .col .eje{left:46px;top:-12px;bottom:-12px}
-#s1 .nombre{position:absolute;left:162px;top:322px;right:40px}
-#s1 h1{font:700 64px/1 var(--f-head);letter-spacing:-.03em}
-#s1 .lugar{margin-top:14px;font:400 26px/1.25 var(--f-head);color:var(--muted)}
-#s1 .cita{position:absolute;left:162px;right:40px;top:580px;font:600 22px/1.3 var(--f-text);color:var(--fg-2)}
-#s1 .cita span{display:inline-block;padding:9px 16px;border-radius:999px;background:var(--bg-2)}
+#s1{background:var(--bg-2)}
+#s1 .col{left:40px;top:290px;width:104px;height:472px}
+#s1 .eje{left:50px;width:4px}
+#s1 .nombre{position:absolute;left:166px;top:300px;width:334px}
+.h1{font:700 60px/1 var(--f-head);letter-spacing:-.03em}
+.h1s{margin-top:14px;font:400 26px/1.25 var(--f-head);color:var(--muted)}
+#s1 .lema1{position:absolute;left:166px;top:500px;width:334px;font:600 28px/1.3 var(--f-head);color:var(--turq);letter-spacing:-.01em}
 
-/* 2 · La frase */
-#s2{background:var(--bg-2)}
-#s2 .eje{left:40px;top:236px;height:500px}
-#s2 .txt{position:absolute;left:76px;right:40px;top:262px}
-#s2 .lema{font:600 52px/1.12 var(--f-head);letter-spacing:-.02em;color:var(--turq)}
-#s2 .desc{margin-top:34px;font:400 28px/1.42 var(--f-text);color:var(--fg-2)}
-#s2 .quien{margin-top:34px;font:400 22px/1.4 var(--f-text);color:var(--muted)}
-#s2 .quien b{display:block;font:600 28px/1.2 var(--f-head);color:#fff;margin-bottom:4px}
+/* Cortina turquesa + 2 · La frase */
+#cortina{z-index:5;background:var(--turq);color:var(--turq-fg)}
+#cortina .eje2{position:absolute;left:40px;top:0;bottom:0;width:4px;background:repeating-linear-gradient(to bottom,rgba(15,31,35,.45) 0 6px,transparent 6px 16px)}
+#s2c{position:absolute;left:70px;top:250px;width:430px}
+.lema{font:600 60px/1.08 var(--f-head);letter-spacing:-.025em}
+.desc{margin-top:34px;font:500 28px/1.4 var(--f-text);color:#0F2A31}
+.quien{margin-top:30px;font:500 22px/1.45 var(--f-text);color:#0F2A31}
+.quien b{font-weight:600;color:var(--turq-fg)}
 
 /* 3 · Terapias */
-#s3 .tit{position:absolute;left:40px;top:56px;font:700 34px/1 var(--f-head);letter-spacing:-.025em}
-#s3 .tit small{display:block;margin-top:12px;font:400 22px/1.3 var(--f-text);color:var(--muted);letter-spacing:0}
-.ter{position:absolute;left:40px;right:40px;top:178px;height:736px;border-radius:26px;background:var(--bg-2);border:1px solid var(--line);overflow:hidden}
-.ter .foto{position:absolute;left:0;right:0;top:0;height:390px;overflow:hidden}
-.ter .foto img{width:100%;height:100%;object-fit:cover;filter:saturate(.72)}
-.ter .mini{position:absolute;left:26px;top:424px;width:62px;height:282px}
-.ter .mini svg{width:62px;height:282px}
-.ter .info{position:absolute;left:118px;right:24px;top:420px}
-.ter h3{font:700 38px/1.05 var(--f-head);letter-spacing:-.025em}
-.ter .zona{margin-top:12px;font:400 22px/1.35 var(--f-text);color:var(--muted)}
-.ter .dura{display:inline-flex;align-items:center;gap:9px;margin-top:20px;padding:8px 15px;border-radius:999px;background:var(--bg);font:600 22px/1.2 var(--f-text)}
-.ter .dura svg{width:22px;height:22px;color:var(--turq)}
-.ter .precio{margin-top:22px;font:700 60px/1 var(--f-head);letter-spacing:-.02em;color:var(--turq)}
-.ter .precio small{font:500 22px/1 var(--f-text);color:var(--muted);margin-left:6px;letter-spacing:.04em}
+#s3{z-index:2}
+.rotulo{position:absolute;left:40px;top:70px;font:700 36px/1.1 var(--f-head);letter-spacing:-.025em}
+.rotulo small{display:block;margin-top:8px;font:500 20px/1.2 var(--f-text);letter-spacing:.06em;text-transform:uppercase;color:var(--turq)}
+.terapia{position:absolute;left:40px;top:186px;width:460px;border-radius:24px;background:var(--bg-2);border:1px solid var(--line);overflow:hidden}
+.terapia img{width:460px;height:280px;object-fit:cover;filter:saturate(.72)}
+.terapia .cuerpo{padding:22px 26px 26px}
+.terapia h3{font:700 38px/1.05 var(--f-head);letter-spacing:-.025em}
+.zona{margin-top:8px;font:400 24px/1.2 var(--f-text);color:var(--muted)}
+.dato{display:flex;align-items:center;justify-content:space-between;margin-top:18px}
+.precio{font:700 46px/1 var(--f-head);letter-spacing:-.02em;color:var(--turq);font-variant-numeric:tabular-nums}
+.precio small{font:500 20px/1 var(--f-text);color:var(--muted);margin-left:6px;letter-spacing:.04em}
+.dura{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--bg);font:600 22px/1 var(--f-text)}
+.dura svg{width:22px;height:22px;color:var(--turq)}
+.nota{position:absolute;left:40px;top:780px;width:460px;font:400 24px/1.45 var(--f-text);color:var(--muted)}
+.nota b{color:#fff;font-weight:600}
 
 /* 4 · La tarjeta en el celular */
-#s4 .tit{position:absolute;left:40px;right:40px;top:50px;text-align:center;font:700 34px/1.1 var(--f-head);letter-spacing:-.025em}
-#s4 .tit small{display:block;margin-top:10px;font:400 22px/1.3 var(--f-text);color:var(--muted);letter-spacing:0}
-.cel{position:absolute;left:122px;top:158px;width:296px;height:622px;border-radius:44px;background:#0E1517;padding:8px;box-shadow:0 40px 80px -30px rgba(0,0,0,.75),0 0 0 1.5px rgba(255,255,255,.14)}
-.pant{position:relative;width:280px;height:606px;border-radius:36px;overflow:hidden;background:var(--bg)}
-.pant img{position:absolute;left:0;top:0;width:280px;height:auto;display:block}
-.isla{position:absolute;left:50%;top:10px;width:84px;height:22px;margin-left:-42px;border-radius:12px;background:#0E1517;z-index:3}
-.aro{position:absolute;border:3px solid #fff;border-radius:12px;box-shadow:0 0 0 5px rgba(13,167,216,.55);z-index:2}
-.chips{position:absolute;left:40px;right:40px;top:806px;height:96px}
-.chip{position:absolute;inset:0;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:16px;padding:0 22px;border-radius:20px;background:#1B2629;color:#fff}
-.chip.cta{background:var(--turq);color:var(--turq-fg)}
-.chip svg{width:30px;height:30px;color:var(--turq)}
-.chip.cta svg{color:var(--turq-fg)}
-.chip b{display:block;font:600 28px/1.15 var(--f-head);letter-spacing:-.01em}
-.chip small{display:block;margin-top:4px;font:500 20px/1.2 var(--f-text);color:var(--muted)}
-.chip.cta small{font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:20px;color:#0F2A31}
+#s4{z-index:3}
+.cap{position:absolute;left:40px;top:58px;width:460px}
+.filaC{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+.filaC i{flex:none;display:grid;place-items:center;width:64px;height:64px;border-radius:18px;background:var(--bg-2)}
+.filaC i svg{width:32px;height:32px;color:var(--turq)}
+.filaC i.on{background:var(--turq)}
+.filaC i.on svg{color:var(--turq-fg)}
+.filaC b{display:block;font:600 32px/1.1 var(--f-head);letter-spacing:-.01em}
+.filaC small{display:block;margin-top:5px;font:500 20px/1.2 var(--f-text);color:var(--muted)}
+.capC h3{font:700 38px/1.05 var(--f-head);letter-spacing:-.025em}
+.capC p{margin-top:12px;font:400 24px/1.35 var(--f-text);color:var(--muted)}
+.capC p b{color:#fff;font-weight:600}
+.cel{position:absolute;left:125px;top:300px;width:290px;height:604px;padding:10px;border-radius:44px;background:#1A2427;box-shadow:0 0 0 1px var(--line),0 50px 80px -30px rgba(0,0,0,.75)}
+.pant{position:relative;width:270px;height:584px;border-radius:34px;overflow:hidden;background:var(--bg)}
+.pant img{width:270px;height:auto}
+.aro{position:absolute;border:3px solid var(--turq);box-shadow:0 0 0 4px rgba(13,167,216,.25),0 0 22px rgba(13,167,216,.55)}
 
 /* 5 · Cierre */
-#s5 .logo{position:absolute;left:50%;top:92px;width:300px;margin-left:-150px;padding:12px 20px}
-#s5 .logo img{display:block;width:100%;height:auto}
-#s5 .col{position:absolute;left:50%;top:262px;width:52px;height:236px;margin-left:-26px}
-#s5 .col svg{width:52px;height:236px}
-#s5 .col .eje{left:24.5px;top:-8px;bottom:-8px}
-#s5 .lema{position:absolute;left:40px;right:40px;top:532px;text-align:center;font:600 30px/1.2 var(--f-head);color:var(--turq)}
-#s5 .boton{position:absolute;left:40px;right:40px;top:604px;height:108px;border-radius:22px;background:var(--turq);color:var(--turq-fg);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;padding:0 26px;box-shadow:0 20px 40px -18px rgba(13,167,216,.75)}
-#s5 .boton svg{width:34px;height:34px}
-#s5 .boton b{display:block;font:600 34px/1.1 var(--f-head);letter-spacing:-.01em}
-#s5 .boton small{display:block;margin-top:6px;font:600 20px/1 var(--f-text);letter-spacing:.06em;text-transform:uppercase;color:#0F2A31}
-#s5 .url{position:absolute;left:40px;right:40px;top:752px;text-align:center;font:600 28px/1.3 var(--f-head);letter-spacing:-.01em;color:#fff}
-#s5 .url span{display:block;color:var(--muted);font-weight:400}
-
-/* Cortina: el eje turquesa que se abre */
-#cortina{position:absolute;inset:0;background:var(--turq);z-index:20;clip-path:inset(0 50% 0 50%);visibility:hidden}
+#s5{z-index:6;background:var(--bg-2)}
+#s5 .col{left:40px;top:205px;width:68px;height:309px}
+#s5 .eje{left:33px;width:3px}
+#s5 .nombre{position:absolute;left:132px;top:210px;width:368px}
+#s5 .lema5{margin-top:22px;font:600 30px/1.25 var(--f-head);color:var(--turq);letter-spacing:-.01em}
+.cta{position:absolute;left:40px;top:578px;width:460px;height:108px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;padding:0 28px;border-radius:28px;background:var(--turq);color:var(--turq-fg);box-shadow:0 24px 44px -24px rgba(13,167,216,.8)}
+.cta svg{width:38px;height:38px}
+.cta b{display:block;font:600 34px/1.1 var(--f-head);letter-spacing:-.01em}
+.cta small{display:block;margin-top:6px;font:600 20px/1.1 var(--f-text);letter-spacing:.06em;text-transform:uppercase;color:#0F2A31}
+.url{position:absolute;left:40px;top:736px;width:460px;text-align:center}
+.url span{display:block;font:500 24px/1.3 var(--f-text);color:var(--muted)}
+.url b{display:block;font:600 32px/1.25 var(--f-head);letter-spacing:-.01em;color:#fff}
+#borde{position:absolute;left:0;top:0;width:540px;height:6px;z-index:7;background:var(--turq);box-shadow:0 0 24px rgba(13,167,216,.8)}
 </style>
 </head>
 <body>
 
-<!-- 1 · Apertura -->
-<section class="escena" id="s1">
-  <div class="logo plate"><img src="../assets/logo.webp" width="560" height="220" alt="Vertebrex Quiropráctico"></div>
-  <div class="col">
-    <svg viewBox="0 0 52 236" id="col1"></svg>
-    <span class="eje"></span>
+<!-- 1 · Apertura: la columna se alinea -->
+<div class="escena" id="s1">
+  <div class="banda" id="banda1">
+    <div class="plate" id="plate1"><img src="../assets/logo.webp" alt="Vertebrex Quiropráctico"></div>
+    <span class="estado" id="estado1">Solo con cita previa</span>
   </div>
+  <div class="col" id="col1"></div>
   <div class="nombre">
-    <h1>Vertebrex</h1>
-    <p class="lugar">Quiropráctico · Zapotlanejo, Jalisco</p>
+    <span class="m"><span class="h1 l1">Vertebrex</span></span>
+    <span class="m"><span class="h1s l1">Quiropráctico ·</span></span>
+    <span class="m" style="margin-top:-14px"><span class="h1s l1">Zapotlanejo, Jalisco</span></span>
   </div>
-  <p class="cita"><span>Solo con cita previa</span></p>
-</section>
+</div>
 
-<!-- 2 · La frase -->
-<section class="escena" id="s2">
-  <span class="eje"></span>
-  <div class="txt">
-    <p class="lema"><span class="l">Tu bienestar</span> <span class="l">es mi prioridad.</span></p>
-    <p class="desc">Descarga muscular, liberación articular, estiramientos y alfabiotismo.</p>
-    <p class="quien"><b>Alex MarLop</b>Fundador y terapeuta manual</p>
+<!-- 2 · La frase, en la cortina turquesa que abre el eje -->
+<div class="escena" id="cortina">
+  <span class="eje2"></span>
+  <div id="s2c">
+    <p class="lema">
+      <span class="m"><span class="l2">Tu bienestar</span></span>
+      <span class="m"><span class="l2">es mi</span></span>
+      <span class="m"><span class="l2">prioridad.</span></span>
+    </p>
+    <p class="desc" id="desc2">Descarga muscular, liberación articular, estiramientos y alfabiotismo.</p>
+    <p class="quien" id="quien2"><b>Alex MarLop</b> · Fundador y terapeuta manual especializado en bienestar musculoesquelético</p>
   </div>
-</section>
+</div>
 
-<!-- 3 · Terapias -->
-<section class="escena" id="s3">
-  <h2 class="tit">Mis terapias<small>Cada sesión termina con ejercicios para casa.</small></h2>
-  <article class="ter" id="t1">
-    <div class="foto"><img src="../assets/terapia-superior.webp" alt=""></div>
-    <div class="mini"><svg viewBox="0 0 52 236" data-on="0,1,2,3,4"></svg></div>
-    <div class="info">
+<!-- 3 · Mis terapias -->
+<div class="escena" id="s3">
+  <h2 class="rotulo" id="rot3">Mis terapias<small>Zapotlanejo, Jalisco</small></h2>
+  <article class="terapia" id="t1">
+    <img src="../assets/terapia-superior.webp" alt="">
+    <div class="cuerpo">
       <h3>Terapia Superior</h3>
       <p class="zona">De cadera a espalda</p>
-      <span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50 min</span>
-      <p class="precio">$800<small>MXN</small></p>
+      <div class="dato"><span class="precio">$800<small>MXN</small></span><span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50 min</span></div>
     </div>
   </article>
-  <article class="ter" id="t2">
-    <div class="foto"><img src="../assets/terapia-inferior.webp" alt=""></div>
-    <div class="mini"><svg viewBox="0 0 52 236" data-on="4,5,6,7,8"></svg></div>
-    <div class="info">
+  <article class="terapia" id="t2">
+    <img src="../assets/terapia-inferior.webp" alt="">
+    <div class="cuerpo">
       <h3>Terapia Inferior</h3>
       <p class="zona">De cadera a piernas</p>
-      <span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50 min</span>
-      <p class="precio">$800<small>MXN</small></p>
+      <div class="dato"><span class="precio">$800<small>MXN</small></span><span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>50 min</span></div>
     </div>
   </article>
-  <article class="ter" id="t3">
-    <div class="foto"><img src="../assets/terapia-completa.webp" alt=""></div>
-    <div class="mini"><svg viewBox="0 0 52 236" data-on="0,1,2,3,4,5,6,7,8"></svg></div>
-    <div class="info">
+  <article class="terapia" id="t3">
+    <img src="../assets/terapia-completa.webp" alt="">
+    <div class="cuerpo">
       <h3>Terapia Completa</h3>
       <p class="zona">Cuerpo completo</p>
-      <span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>1 h 20 min</span>
-      <p class="precio">$1,500<small>MXN</small></p>
+      <div class="dato"><span class="precio">$1,500<small>MXN</small></span><span class="dura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>1 h 20 min</span></div>
     </div>
   </article>
-</section>
+  <p class="nota" id="nota3">Cada sesión termina con <b>ejercicios para que sigas avanzando en casa.</b></p>
+</div>
 
-<!-- 4 · La tarjeta en el celular -->
-<section class="escena" id="s4">
-  <h2 class="tit">Agenda tu cita<small>Elige tu terapia, el día y una hora libre.</small></h2>
-  <div class="cel"><div class="pant">
-    <span class="isla"></span>
-    <img id="larga" src="completa.jpg" alt="">
-    <img id="primera" src="pantalla.png" alt="">
-    <span class="aro" id="aro"></span>
-  </div></div>
-  <div class="chips">
-    <div class="chip cta" id="c1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17M8.5 14.5l2 2 4-4"/></svg><span><b>Agendar mi cita</b><small>Elige tu día y tu hora</small></span></div>
-    <div class="chip" id="c2"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-1.7-.1a15 15 0 0 1-1.5-.6 12 12 0 0 1-4.6-4.1c-.6-.8-1-1.8-1-2.7 0-1 .5-1.6.9-1.9.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.1.1.6-.1 1.1Z"/></svg><span><b>Escríbeme por WhatsApp</b><small>Dudas, pagos y a qué pueblo voy</small></span></div>
-    <div class="chip" id="c3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="8" r="4"/><path d="M3 20a7 7 0 0 1 12-4.9M19 14v6M16 17h6"/></svg><span><b>Guardar contacto</b></span></div>
+<!-- 4 · La tarjeta real en el celular -->
+<div class="escena" id="s4">
+  <div class="cap" id="capA">
+    <div class="filaC" id="fA1">
+      <i class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17M8.5 14.5l2 2 4-4"/></svg></i>
+      <span><b>Agendar mi cita</b><small>Elige tu día y tu hora</small></span>
+    </div>
+    <div class="filaC" id="fA2">
+      <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="8" r="4"/><path d="M3 20a7 7 0 0 1 12-4.9M19 14v6M16 17h6"/></svg></i>
+      <span><b>Guardar contacto</b><small>Compartir · Mi QR · Instalar</small></span>
+    </div>
   </div>
-</section>
+  <div class="cap capC" id="capC">
+    <h3>Agenda tu cita</h3>
+    <p>Elige tu terapia, el día y una hora libre. <b>La hora que apartes te la confirmo por WhatsApp.</b></p>
+  </div>
+  <div class="cel" id="cel">
+    <div class="pant">
+      <img id="completa" src="completa.jpg" alt="Tarjeta digital de Vertebrex Quiropráctico">
+      <span class="aro" id="aroA" style="left:11px;top:295px;width:248px;height:50px;border-radius:10px"></span>
+      <span class="aro" id="aroB" style="left:11px;top:424px;width:61px;height:60px;border-radius:8px"></span>
+    </div>
+  </div>
+</div>
 
 <!-- 5 · Cierre -->
-<section class="escena" id="s5">
-  <div class="logo plate"><img src="../assets/logo.webp" width="560" height="220" alt="Vertebrex Quiropráctico"></div>
-  <div class="col">
-    <svg viewBox="0 0 52 236" id="col5"></svg>
-    <span class="eje"></span>
+<div class="escena" id="s5">
+  <div class="banda">
+    <div class="plate"><img src="../assets/logo.webp" alt="Vertebrex Quiropráctico"></div>
+    <span class="estado">Solo con cita previa</span>
   </div>
-  <p class="lema">Tu bienestar es mi prioridad.</p>
-  <div class="boton">
+  <div class="col" id="col5"></div>
+  <div class="nombre">
+    <span class="m"><span class="h1 l5">Vertebrex</span></span>
+    <span class="m"><span class="h1s l5" style="font-size:24px">Quiropráctico · Zapotlanejo, Jalisco</span></span>
+    <span class="m"><span class="lema5 l5">Tu bienestar es mi prioridad.</span></span>
+  </div>
+  <div class="cta" id="cta5">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17M8.5 14.5l2 2 4-4"/></svg>
     <span><b>Agendar mi cita</b><small>Elige tu día y tu hora</small></span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="width:30px;height:30px;opacity:.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
   </div>
-  <p class="url">t.matterasystems.com/<span>vertebrex-quiropractico</span></p>
-</section>
-
-<div id="cortina"></div>
+  <div class="url" id="url5"><span>t.matterasystems.com/</span><b>vertebrex-quiropractico</b></div>
+</div>
+<div id="borde"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
-/* Las nueve vértebras de la tarjeta, con su torcedura en S (x en px del viewBox, giro en grados) */
-var TORCIDA = [[7,6],[14,9],[18,8],[15,3],[5,-4],[-5,-8],[-11,-9],[-13,-6],[-8,-3]];
-function columna(svg){
-  var ns = 'http://www.w3.org/2000/svg', on = (svg.getAttribute('data-on') || '').split(',');
-  for (var i = 0; i < 9; i++){
-    var y = 4 + i * 26, g = document.createElementNS(ns, 'g');
-    g.setAttribute('class', 'v');
-    g.innerHTML = '<path d="M5 ' + (y + 9) + 'h10M37 ' + (y + 9) + 'h10"/><rect x="14" y="' + y + '" width="24" height="18" rx="7"/>';
-    g.dataset.i = i; g.dataset.on = on.indexOf(String(i)) > -1 ? '1' : '';
-    svg.appendChild(g);
+(function(){
+  /* La columna de nueve vértebras, con la S torcida de la tarjeta (--x, --r) */
+  var S = [[7,6],[14,9],[18,8],[15,3],[5,-4],[-5,-8],[-11,-9],[-13,-6],[-8,-3]];
+  function columna(id){
+    var g = '';
+    for (var i = 0; i < 9; i++){
+      var y = 4 + i * 26;
+      g += '<g class="v"><path d="M5 ' + (y + 9) + 'h10M37 ' + (y + 9) + 'h10"/><rect x="14" y="' + y + '" width="24" height="18" rx="7"/></g>';
+    }
+    var el = document.getElementById(id);
+    el.innerHTML = '<svg viewBox="0 0 52 236">' + g + '</svg><span class="eje"></span>';
+    return { v: el.querySelectorAll('.v'), eje: el.querySelector('.eje') };
   }
-  return [].slice.call(svg.querySelectorAll('.v'));
-}
-var v1 = columna(document.getElementById('col1'));
-var v5 = columna(document.getElementById('col5'));
-var minis = [].map.call(document.querySelectorAll('.ter .mini svg'), columna);
+  var c1 = columna('col1'), c5 = columna('col5');
 
-/* El "clic" del ajuste: la curva de la firma, cubic-bezier(.34,1.32,.64,1) */
-function bezier(x1, y1, x2, y2){
-  return function(t){
-    var lo = 0, hi = 1, s;
-    for (var k = 0; k < 30; k++){ s = (lo + hi) / 2; var x = 3*(1-s)*(1-s)*s*x1 + 3*(1-s)*s*s*x2 + s*s*s; if (x < t) lo = s; else hi = s; }
-    s = (lo + hi) / 2; return 3*(1-s)*(1-s)*s*y1 + 3*(1-s)*s*s*y2 + s*s*s;
-  };
-}
-var AJUSTE = bezier(.34, 1.32, .64, 1);
-var SALE = bezier(.23, 1, .32, 1);          /* --out de la tarjeta */
-var CRUZA = bezier(.77, 0, .175, 1);        /* movimiento en pantalla */
+  var q = function(s){ return document.querySelectorAll(s) };
+  var $ = function(s){ return document.querySelector(s) };
 
-function construir(){
-  var tl = gsap.timeline({ paused: true, defaults: { ease: SALE } });
-  var $ = function(s){ return document.querySelector(s); };
-  gsap.set('.escena', { autoAlpha: 0 });
-  gsap.set('.v', { transformOrigin: '50% 50%' });
+  /* El «clic» del ajuste: equivalente a cubic-bezier(.34,1.32,.64,1) de la tarjeta */
+  var CLIC = 'back.out(1.6)', SALE = 'power3.out', FUERTE = 'power4.out', CRUZA = 'expo.inOut';
 
-  /* ---------- 1 · Apertura (0 – 3.4) ---------- */
-  gsap.set('#s1', { autoAlpha: 1 });   /* visible desde el cuadro 0: la columna llega torcida */
-  v1.forEach(function(g, i){ gsap.set(g, { x: TORCIDA[i][0] * 1.3, rotation: TORCIDA[i][1] * 1.3 }); });
-  tl.to(v1, { x: 0, rotation: 0, duration: .56, stagger: .065, ease: AJUSTE }, .25);
-  tl.fromTo('#s1 .eje', { clipPath: 'inset(0 0 100% 0)', opacity: .4 }, { clipPath: 'inset(0 0 0% 0)', opacity: 1, duration: .5 }, 1.25);
-  tl.from('#s1 h1', { y: 22, opacity: 0, duration: .6 }, .55);
-  tl.from('#s1 .lugar', { y: 18, opacity: 0, duration: .6 }, .7);
-  tl.from('#s1 .logo', { y: -18, opacity: 0, duration: .6 }, .85);
-  tl.from('#s1 .cita span', { y: 16, opacity: 0, duration: .5 }, 1.4);
-  /* salida: la escena sube, como bajar por la espalda */
-  tl.to('#s1 .logo, #s1 .nombre, #s1 .cita', { y: -60, opacity: 0, duration: .5, stagger: .05, ease: CRUZA }, 3.0);
-  tl.to('#s1 .col', { x: -2, y: -70, opacity: 0, duration: .5, ease: CRUZA }, 3.05);
+  /* ---------- Estados iniciales ---------- */
+  function torcer(v){ for (var i = 0; i < v.length; i++) gsap.set(v[i], { x: S[i][0], rotation: S[i][1], transformOrigin: '50% 50%' }) }
+  torcer(c1.v); torcer(c5.v);
+  gsap.set([c1.eje, c5.eje], { clipPath: 'inset(0% 0% 100% 0%)', opacity: .4 });
+  gsap.set('#col1', { x: 178 });
+  gsap.set('#banda1', { yPercent: -100 });
+  gsap.set(['#plate1', '#estado1'], { autoAlpha: 0, y: 14 });
+  gsap.set('.l1, .l2, .l5', { yPercent: 110 });
 
-  /* ---------- 2 · La frase (3.35 – 6.6) ---------- */
-  tl.set('#s2', { autoAlpha: 1 }, 3.3);
-  tl.fromTo('#s2', { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: .6, ease: CRUZA }, 3.3);
-  tl.fromTo('#s2 .eje', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: .7 }, 3.55);
-  tl.from('#s2 .lema .l', { y: 30, opacity: 0, duration: .6, stagger: .1 }, 3.6);
-  tl.from('#s2 .desc', { y: 24, opacity: 0, duration: .6 }, 3.85);
-  tl.from('#s2 .quien', { y: 20, opacity: 0, duration: .6 }, 4.0);
-  /* cortina turquesa: el eje se abre */
-  tl.set('#cortina', { visibility: 'visible' }, 6.1);
-  tl.fromTo('#cortina', { clipPath: 'inset(0 50% 0 50%)' }, { clipPath: 'inset(0 0% 0 0%)', duration: .4, ease: CRUZA }, 6.1);
-  tl.set('#s2', { autoAlpha: 0 }, 6.5);
+  gsap.set('#cortina', { autoAlpha: 0, clipPath: 'inset(0px 446px 0px 90px)' });
+  gsap.set(['#desc2', '#quien2'], { autoAlpha: 0, y: 18 });
 
-  /* ---------- 3 · Terapias (6.5 – 13.7) ---------- */
-  tl.set('#s3', { autoAlpha: 1 }, 6.5);
-  tl.set(['#t2', '#t3'], { autoAlpha: 0 }, 0);
-  tl.to('#cortina', { clipPath: 'inset(0 0% 0 100%)', duration: .5, ease: SALE }, 6.5);
-  tl.set('#cortina', { visibility: 'hidden' }, 7.1);
-  tl.from('#s3 .tit', { y: 20, opacity: 0, duration: .6 }, 6.8);
+  gsap.set('#s3', { autoAlpha: 0 });
+  gsap.set('#rot3', { autoAlpha: 0, y: 20 });
+  gsap.set(['#t1', '#t2', '#t3'], { autoAlpha: 0, x: 70, y: 40, rotation: 6, transformOrigin: '50% 100%' });
+  gsap.set('#nota3', { autoAlpha: 0, y: 16 });
 
-  var T0 = [6.8, 9.1, 11.4];
-  ['#t1', '#t2', '#t3'].forEach(function(id, k){
-    var t = T0[k], card = $(id), vs = minis[k];
-    tl.set(card, { autoAlpha: 1 }, t);
-    if (k === 0) tl.fromTo(card, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: .7 }, t);
-    else tl.fromTo(card, { xPercent: 108 }, { xPercent: 0, duration: .65, ease: CRUZA }, t);
-    tl.fromTo(card.querySelector('.foto img'), { scale: 1.12 }, { scale: 1, duration: 2.4, ease: 'power1.out' }, t);
-    tl.from(card.querySelectorAll('.info > *'), { y: 18, opacity: 0, duration: .45, stagger: .06 }, t + .15);
-    /* la zona que trabaja se enciende de arriba abajo, con el clic del ajuste */
-    var encender = vs.filter(function(g){ return g.dataset.on; });
-    encender.forEach(function(g, j){
-      tl.fromTo(g, { x: TORCIDA[+g.dataset.i][0] * .6, rotation: TORCIDA[+g.dataset.i][1] * .6 }, { x: 0, rotation: 0, duration: .45, ease: AJUSTE }, t + .35 + j * .06);
-      tl.set(g, { attr: { class: 'v on' } }, t + .4 + j * .06);
-    });
-    if (k < 2) tl.to(card, { xPercent: -108, duration: .65, ease: CRUZA }, T0[k + 1]);
-  });
-  /* salida de las terapias: todo sube */
-  tl.to('#s3 .tit, #t3', { y: -80, opacity: 0, duration: .5, stagger: .05, ease: CRUZA }, 13.65);
+  gsap.set('#s4', { autoAlpha: 0 });
+  gsap.set('#cel', { y: 720, rotation: 4, transformOrigin: '50% 100%' });
+  gsap.set(['#fA1', '#fA2'], { autoAlpha: 0, x: -24, rotation: -3, transformOrigin: '0% 50%' });
+  gsap.set('#capC', { autoAlpha: 0, x: -24, rotation: -3, transformOrigin: '0% 50%' });
+  gsap.set(['#aroA', '#aroB'], { autoAlpha: 0, scale: 1.25 });
 
-  /* ---------- 4 · La tarjeta en el celular (13.9 – 20.1) ---------- */
-  var S = 280 / 780;                          /* escala de las capturas en la pantalla */
-  var largo = $('#larga').naturalHeight * S;
-  var fin = Math.min(8600 * S, largo - 606);  /* recorre hasta "Dónde me encuentras" */
-  tl.set('#s4', { autoAlpha: 1 }, 13.9);
-  tl.set(['#c2', '#c3', '#aro'], { autoAlpha: 0 }, 0);
-  tl.from('#s4 .tit', { y: 20, opacity: 0, duration: .6 }, 13.95);
-  tl.fromTo('.cel', { y: 140, scale: .92, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .8 }, 13.95);
-  tl.from('#c1', { y: 24, opacity: 0, duration: .5 }, 14.45);
+  gsap.set('#s5', { clipPath: 'inset(0px 0px 960px 0px)' });
+  gsap.set('#borde', { autoAlpha: 0, y: 0 });
+  gsap.set(['#cta5', '#url5'], { autoAlpha: 0, y: 30 });
 
-  function aro(t, x, y, w, h){
-    tl.set('#aro', { autoAlpha: 1 }, t);
-    tl.fromTo('#aro', { left: x * S - 8, top: y * S - 8, width: w * S + 16, height: h * S + 16, scale: 1.12, opacity: 0 },
-                      { scale: 1, opacity: 1, duration: .4, immediateRender: false }, t);
+  var linea = gsap.timeline({ paused: true });
+
+  /* ---------- 1 · Apertura (0 – 4.15 s): la columna llega torcida y se alinea ---------- */
+  c1.v.forEach(function(v, i){ linea.to(v, { x: 0, rotation: 0, duration: .6, ease: CLIC }, .2 + i * .09) });
+  linea.to(c1.eje, { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, duration: .45, ease: SALE }, 1.42);
+  linea.to('#col1', { x: 0, duration: .75, ease: CRUZA }, 1.6);
+  linea.to('#banda1', { yPercent: 0, duration: .6, ease: 'expo.out' }, 1.75);
+  linea.to(['#plate1', '#estado1'], { autoAlpha: 1, y: 0, duration: .5, ease: SALE, stagger: .08 }, 1.95);
+  linea.to('.l1', { yPercent: 0, duration: .65, ease: FUERTE, stagger: .08 }, 1.9);
+
+  /* ---------- Transición: el eje se abre en cortina turquesa ---------- */
+  linea.set('#cortina', { autoAlpha: 1 }, 4.15);
+  linea.to('#cortina', { clipPath: 'inset(0px 0px 0px 0px)', duration: .7, ease: CRUZA }, 4.15);
+  linea.set('#s1', { autoAlpha: 0 }, 4.9);
+
+  /* ---------- 2 · La frase (4.5 – 7.15 s) ---------- */
+  linea.to('.l2', { yPercent: 0, duration: .7, ease: FUERTE, stagger: .08 }, 4.55);
+  linea.to('#desc2', { autoAlpha: 1, y: 0, duration: .6, ease: SALE }, 4.85);
+  linea.to('#quien2', { autoAlpha: 1, y: 0, duration: .6, ease: SALE }, 5.0);
+
+  /* ---------- Transición: la cortina sube y descubre las terapias ---------- */
+  linea.set('#s3', { autoAlpha: 1 }, 7.1);
+  linea.to('#cortina', { clipPath: 'inset(0px 0px 960px 0px)', duration: .7, ease: CRUZA }, 7.15);
+  linea.to('#s2c', { y: -70, duration: .7, ease: CRUZA }, 7.15);
+  linea.set('#cortina', { autoAlpha: 0 }, 7.9);
+
+  /* ---------- 3 · Terapias (7.5 – 14.6 s): cada una llega torcida y hace clic ---------- */
+  linea.to('#rot3', { autoAlpha: 1, y: 0, duration: .6, ease: SALE }, 7.45);
+  function entra(id, t){
+    linea.to(id, { autoAlpha: 1, duration: .3, ease: 'power1.out' }, t);
+    linea.to(id, { x: 0, y: 0, rotation: 0, duration: .7, ease: CLIC }, t);
   }
-  function chip(de, a, t){
-    tl.to(de, { y: -18, opacity: 0, duration: .3, ease: CRUZA }, t);
-    tl.set(a, { autoAlpha: 1 }, t);
-    tl.fromTo(a, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .45, immediateRender: false }, t + .12);
-  }
-  aro(14.5, 40, 860, 700, 128);                       /* Agendar mi cita */
-  tl.to('#primera', { scale: .985, transformOrigin: '50% 51%', duration: .14, yoyo: true, repeat: 1, ease: 'power2.out' }, 15.2);
-  chip('#c1', '#c2', 16.0);
-  aro(16.05, 40, 1008, 700, 130);                     /* WhatsApp */
-  chip('#c2', '#c3', 17.6);
-  aro(17.65, 40, 1312, 163, 156);                     /* Guardar contacto */
-  tl.to('#aro', { opacity: 0, duration: .25 }, 18.85);
-  tl.set('#primera', { autoAlpha: 0 }, 18.9);
-  tl.fromTo('#larga', { y: 0 }, { y: -fin, duration: 2.5, ease: 'sine.inOut' }, 18.9);
+  function sale(id, t){ linea.to(id, { x: -90, rotation: -5, autoAlpha: 0, duration: .45, ease: 'power3.inOut' }, t) }
+  entra('#t1', 7.55);
+  linea.to('#nota3', { autoAlpha: 1, y: 0, duration: .6, ease: SALE }, 7.9);
+  sale('#t1', 9.8);  entra('#t2', 9.95);
+  sale('#t2', 12.2); entra('#t3', 12.35);
 
-  /* ---------- 5 · Cierre (21.4 – 24) ---------- */
-  tl.set('#cortina', { visibility: 'visible' }, 21.3);
-  tl.fromTo('#cortina', { clipPath: 'inset(0 50% 0 50%)' }, { clipPath: 'inset(0 0% 0 0%)', duration: .4, ease: CRUZA, immediateRender: false }, 21.3);
-  tl.set('#s4', { autoAlpha: 0 }, 21.7);
-  tl.set('#s5', { autoAlpha: 1 }, 21.7);
-  tl.to('#cortina', { clipPath: 'inset(0 50% 0 50%)', duration: .5, ease: SALE }, 21.7);
-  tl.set('#cortina', { visibility: 'hidden' }, 22.2);
-  v5.forEach(function(g, i){ gsap.set(g, { x: TORCIDA[i][0], rotation: TORCIDA[i][1] }); });
-  tl.from('#s5 .logo', { y: -18, opacity: 0, duration: .5 }, 21.8);
-  tl.to(v5, { x: 0, rotation: 0, duration: .5, stagger: .045, ease: AJUSTE }, 21.8);
-  tl.fromTo('#s5 .col .eje', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: .4 }, 22.3);
-  tl.from('#s5 .lema', { y: 18, opacity: 0, duration: .5 }, 21.95);
-  tl.from('#s5 .boton', { y: 30, scale: .96, opacity: 0, duration: .55 }, 22.05);
-  tl.from('#s5 .url', { y: 20, opacity: 0, duration: .5 }, 22.15);
-  tl.to('#s5 .boton', { scale: .97, duration: .14, yoyo: true, repeat: 1, ease: 'power2.out' }, 23.2);
-  tl.to({}, { duration: .01 }, 23.99);
+  /* ---------- Transición: las terapias suben, entra el celular ---------- */
+  linea.to(['#rot3', '#t3', '#nota3'], { y: '-=70', autoAlpha: 0, duration: .5, ease: 'power3.inOut', stagger: .05 }, 14.6);
+  linea.set('#s4', { autoAlpha: 1 }, 14.6);
+  linea.to('#cel', { y: 0, rotation: 0, duration: .9, ease: 'expo.out' }, 14.7);
+  linea.set('#s3', { autoAlpha: 0 }, 15.3);
 
-  tl.seek(0, false);
-  window.reel = { duracion: 24, ir: function(t){ tl.seek(t, false); } };
-}
+  /* ---------- 4 · La tarjeta real (15.2 – 20.5 s) ---------- */
+  linea.to('#fA1', { autoAlpha: 1, x: 0, rotation: 0, duration: .6, ease: CLIC }, 15.2);
+  linea.to('#aroA', { autoAlpha: 1, scale: 1, duration: .5, ease: CLIC }, 15.3);
+  linea.to('#fA2', { autoAlpha: 1, x: 0, rotation: 0, duration: .6, ease: CLIC }, 15.4);
+  linea.to('#aroB', { autoAlpha: 1, scale: 1, duration: .5, ease: CLIC }, 15.5);
+  linea.to(['#aroA', '#aroB'], { autoAlpha: 0, duration: .25, ease: 'power2.out' }, 17.4);
+  linea.to(['#fA1', '#fA2'], { autoAlpha: 0, y: -16, duration: .3, ease: 'power2.out', stagger: .05 }, 17.45);
+  /* recorrido suave por la tarjeta hasta la agenda */
+  linea.to('#completa', { y: -2775, duration: 1.1, ease: 'power2.inOut' }, 17.5);
+  linea.to('#capC', { autoAlpha: 1, x: 0, rotation: 0, duration: .6, ease: CLIC }, 18.35);
 
-/* Se arma cuando cargaron las letras y las imágenes (hace falta la altura real de completa.jpg) */
-Promise.all([
-  document.fonts.ready,
-  new Promise(function(r){ if (document.readyState === 'complete') r(); else window.addEventListener('load', r); })
-]).then(construir);
+  /* ---------- Transición: el eje recorre la pantalla y descubre el cierre ---------- */
+  linea.set('#borde', { autoAlpha: 1 }, 20.5);
+  linea.to('#s5', { clipPath: 'inset(0px 0px 0px 0px)', duration: .8, ease: CRUZA }, 20.5);
+  linea.to('#borde', { y: 960, duration: .8, ease: CRUZA }, 20.5);
+  linea.to('#cel', { y: 80, scale: .94, duration: .8, ease: CRUZA }, 20.5);
+  linea.set('#borde', { autoAlpha: 0 }, 21.3);
+  linea.set('#s4', { autoAlpha: 0 }, 21.3);
+
+  /* ---------- 5 · Cierre (20.8 – 23.9 s): la firma otra vez y la acción ---------- */
+  c5.v.forEach(function(v, i){ linea.to(v, { x: 0, rotation: 0, duration: .55, ease: CLIC }, 20.8 + i * .06) });
+  linea.to(c5.eje, { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, duration: .4, ease: SALE }, 21.7);
+  linea.to('.l5', { yPercent: 0, duration: .65, ease: FUERTE, stagger: .08 }, 20.95);
+  linea.to('#cta5', { autoAlpha: 1, y: 0, duration: .65, ease: CLIC }, 21.3);
+  linea.to('#url5', { autoAlpha: 1, y: 0, duration: .6, ease: SALE }, 21.5);
+  /* el toque: la misma respuesta a 0.97 de la tarjeta */
+  linea.to('#cta5', { scale: .97, duration: .14, ease: 'power2.out' }, 22.9);
+  linea.to('#cta5', { scale: 1, duration: .3, ease: SALE }, 23.04);
+  linea.to({}, { duration: .01 }, 23.89);
+
+  var DURACION = 23.9;
+  window.reel = { duracion: DURACION, ir: function(t){ linea.seek(t, false) } };
+  linea.seek(0, false);
+})();
 </script>
 </body>
 </html>
