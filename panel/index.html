@@ -338,7 +338,7 @@ function citas(){
       var tr=document.createElement('tr');
       var f=new Date(c.fecha+'T12:00:00');
       var a=document.createElement('td');a.className='mono';a.textContent=f.toLocaleDateString('es-MX',{weekday:'short',day:'numeric',month:'short'})+' · '+c.hora;
-      var b=document.createElement('td');b.textContent=c.servicio||'';
+      var b=document.createElement('td');b.textContent=(c.servicio||'')+(c.lugar?' · '+c.lugar:'');
       var q=document.createElement('td');var w=document.createElement('a');w.href='https://wa.me/'+String(c.tel).replace(/\D/g,'').replace(/^(\d{10})$/,'52$1');w.target='_blank';w.rel='noopener';w.textContent=c.nombre+' · '+c.tel;q.appendChild(w);
       var d=document.createElement('td');d.style.whiteSpace='nowrap';
       if(c.estado==='atendida'){d.textContent='Atendida';d.className='muted'}

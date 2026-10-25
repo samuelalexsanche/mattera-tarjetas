@@ -414,12 +414,18 @@
   /* ---------- 12b. Agenda de citas (Profesional y Business) ----------
    * <div data-mc="agenda"> … fallback sin JS (enlace a WhatsApp) … </div>
    * mc-config.agenda = { horas: {lun:["10:00","11:00"], …}, servicios: [{nombre, dur, precio}],
-   *                      dias: 45, anticipacion_min: 60, nota: "…" }
+   *                      dias: 45, anticipacion_min: 60, nota: "…",
+   *                      lugar: "Zapotlanejo, Jalisco",            (dónde son las horas de la semana)
+   *                      fechas: {"2026-11-07": {lugar, tramos: [["10:00","13:00"],["15:00","21:00"]], cada: 60}
+   *                               | {lugar, horas: ["10:00", …]} | {cerrado: true}} }
+   * Las fechas mandan sobre la semana: para quien atiende en distintas ciudades según el día.
+   * Con más de una ciudad, primero se elige dónde, y el calendario solo enseña los días en que estará ahí.
    * Botones en otras partes: data-mc-agendar="Nombre del servicio" abren la agenda con él elegido.
    * Solo enseña las horas libres: las apartadas (y las que se empalman con su duración) no salen. */
   (function () {
     var A = C.agenda; var cajas = $$('[data-mc="agenda"]');
-    if (!A || !A.horas || !cajas.length || !tiene('profesional')) return;
+    if (!A || !(A.horas || A.fechas) || !cajas.length || !tiene('profesional')) return;
+    A.horas = A.horas || {}; var FECHAS = A.fechas || {}; var LUGAR = A.lugar || '';
     var tz = C.tz || 'America/Mexico_City';
     var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
     var pad = function (n) { return String(n).padStart(2, '0'); };
@@ -436,6 +442,40 @@
     var hoy = ahora(); var hoyIso = iso(hoy.y, hoy.m, hoy.d);
     var ultimo = new Date(Date.UTC(hoy.y, hoy.m - 1, hoy.d + limite));
     var hastaIso = iso(ultimo.getUTCFullYear(), ultimo.getUTCMonth() + 1, ultimo.getUTCDate());
+    // Si hay fechas de viaje más lejos que el límite, el calendario llega hasta ellas.
+    Object.keys(FECHAS).forEach(function (f) { if (f > hastaIso) hastaIso = f; });
+
+    // El plan de un día: dónde estará y a qué horas. Las fechas mandan sobre la semana.
+    function planDelDia(fecha) {
+      var f = FECHAS[fecha];
+      if (f) return f.cerrado ? null : { lugar: f.lugar || LUGAR, horas: f.horas || null, tramos: f.tramos || null, cada: f.cada || A.cada || 60 };
+      var p = fecha.split('-'); var semana = A.horas[DIAS[dow(+p[0], +p[1], +p[2])]];
+      return semana && semana.length ? { lugar: LUGAR, horas: semana, tramos: null, cada: 60 } : null;
+    }
+    // Las horas de inicio: la lista tal cual, o cada `cada` minutos dentro de cada tramo
+    // sin pasarse del cierre con la duración del servicio.
+    function inicios(plan, dur) {
+      if (plan.horas) return plan.horas;
+      var out = [];
+      (plan.tramos || []).forEach(function (t) {
+        for (var m = aMin(t[0]); m + dur <= aMin(t[1]); m += plan.cada) out.push(pad(Math.floor(m / 60)) + ':' + pad(m % 60));
+      });
+      return out;
+    }
+    // Las ciudades, en el orden de su próxima fecha.
+    var lugares = [];
+    (function () {
+      var vistos = {}; var d = new Date(Date.UTC(hoy.y, hoy.m - 1, hoy.d));
+      while (true) {
+        var f = iso(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()); if (f > hastaIso) break;
+        var pl = planDelDia(f);
+        if (pl && pl.lugar && !vistos[pl.lugar]) { vistos[pl.lugar] = true; lugares.push(pl.lugar); }
+        d.setUTCDate(d.getUTCDate() + 1);
+      }
+    })();
+    function fechasDe(lugar) {
+      return Object.keys(FECHAS).filter(function (f) { return f >= hoyIso && FECHAS[f].lugar === lugar && !FECHAS[f].cerrado; }).sort();
+    }
 
     function cargar() {
       if (!API || !SLUG || LOCAL) { cargado = true; return Promise.resolve(); }
@@ -444,8 +484,10 @@
         .then(function (j) { ocupados = j.ocupados || []; cargado = true; })
         .catch(function () { cargado = true; });
     }
-    function libres(fecha, dur) {
-      var p = fecha.split('-'); var lista = A.horas[DIAS[dow(+p[0], +p[1], +p[2])]] || [];
+    function libres(fecha, dur, lugar) {
+      var plan = planDelDia(fecha);
+      if (!plan || (lugar && plan.lugar !== lugar)) return [];
+      var lista = inicios(plan, dur);
       return lista.filter(function (h) {
         var ini = aMin(h), fin = ini + dur;
         if (fecha < hoyIso || fecha > hastaIso) return false;
@@ -465,8 +507,11 @@
 
     cajas.forEach(function (caja) {
       $$('[data-mc-ag-sinjs]', caja).forEach(function (n) { n.hidden = true; });
-      var st = { sv: servicios[0], fecha: null, hora: null, y: hoy.y, m: hoy.m };
+      var st = { sv: servicios[0], fecha: null, hora: null, y: hoy.y, m: hoy.m, lugar: lugares.length > 1 ? (LUGAR || lugares[0]) : null };
       var raiz = nodo('div', 'mc-ag'); caja.appendChild(raiz);
+      var pLug = nodo('div', 'mc-ag__paso'); pLug.appendChild(nodo('p', 'mc-ag__t', '¿Dónde quieres tu cita?'));
+      var lugBox = nodo('div', 'mc-ag__servicios'); pLug.appendChild(lugBox);
+      if (lugares.length < 2) pLug.hidden = true;
 
       var pSv = nodo('div', 'mc-ag__paso'); pSv.appendChild(nodo('p', 'mc-ag__t', 'Tu servicio'));
       var svBox = nodo('div', 'mc-ag__servicios'); pSv.appendChild(svBox);
@@ -485,9 +530,39 @@
       var enviar = nodo('button', 'mc-btn mc-btn--wa mc-ag__ok', 'Apartar y confirmar por WhatsApp'); enviar.type = 'submit';
       form.append(resumen, inNom, inTel, trampa, enviar);
       var listo = nodo('div', 'mc-ag__listo'); listo.hidden = true;
-      raiz.append(pSv, pDia, pHora, form, listo);
+      raiz.append(pLug, pSv, pDia, pHora, form, listo);
       if (A.nota) raiz.appendChild(nodo('p', 'mc-ag__nota', A.nota));
 
+      // Cuándo estará en cada ciudad, para el botón: "sáb 7 y dom 8 de noviembre".
+      function cuandoEn(lugar) {
+        var fs = fechasDe(lugar);
+        if (lugar === LUGAR && Object.keys(A.horas).length) return 'Entre semana' + (fs.length ? ', y ' + fs.length + (fs.length === 1 ? ' día' : ' días') + ' de fin de semana' : '');
+        return fs.slice(0, 3).map(function (f) { var p = f.split('-'); return NOMBRES[DIAS[dow(+p[0], +p[1], +p[2])]].slice(0, 3) + ' ' + (+p[2]) + ' ' + MESES[+p[1] - 1].slice(0, 3); }).join(' · ') + (fs.length > 3 ? '…' : '');
+      }
+      function primerDiaCon(lugar) {
+        var d = new Date(Date.UTC(hoy.y, hoy.m - 1, hoy.d));
+        while (true) {
+          var f = iso(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()); if (f > hastaIso) return null;
+          if (libres(f, st.sv.dur || 60, lugar).length) return f;
+          d.setUTCDate(d.getUTCDate() + 1);
+        }
+      }
+      function pintarLugares() {
+        lugBox.textContent = '';
+        lugares.forEach(function (l) {
+          var b = nodo('button', 'mc-ag__sv' + (l === st.lugar ? ' is-on' : '')); b.type = 'button';
+          b.setAttribute('aria-pressed', l === st.lugar ? 'true' : 'false');
+          b.appendChild(nodo('span', 'mc-ag__svn', l));
+          var cuando = cuandoEn(l); if (cuando) b.appendChild(nodo('span', 'mc-ag__svx', cuando));
+          b.addEventListener('click', function () {
+            st.lugar = l; st.fecha = null; st.hora = null; pintarLugares();
+            // El calendario salta al mes de su próxima fecha en esa ciudad.
+            var f = cargado && primerDiaCon(l); if (f) { var p = f.split('-'); st.y = +p[0]; st.m = +p[1]; }
+            pintarCal(); pintarHoras();
+          });
+          lugBox.appendChild(b);
+        });
+      }
       function pintarServicios() {
         svBox.textContent = '';
         if (servicios.length < 2) { pSv.hidden = true; return; }
@@ -507,7 +582,7 @@
         var primero = (dow(st.y, st.m, 1) + 6) % 7; var dias = new Date(Date.UTC(st.y, st.m, 0)).getUTCDate();
         for (var i = 0; i < primero; i++) cal.appendChild(nodo('span'));
         for (var d = 1; d <= dias; d++) {
-          var f = iso(st.y, st.m, d); var hay = cargado && libres(f, st.sv.dur || 60).length > 0;
+          var f = iso(st.y, st.m, d); var hay = cargado && libres(f, st.sv.dur || 60, st.lugar).length > 0;
           var b = nodo('button', 'mc-ag__dia' + (f === st.fecha ? ' is-on' : ''), String(d)); b.type = 'button';
           b.disabled = !hay; b.setAttribute('aria-label', largo(f) + (hay ? '' : ', sin horarios'));
           (function (f) { b.addEventListener('click', function () { st.fecha = f; st.hora = null; pintarCal(); pintarHoras(); pHora.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }); })(f);
@@ -519,12 +594,13 @@
       function pintarHoras() {
         horasBox.textContent = ''; pHora.hidden = !st.fecha; form.hidden = !st.hora;
         if (!st.fecha) return;
-        titHora.textContent = 'Horarios · ' + largo(st.fecha);
-        var lista = libres(st.fecha, st.sv.dur || 60);
+        var plan = planDelDia(st.fecha); var donde = plan && plan.lugar ? ' · ' + plan.lugar : '';
+        titHora.textContent = 'Horarios · ' + largo(st.fecha) + donde;
+        var lista = libres(st.fecha, st.sv.dur || 60, st.lugar);
         if (!lista.length) horasBox.appendChild(nodo('p', 'mc-ag__vacio', 'Ese día ya no tiene horarios libres.'));
         lista.forEach(function (h) {
           var b = nodo('button', 'mc-ag__hora' + (h === st.hora ? ' is-on' : ''), fmtHora(h)); b.type = 'button';
-          b.addEventListener('click', function () { st.hora = h; pintarHoras(); form.hidden = false; resumen.textContent = st.sv.nombre + ' · ' + largo(st.fecha) + ' a las ' + fmtHora(h); form.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); inNom.focus({ preventScroll: true }); });
+          b.addEventListener('click', function () { st.hora = h; pintarHoras(); form.hidden = false; resumen.textContent = st.sv.nombre + ' · ' + largo(st.fecha) + ' a las ' + fmtHora(h) + donde; form.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); inNom.focus({ preventScroll: true }); });
           horasBox.appendChild(b);
         });
       }
@@ -535,13 +611,14 @@
         e.preventDefault();
         var nombre = inNom.value.trim(), tel = inTel.value.replace(/\D/g, '');
         if (!nombre || tel.length < 10) { toast('Escribe tu nombre y tu WhatsApp a 10 dígitos'); return; }
-        var msg = 'Hola, soy ' + nombre + '. Quiero apartar ' + st.sv.nombre + ' el ' + largo(st.fecha) + ' a las ' + fmtHora(st.hora) + '. Mi WhatsApp es ' + tel + '.';
-        var cita = { fecha: st.fecha, hora: st.hora, dur: st.sv.dur || 60, servicio: st.sv.nombre, nombre: nombre, tel: tel, web: trampa.value };
+        var planCita = planDelDia(st.fecha); var lugarCita = planCita && planCita.lugar ? planCita.lugar : '';
+        var msg = 'Hola, soy ' + nombre + '. Quiero apartar ' + st.sv.nombre + ' el ' + largo(st.fecha) + ' a las ' + fmtHora(st.hora) + (lugarCita ? ' en ' + lugarCita : '') + '. Mi WhatsApp es ' + tel + '.';
+        var cita = { fecha: st.fecha, hora: st.hora, dur: st.sv.dur || 60, servicio: st.sv.nombre, lugar: lugarCita, nombre: nombre, tel: tel, web: trampa.value };
         enviar.disabled = true;
         var terminar = function () {
           track('cita');
           form.hidden = true; pHora.hidden = true; pDia.hidden = true; pSv.hidden = true; listo.hidden = false; listo.textContent = '';
-          listo.appendChild(nodo('p', 'mc-ag__t', 'Listo, apartaste ' + largo(st.fecha) + ' a las ' + fmtHora(st.hora)));
+          listo.appendChild(nodo('p', 'mc-ag__t', 'Listo, apartaste ' + largo(st.fecha) + ' a las ' + fmtHora(st.hora) + (lugarCita ? ' en ' + lugarCita : '')));
           listo.appendChild(nodo('p', null, 'Mándanos el mensaje por WhatsApp para confirmarla.'));
           var a = nodo('a', 'mc-btn mc-btn--wa', 'Confirmar por WhatsApp'); a.href = waURL(msg); a.target = '_blank'; a.rel = 'noopener'; a.setAttribute('data-mc-t', 'wa');
           listo.appendChild(a); try { window.open(waURL(msg), '_blank', 'noopener'); } catch (e2) {}
@@ -556,8 +633,13 @@
           .catch(function () { enviar.disabled = false; terminar(); });
       });
 
-      pintarServicios(); pintarCal();
-      cargar().then(function () { pintarCal(); });
+      pintarLugares(); pintarServicios(); pintarCal();
+      cargar().then(function () {
+        // Si en este mes no hay días en su ciudad, el calendario abre en el primero que haya.
+        var f = st.lugar && primerDiaCon(st.lugar);
+        if (f && f.slice(0, 7) !== iso(st.y, st.m, 1).slice(0, 7)) { var p = f.split('-'); st.y = +p[0]; st.m = +p[1]; }
+        pintarCal();
+      });
       // Botones de "Agendar" en otras partes de la tarjeta: abren la agenda con ese servicio.
       $$('[data-mc-agendar]').forEach(function (b) {
         b.addEventListener('click', function (e) {
